@@ -19,7 +19,7 @@ Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
 Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlighting
-Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] } "easy lisp structural editing
+"Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] } "easy lisp structural editing
 "----color themes----------------------------------
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
@@ -48,6 +48,8 @@ set ttimeoutlen=1                                " Fix the insert mode to normal
 let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 let g:airline_theme='onedark'                    " Set theme
+let g:airline_theme='kalisi'                     " Set theme
+let g:airline_theme='distinguished'              " Set theme
 "
 " fix a acp plugin issue when typing '<'
 " found here: 
@@ -76,7 +78,7 @@ let g:EasyMotion_smartcase=1
 "----color scheme and syntax highlighting-----------
 syntax on
 " set colorscheme and fail silently otherwise
-silent! color dracula
+silent! color molokai
 "make background dark (might change color scheme slightly)
 set bg=dark
 
