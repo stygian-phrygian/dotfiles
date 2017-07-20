@@ -20,6 +20,8 @@ Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
 Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlighting
 "Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] } "easy lisp structural editing
+"Plug 'racer-rust/vim-racer'
+Plug 'derekwyatt/vim-scala'
 "----color themes----------------------------------
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
@@ -42,6 +44,10 @@ call plug#end()
 ""autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 ""autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "
+"
+"rust completion configuration
+"let g:racer_cmd = "/home/j/.cargo/bin/"
+
 " Enable and configure vim-airline
 set laststatus=2
 set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
@@ -109,8 +115,10 @@ set smartcase
 " move cursor to matched searches
 set incsearch
 " to display (some) invisible characters
-" type ':set list'
-set listchars=tab:..,trail:_,extends:>,precedes:<,nbsp:~
+" type ':set !list' to toggle
+set listchars=tab:..,trail:_,extends:>,precedes:<,nbsp:~ "ascii version
+set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set list
 " turn off vim automatic backup
 set nobackup
 set noswapfile
