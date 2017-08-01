@@ -22,6 +22,7 @@ Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlig
 "Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] } "easy lisp structural editing
 "Plug 'racer-rust/vim-racer'
 Plug 'derekwyatt/vim-scala'
+Plug 'rhysd/vim-crystal'
 "----color themes----------------------------------
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
@@ -44,10 +45,9 @@ call plug#end()
 ""autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 ""autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "
-"
 "rust completion configuration
-"let g:racer_cmd = "/home/j/.cargo/bin/"
-
+let g:racer_cmd = "/home/j/.cargo/bin/"
+"
 " Enable and configure vim-airline
 set laststatus=2
 set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
@@ -91,12 +91,12 @@ set bg=dark
 
 "----vim indentation/tab configuration------------
 filetype plugin indent on
-" show existing tab with 4 spaces width
-set tabstop=4
-" when backspacing delete 4 spaces width
-set softtabstop=4
-" when indenting with '<' or '>' use 4 spaces width
-set shiftwidth=4
+" show existing tab with N spaces width
+set tabstop=2
+" when backspacing delete N spaces width
+set softtabstop=2
+" when indenting with '<' or '>' use N spaces width
+set shiftwidth=2
 " insert spaces instead of tab characters
 set expandtab
 
@@ -116,9 +116,10 @@ set smartcase
 set incsearch
 " to display (some) invisible characters
 " type ':set !list' to toggle
-set listchars=tab:..,trail:_,extends:>,precedes:<,nbsp:~ "ascii version
+set listchars=tab:..,trail:_,extends:>,precedes:<,nbsp:~
 set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 set list
+
 " turn off vim automatic backup
 set nobackup
 set noswapfile
@@ -137,7 +138,7 @@ set foldmethod=manual
 "----csound specific configuration---------------
 " configure csound indentation and use of tab characters
 " http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
-autocmd Filetype csound setlocal ts=8 sw=8 sts=8 noexpandtab
+"autocmd Filetype csound setlocal ts=8 sw=8 sts=8 noexpandtab
 " fix weird issue with csound files not using foldmethod=manual
 autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo   set foldmethod=manual"
 
