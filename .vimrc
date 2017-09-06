@@ -23,13 +23,33 @@ Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlig
 "Plug 'racer-rust/vim-racer'
 Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
+Plug 'fatih/vim-go'
 "----color themes----------------------------------
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
 call plug#end()
-
+"
+"
+"
+" change leader key to space
+let mapleader=" "
+" show commands (so we can see when timeouts happen)
+set showcmd
 
 "----configure plugins----------------------------
+"
+"--language specific configuration
+"--golang
+" tabs are displayed as 8 spaces (and we use tab characters not spaces)
+autocmd Filetype go setlocal ts=8 sw=8 sts=8 noexpandtab
+"vim-go mappings
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+"
+"
+"--------------------------------------------------
 "" Use neocomplete.
 "let g:neocomplete#enable_at_startup = 1
 "" Use smartcase.
@@ -211,7 +231,11 @@ inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDow
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 "
 " easymotion mappings
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 nmap <Leader>f <Plug>(easymotion-overwin-f)
+"2 character version of f motion
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+nmap <Leader>l <Plug>(easymotion-overwin-line)
 "replace '/' with bidirectional easymotion search
 "map  / <Plug>(easymotion-sn)
 "omap / <Plug>(easymotion-tn)
