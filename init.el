@@ -27,15 +27,15 @@
   :init (smex-initialize)
   :bind ("M-x" . smex))
 
-;; syntax checker for a variety of languages
-(use-package flycheck
-  :ensure t
-  :config
-  (progn
-    (add-hook 'after-init-hook 'global-flycheck-mode)
-    ;; turn off flycheck for emacs lisp
-    (with-eval-after-load 'flycheck
-      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
+;; ;; syntax checker for a variety of languages
+;; (use-package flycheck
+;;   :ensure t
+;;   :config
+;;   (progn
+;;     (add-hook 'after-init-hook 'global-flycheck-mode)
+;;     ;; turn off flycheck for emacs lisp
+;;     (with-eval-after-load 'flycheck
+;;       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
 
 (use-package clojure-mode
   :ensure t)
@@ -62,7 +62,10 @@
 
 ;; golang
 (use-package go-mode
-  :ensure t)
+  :ensure t
+  :config
+  (progn
+    (add-hook 'before-save-hook 'gofmt-before-save)))
 
 ;; git integration
 (use-package magit
@@ -94,13 +97,61 @@
     (set-face-foreground 'linum "grey")
     (set-face-background 'linum "black")))
 
+;; import $PATH environment variables
+;; (use-package exec-path-from-shell
+;;   :ensure t
+;;   :config
+;;   (progn
+;;     (when (memq window-system '(mac ns x))
+;;       (exec-path-from-shell-initialize))))
+
+;; completion
+;; ;; tab completion hack found here:
+;; ;; https://www.emacswiki.org/emacs/CompanyMode#toc10
+;; (defun indent-or-complete ()
+;;   (interactive)
+;;   (if (looking-at "\\_>")
+;;       (company-complete-common)
+;;     (indent-according-to-mode)))
+;;
+;; (global-set-key [tab] 'tab-indent-or-complete)
+(use-package company
+  :diminish company-mode
+  :ensure t
+  :init (global-company-mode t)
+  :config
+  (progn
+    (setq company-tooltip-limit 20)                      ; bigger popup window
+    (setq company-idle-delay .3)                         ; decrease delay before autocompletion popup shows
+    (setq company-echo-delay 0)                          ; remove annoying blinking
+    (setq company-minimum-prefix-length 2) 
+    (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+    
+    ;; install go completion
+    (use-package company-go
+      :ensure t
+      :config
+      (progn
+        (require 'company-go)
+        ;; add gocode hook
+        ;; go get -u github.com/nsf/gocode # must install that first
+        (add-hook 'go-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends) '(company-go))
+            (company-mode)))))))
+
 ;; turn off tool bar
 (tool-bar-mode -1)
-(setq
- ;; inhibit-startup-screen
- inhibit-startup-screen t
- ;; empty scratch buffer
- initial-scratch-message nil)
-      
+;; turn off menu bar
+(menu-bar-mode -1)
+;; turn off scroll bar
+(scroll-bar-mode -1)
+
+(setq inhibit-startup-screen t)     ; inhibit-startup-screen
+(setq initial-scratch-message nil)  ; empty scratch buffer
+(setq-default indent-tabs-mode nil) ; Use spaces instead of tabs
+(setq tab-width 2)                  ; Four spaces is a tab
+(setq visible-bell nil)             ; Disable visual bell graphic
+(setq ring-bell-function 'ignore)   ; Disable audio bell
 
 ;;; init ends here
