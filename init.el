@@ -15,7 +15,7 @@
     (require 'use-package))
 
 
-;; vim keybindings for emacs
+; vim keybindings for emacs
 (use-package evil
   :ensure t
   :config
@@ -33,7 +33,7 @@
 ;   :config
 ;   (progn
 ;     (add-hook 'after-init-hook 'global-flycheck-mode)
-;     ;; turn off flycheck for emacs lisp
+;     ; turn off flycheck for emacs lisp
 ;     (with-eval-after-load 'flycheck
 ;       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
 
@@ -126,7 +126,7 @@
     ; start autocompletion only after typing
     (setq company-begin-commands '(self-insert-command))
 
-    ;; change company completion colors
+    ; change company completion colors
     (require 'color)
     (let ((bg (face-attribute 'default :background)))
       (custom-set-faces
@@ -136,14 +136,14 @@
        `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
             `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
     
-    ;; install go completion
+    ; install go completion
     (use-package company-go
       :ensure t
       :config
       (progn
         (require 'company-go)
-        ;; add gocode hook
-        ;; go get -u github.com/nsf/gocode # must install that first
+        ; add gocode hook
+        ; go get -u github.com/nsf/gocode # must install that first
         (add-hook 'go-mode-hook
           (lambda ()
             (set (make-local-variable 'company-backends) '(company-go))
@@ -167,6 +167,12 @@
 (setq visible-bell nil)
 ; disable audio bell
 (setq ring-bell-function 'ignore)
+
+; bind C-PageUp and C-PageDown to cycle through
+; buffers previous and next respectively
+(global-set-key (kbd "C-<prior>") 'previous-buffer)
+(global-set-key (kbd "C-<next>") 'next-buffer)
+
 
 
 ;;; init ends here
