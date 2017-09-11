@@ -1,13 +1,13 @@
-;; set up package repositories
+; set up package repositories
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-;; enable packages
+; enable packages
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-;; install "use-package" package
+; install "use-package" package
 (unless (package-installed-p 'use-package)
     (package-refresh-contents)
       (package-install 'use-package))
@@ -21,21 +21,21 @@
   :config
   (evil-mode 1))
 
-;; better M-x completion
+; better M-x completion
 (use-package smex
   :ensure t
   :init (smex-initialize)
   :bind ("M-x" . smex))
 
-;; ;; syntax checker for a variety of languages
-;; (use-package flycheck
-;;   :ensure t
-;;   :config
-;;   (progn
-;;     (add-hook 'after-init-hook 'global-flycheck-mode)
-;;     ;; turn off flycheck for emacs lisp
-;;     (with-eval-after-load 'flycheck
-;;       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
+; ; syntax checker for a variety of languages
+; (use-package flycheck
+;   :ensure t
+;   :config
+;   (progn
+;     (add-hook 'after-init-hook 'global-flycheck-mode)
+;     ;; turn off flycheck for emacs lisp
+;     (with-eval-after-load 'flycheck
+;       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
 
 (use-package clojure-mode
   :ensure t)
@@ -43,7 +43,7 @@
 (use-package clojure-mode-extra-font-locking
   :ensure t)
 
-;; rainbow colored parentheses to ease viewing
+; rainbow colored parentheses to ease viewing
 (use-package rainbow-delimiters
   :ensure t
   :config
@@ -52,7 +52,7 @@
     (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
     (add-hook 'slime-mode-hook #'rainbow-delimiters-mode)))
 
-;; awesome common lisp environment
+; awesome common lisp environment
 (use-package slime
   :ensure t
   :config
@@ -60,72 +60,81 @@
     (setq inferior-lisp-program "/usr/bin/sbcl")
     (setq slime-contribs '(slime-fancy))))
 
-;; golang
+; golang
 (use-package go-mode
   :ensure t
   :config
   (progn
     (add-hook 'before-save-hook 'gofmt-before-save)))
 
-;; git integration
+; git integration
 (use-package magit
   :ensure t)
 
-;; theme
+; theme
 (use-package dracula-theme
   :ensure t
   :load-path "themes"
   :config
   (load-theme 'dracula t))
 
-;; relative line numbers
+;(use-package darkokai-theme
+;  :ensure t
+;  :config (load-theme 'darkokai t))
+
+;(use-package solarized-theme
+;  :ensure t
+;  :config
+;  (load-theme 'solarized-dark t))
+
+
+; relative line numbers
 (use-package nlinum-relative
   :ensure t
   :config
   (progn
     (require 'nlinum-relative)
-    ;; set-up evil
+    ; set-up evil
     (nlinum-relative-setup-evil)
     (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-    ;; change update delay
+    ; change update delay
     (setq nlinum-relative-redisplay-delay 0)
-    ;; change current line symbol
+    ; change current line symbol
     (setq nlinum-relative-current-symbol "")
-    ;; set line number format
+    ; set line number format
     (setq nlinum-format "%4d  \u2502 ")
-    ;; change line number bacground and foreground colors
-    (set-face-foreground 'linum "grey")
-    (set-face-background 'linum "black")))
+    ; change line number background and foreground colors
+    (set-face-attribute 'linum nil
+      :foreground (face-foreground 'default)
+      :background (face-background 'default))
+    ))
 
-;; import $PATH environment variables
-;; (use-package exec-path-from-shell
-;;   :ensure t
-;;   :config
-;;   (progn
-;;     (when (memq window-system '(mac ns x))
-;;       (exec-path-from-shell-initialize))))
-
-;; completion
-;; ;; tab completion hack found here:
-;; ;; https://www.emacswiki.org/emacs/CompanyMode#toc10
-;; (defun indent-or-complete ()
-;;   (interactive)
-;;   (if (looking-at "\\_>")
-;;       (company-complete-common)
-;;     (indent-according-to-mode)))
-;;
-;; (global-set-key [tab] 'tab-indent-or-complete)
 (use-package company
   :diminish company-mode
   :ensure t
   :init (global-company-mode t)
   :config
   (progn
-    (setq company-tooltip-limit 20)                      ; bigger popup window
-    (setq company-idle-delay .3)                         ; decrease delay before autocompletion popup shows
-    (setq company-echo-delay 0)                          ; remove annoying blinking
-    (setq company-minimum-prefix-length 2) 
-    (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+    ; bigger popup window
+    (setq company-tooltip-limit 20)
+    ; decrease delay before autocompletion popup shows
+    (setq company-idle-delay .3)
+    ; remove annoying blinking
+    (setq company-echo-delay 0)
+    ; minimum prefix
+    (setq company-minimum-prefix-length 2)
+    ; start autocompletion only after typing
+    (setq company-begin-commands '(self-insert-command))
+
+    ;; change company completion colors
+    (require 'color)
+    (let ((bg (face-attribute 'default :background)))
+      (custom-set-faces
+       `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+       `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+       `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+       `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+            `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
     
     ;; install go completion
     (use-package company-go
@@ -140,18 +149,24 @@
             (set (make-local-variable 'company-backends) '(company-go))
             (company-mode)))))))
 
-;; turn off tool bar
+; turn off tool bar
 (tool-bar-mode -1)
-;; turn off menu bar
+; turn off menu bar
 (menu-bar-mode -1)
-;; turn off scroll bar
+; turn off scroll bar
 (scroll-bar-mode -1)
+; inhibit-startup-screen
+(setq inhibit-startup-screen t)
+; empty scratch buffer
+(setq initial-scratch-message nil)
+; use spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+; 4 spaces is a tab
+(setq tab-width 4)
+; disable visual bell graphic
+(setq visible-bell nil)
+; disable audio bell
+(setq ring-bell-function 'ignore)
 
-(setq inhibit-startup-screen t)     ; inhibit-startup-screen
-(setq initial-scratch-message nil)  ; empty scratch buffer
-(setq-default indent-tabs-mode nil) ; Use spaces instead of tabs
-(setq tab-width 2)                  ; Four spaces is a tab
-(setq visible-bell nil)             ; Disable visual bell graphic
-(setq ring-bell-function 'ignore)   ; Disable audio bell
 
 ;;; init ends here
