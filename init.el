@@ -167,11 +167,18 @@
 (setq visible-bell nil)
 ; disable audio bell
 (setq ring-bell-function 'ignore)
-
 ; bind C-PageUp and C-PageDown to cycle through
 ; buffers previous and next respectively
+; (without switching to a separate window)
 (global-set-key (kbd "C-<prior>") 'previous-buffer)
 (global-set-key (kbd "C-<next>") 'next-buffer)
+; turn on default window movement bindings
+; which are: Shift-<Arrow-Up|Down|Left|Right>
+; NB. this might interfere with org-mode
+; if so run this: 
+; (setq org-replace-disputed-keys t)
+(windmove-default-keybindings)
+
 
 
 
