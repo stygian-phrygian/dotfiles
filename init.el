@@ -40,6 +40,9 @@
 (use-package clojure-mode
   :ensure t)
 
+(use-package cider
+  :ensure t)
+
 (use-package clojure-mode-extra-font-locking
   :ensure t)
 
@@ -72,15 +75,15 @@
   :ensure t)
 
 ; theme
-(use-package dracula-theme
-  :ensure t
-  :load-path "themes"
-  :config
-  (load-theme 'dracula t))
-
-;(use-package darkokai-theme
+;(use-package dracula-theme
 ;  :ensure t
-;  :config (load-theme 'darkokai t))
+;  :load-path "themes"
+;  :config
+;  (load-theme 'dracula t))
+
+(use-package darkokai-theme
+  :ensure t
+  :config (load-theme 'darkokai t))
 
 ;(use-package solarized-theme
 ;  :ensure t
@@ -178,8 +181,6 @@
 ; if so run this: 
 ; (setq org-replace-disputed-keys t)
 (windmove-default-keybindings)
-
-
 
 
 ;;; init ends here
