@@ -27,8 +27,30 @@ Plug 'fatih/vim-go'
 "----color themes----------------------------------
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'christophermca/meta5'
+Plug 'chriskempson/base16-vim'
 call plug#end()
 "
+
+"----color scheme and syntax highlighting-----------
+syntax on
+"make background dark (might change color scheme slightly)
+set bg=dark
+" configure space-vim-dark
+"   range:   233 (darkest) ~ 238 (lightest)
+"   default: 235
+let g:space_vim_dark_background = 233
+" configure molokai
+"let g:rehash256 = 1
+"
+" set colorscheme and fail silently otherwise
+silent! color desert
+silent! color dracula
+silent! color space-vim-dark
+silent! color meta5
+silent! color molokai
+
 "
 "
 " change leader key to space
@@ -99,14 +121,6 @@ let g:EasyMotion_smartcase=1
 "  autocmd!
 "  autocmd VimEnter * :Vexplore
 "augroup END
-
-
-"----color scheme and syntax highlighting-----------
-syntax on
-" set colorscheme and fail silently otherwise
-silent! color molokai
-"make background dark (might change color scheme slightly)
-set bg=dark
 
 
 "----vim indentation/tab configuration------------
