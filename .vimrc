@@ -29,7 +29,9 @@ Plug 'dracula/vim'
 Plug 'tomasr/molokai'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'christophermca/meta5'
-Plug 'chriskempson/base16-vim'
+Plug 'jnurmine/Zenburn/'
+Plug 'fxn/vim-monochrome'
+Plug 'flazz/vim-colorschemes'
 call plug#end()
 "
 
@@ -43,13 +45,16 @@ set bg=dark
 let g:space_vim_dark_background = 233
 " configure molokai
 "let g:rehash256 = 1
-"
+"configure zenburn
+let g:zenburn_high_Contrast=1
 " set colorscheme and fail silently otherwise
 silent! color desert
 silent! color dracula
 silent! color space-vim-dark
 silent! color meta5
+silent! color monochrome
 silent! color molokai
+silent! color zenburn
 
 "
 "
@@ -98,6 +103,7 @@ let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 let g:airline_theme='onedark'                    " Set theme
 let g:airline_theme='kalisi'                     " Set theme
 let g:airline_theme='distinguished'              " Set theme
+let g:airline_theme='monochrome'                 " Set theme
 "
 " fix a acp plugin issue when typing '<'
 " found here: 
