@@ -11,7 +11,9 @@ Plug 'tpope/vim-fugitive'                                 "git integration (work
 Plug 'tpope/vim-surround'                                 "change surrounding delimiters efficiently
 Plug 'tpope/vim-repeat'                                   "repeat actions correctly for plugins
 Plug 'easymotion/vim-easymotion'                          "jump around text *way* easier
-"----completion-----------------------------------
+"----comment toggling------------------------------
+Plug 'tpope/vim-commentary'
+"----completion------------------------------------
 "Plug 'Shougo/neocomplete.vim'
 "go here for install instruction: https://github.com/Valloric/YouCompleteMe
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
