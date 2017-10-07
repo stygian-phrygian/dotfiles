@@ -22,7 +22,7 @@
   (progn
     ; turn on evil-mode everywhere
     (evil-mode 1)
-    ; esc quits
+    ; bind <esc> to sensible quit functionality
     ; found here:
     ; https://stackoverflow.com/a/10166400/8475035
     (defun minibuffer-keyboard-quit ()
@@ -41,19 +41,31 @@
     (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-    ;
+
+    ; set up comment toggling
+    (use-package evil-commentary
+      :ensure t
+      :config (evil-commentary-mode))
+
     ; set-up evil-leader
     (use-package evil-leader
       :ensure t
       :init (global-evil-leader-mode)
       :config
       (progn
+        ; leader on always
         (setq evil-leader/in-all-states t)
         (setq evil-leader/leader "<SPC>")
+        ; global leader bindings
         (evil-leader/set-key
           "l" 'avy-goto-line
           "w" 'avy-goto-word-0
-          "x" 'smex)))))
+          "x" 'smex)
+        ;; mode specific leader bindings
+        ;(evil-leader/set-key-for-mode 'go-mode
+        ;  "b" 'TODO-go-compile-file)
+        
+        ))))
 
 ; better M-x completion
 (use-package smex
@@ -65,7 +77,10 @@
 ; vim-easymotion (ish) clone for emacs
 ; key bindings are set in the evil-leader config 
 (use-package avy
-  :ensure t)
+  :ensure t
+  :config
+  ; grey out background when displaying jump characters
+  (setq avy-background t))
 
 ; ; syntax checker for a variety of languages
 ; (use-package flycheck
@@ -80,11 +95,12 @@
 (use-package clojure-mode
   :ensure t)
 
-(use-package cider
-  :ensure t)
-
 (use-package clojure-mode-extra-font-locking
   :ensure t)
+
+(use-package cider
+  :ensure t)
+  ;:config (setq cider-auto-select-error-buffer nil))
 
 ; rainbow colored parentheses to ease viewing
 (use-package rainbow-delimiters
@@ -110,30 +126,42 @@
   (progn
     (add-hook 'before-save-hook 'gofmt-before-save)))
 
-; git integration
-(use-package magit
-  :ensure t)
+; ; git integration
+; (use-package magit
+;   :ensure t)
 
-; theme
-;(use-package dracula-theme
-;  :ensure t
-;  :load-path "themes"
-;  :config
-;  (load-theme 'dracula t))
-
-(use-package darkokai-theme
-  :ensure t
-  :config (load-theme 'darkokai t))
-
-; (use-package zenburn-theme
+; themes------
+; (use-package dracula-theme
 ;   :ensure t
+;   :load-path "themes"
 ;   :config
-;   (load-theme 'zenburn t))
+;   (load-theme 'dracula t))
+
+; (use-package darkokai-theme
+;   :ensure t
+;   :config (load-theme 'darkokai t))
+
+; (use-package gruvbox-theme
+;   :ensure t
+;   :config (load-theme 'gruvbox-dark-hard t))
+
+(use-package cyberpunk-theme
+  :ensure t
+  :config
+  (load-theme 'cyberpunk t))
 
 ; (use-package hc-zenburn-theme
 ;   :ensure t
 ;   :config
 ;   (load-theme 'hc-zenburn t))
+
+; ;; whitespace
+; (use-package whitespace
+;   :ensure t
+;   :commands (whitespace-mode)
+;   :config
+;   (setq whitespace-style '(face tabs spaces newline empty
+;                            trailing tab-mark newline-mark)))
 
 ; relative line numbers
 (use-package nlinum-relative
@@ -218,6 +246,8 @@
 (setq visible-bell nil)
 ; disable audio bell
 (setq ring-bell-function 'ignore)
+; y/n for yes/no
+(defalias 'yes-or-no-p 'y-or-n-p)
 ; bind C-PageUp and C-PageDown to cycle through
 ; buffers previous and next respectively
 ; (without switching to a separate window)
@@ -229,6 +259,12 @@
 ; if so run this: 
 ; (setq org-replace-disputed-keys t)
 (windmove-default-keybindings)
-
+; inhibit indention of *prior* line when RET is pressed
+; this fixes the semicolon indention bug
+; hack found here:
+; https://emacs.stackexchange.com/questions/20896/change-the-behaviour-of-ret-with-electric-indent-to-only-indent-the-new-line
+; alternative solution:
+; https://emacs.stackexchange.com/questions/9563/return-heavily-indents-previous-line
+(setq-default electric-indent-inhibit t)
 
 ;;; init ends here
