@@ -22,6 +22,8 @@
   (progn
     ; turn on evil-mode everywhere
     (evil-mode 1)
+    ; want vim-esque undo
+    (setq evil-want-fine-undo t)
     ; bind <esc> to sensible quit functionality
     ; found here:
     ; https://stackoverflow.com/a/10166400/8475035
@@ -60,6 +62,8 @@
         (evil-leader/set-key
           "l" 'avy-goto-line
           "w" 'avy-goto-word-0
+          "i" 'avy-goto-subword-1 ;"i" stands for "in between"
+                                  ; works on camelCase & etc
           "x" 'smex)
         ;; mode specific leader bindings
         ;(evil-leader/set-key-for-mode 'go-mode
@@ -81,6 +85,12 @@
   :config
   ; grey out background when displaying jump characters
   (setq avy-background t))
+
+; make windows resize elegantly
+(use-package golden-ratio
+  :ensure t
+  :config
+  (golden-ratio-mode 1))
 
 ; ; syntax checker for a variety of languages
 ; (use-package flycheck
@@ -110,6 +120,22 @@
     (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
     (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
     (add-hook 'slime-mode-hook #'rainbow-delimiters-mode)))
+
+;; (use-package parinfer
+;;   :ensure t
+;;   :init
+;;   (progn
+;;     (setq parinfer-extensions
+;;           '(defaults
+;;             pretty-parens
+;;             evil
+;;             smart-tab
+;;             smart-yank))
+;;     (add-hook 'clojure-mode-hook #'parinfer-mode)
+;;     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+;;     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+;;     (add-hook 'scheme-mode-hook #'parinfer-mode)
+;;     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 ; awesome common lisp environment
 (use-package slime
@@ -266,5 +292,11 @@
 ; alternative solution:
 ; https://emacs.stackexchange.com/questions/9563/return-heavily-indents-previous-line
 (setq-default electric-indent-inhibit t)
+; don't create autosave files (the #filename.txt# kind)
+(setq create-lockfiles nil)
+; don't create back-up files (the filename.txt~ kind)
+(setq make-backup-files nil)
+; enable clipboard integration (NB only works outside of terminal emacs)
+(setq x-select-enable-clipboard t)
 
 ;;; init ends here
