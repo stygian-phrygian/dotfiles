@@ -157,37 +157,42 @@
 ;   :ensure t)
 
 ; themes------
-; (use-package dracula-theme
-;   :ensure t
-;   :load-path "themes"
-;   :config
-;   (load-theme 'dracula t))
 
-; (use-package darkokai-theme
-;   :ensure t
-;   :config (load-theme 'darkokai t))
+;; (use-package dracula-theme
+;;   :ensure t
+;;   :config (load-theme 'dracula t))
 
-; (use-package gruvbox-theme
-;   :ensure t
-;   :config (load-theme 'gruvbox-dark-hard t))
+;; (use-package solarized-theme
+;;   :ensure t
+;;   :config (load-theme 'solarized-dark t))
 
-(use-package cyberpunk-theme
+;; (use-package darkokai-theme
+;;   :ensure t
+;;   :config (load-theme 'darkokai t))
+
+;; (use-package gruvbox-theme
+;;   :ensure t
+;;   :config (load-theme 'gruvbox-dark-hard t))
+
+;; (use-package anti-zenburn-theme
+;;   :ensure t
+;;   :config (load-theme 'anti-zenburn t)
+
+;; (use-package seoul256-theme
+;;   :ensure t
+;;   :config (progn (setq seoul256-background 233) (load-theme 'seoul256 t)))
+
+;; (use-package cyberpunk-theme
+;;   :ensure t
+;;   :config (load-theme 'cyberpunk t))
+
+;; (use-package arjen-grey-theme
+;;   :ensure t
+;;   :config (load-theme 'arjen-grey t))
+
+(use-package hc-zenburn-theme
   :ensure t
-  :config
-  (load-theme 'cyberpunk t))
-
-; (use-package hc-zenburn-theme
-;   :ensure t
-;   :config
-;   (load-theme 'hc-zenburn t))
-
-; ;; whitespace
-; (use-package whitespace
-;   :ensure t
-;   :commands (whitespace-mode)
-;   :config
-;   (setq whitespace-style '(face tabs spaces newline empty
-;                            trailing tab-mark newline-mark)))
+  :config (load-theme 'hc-zenburn t))
 
 ; relative line numbers
 (use-package nlinum-relative
