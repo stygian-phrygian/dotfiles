@@ -22,7 +22,8 @@ Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
 Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlighting
 "Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] } "easy lisp structural editing
-"Plug 'racer-rust/vim-racer'
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
@@ -76,6 +77,13 @@ au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
+"--rust
+" turn on auto-format  on save
+let g:rustfmt_autosave = 1
+" turn on racer
+let g:racer_cmd = "$HOME/.cargo/bin/racer"
+" experimental completion
+"let g:racer_experimental_completer = 1
 "
 "
 "--------------------------------------------------
