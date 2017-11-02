@@ -92,6 +92,26 @@
   :config
   (golden-ratio-mode 1))
 
+; rainbow colored parentheses to ease viewing
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (progn
+    (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+    (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+    (add-hook 'slime-mode-hook #'rainbow-delimiters-mode)))
+
+; minibuffer documentation
+(use-package eldoc
+  :ensure t
+  :config
+  (progn
+    ; go eldoc
+    (use-package go-eldoc
+        :ensure t
+        :defer t
+        :init (add-hook 'go-mode-hook #'go-eldoc-setup))))
+
 ; ; syntax checker for a variety of languages
 ; (use-package flycheck
 ;   :ensure t
@@ -103,23 +123,17 @@
 ;       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))))
 
 (use-package clojure-mode
+  :defer t
   :ensure t)
 
 (use-package clojure-mode-extra-font-locking
+  :defer t
   :ensure t)
 
 (use-package cider
+  :defer t
   :ensure t)
   ;:config (setq cider-auto-select-error-buffer nil))
-
-; rainbow colored parentheses to ease viewing
-(use-package rainbow-delimiters
-  :ensure t
-  :config
-  (progn
-    (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
-    (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-    (add-hook 'slime-mode-hook #'rainbow-delimiters-mode)))
 
 ;; (use-package parinfer
 ;;   :ensure t
@@ -140,59 +154,115 @@
 ; awesome common lisp environment
 (use-package slime
   :ensure t
+  :defer t
   :config
   (progn
     (setq inferior-lisp-program "/usr/bin/sbcl")
     (setq slime-contribs '(slime-fancy))))
 
 ; golang
+; install  gocode (completion) and godef (for jumping into methods)
+; go get -u github.com/nsf/gocode
+; go get -u github.com/rogpeppe/godef
+; completion (with gocode) is configured in the "company" package below
 (use-package go-mode
   :ensure t
+  :defer t
   :config
   (progn
-    (add-hook 'before-save-hook 'gofmt-before-save)))
+    (add-hook 'go-mode-hook
+              (lambda ()
+                (setq compile-command "go build -v && go test -v && go vet")
+                (define-key (current-local-map) "\C-c\C-c" 'compile)
+                (add-hook 'before-save-hook 'gofmt-before-save)
+                (local-set-key (kbd "M-.") 'godef-jump)))))
+
+
+
+; rust
+(use-package rust-mode
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (setq rust-format-on-save t)))
+
+; python
+(use-package elpy
+  :ensure t
+  :defer t
+  :init (elpy-enable)
+  :config
+  (progn
+    ; use ipython for the repl (make sure ipython is installed)
+    ; pip install ipython[all]
+    (elpy-use-ipython)
+    ; add elpy hook for python-mode
+    (add-hook 'python-mode-hook 'elpy-mode)
+    ; open the Python shell in a buffer after sending code to it
+    (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
+    ; Use IPython as the default shell, with a workaround to accommodate IPython 5
+    ; https://emacs.stackexchange.com/questions/24453/weird-shell-output-when-using-ipython-5  (setq python-shell-interpreter "ipython")
+    (setq python-shell-interpreter-args "--simple-prompt -i")
+    ; turn on elpy's completion (uses jedi, run: pip install jedi)
+    ; tell elpy to use company autocomplete backend
+    (setq elpy-rpc-backend "jedi")
+    (use-package company-jedi
+      :ensure t
+      :config
+      (add-hook 'python-mode-hook
+                (lambda ()
+                  (add-to-list 'company-backends 'company-jedi))))
+    ; Enable pyvenv, which manages Python virtual environments
+    (pyvenv-mode 1)
+    ; Tell Python debugger (pdb) to use the current virtual environment
+    ; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
+    (setq gud-pdb-command-name "python -m pdb ")))
+
+; python auto-formatter
+; enable autopep8 formatting on save, make sure autopep8 is installed
+; pip install --upgrade autopep8
+(use-package py-autopep8
+  :ensure t
+  :commands (py-autopep8-enable-on-save py-autopep8-buffer)
+  :init
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
 ; ; git integration
 ; (use-package magit
 ;   :ensure t)
 
 ; themes------
+(use-package solarized-theme :ensure t :defer t)
+(use-package abyss-theme :ensure t :defer t)
+(use-package dracula-theme :ensure t :defer t)
+(use-package darkokai-theme :ensure t :defer t)
+(use-package gruvbox-theme :ensure t :defer t)
+(use-package zenburn-theme :ensure t :defer t)
+(use-package hc-zenburn-theme :ensure t :defer t)
+(use-package anti-zenburn-theme :ensure t :defer t)
+(use-package darkburn-theme :ensure t :defer t)
+(use-package cyberpunk-theme :ensure t :defer t)
+(use-package birds-of-paradise-plus-theme :ensure t :defer t)
+(use-package tao-theme :ensure t :defer t)
+(use-package warm-night-theme :ensure t :defer t)
+(use-package quasi-monochrome-theme :ensure t :defer t)
+(use-package colonoscopy-theme :ensure t :defer t)
+(use-package purple-haze-theme :ensure t :defer t)
+(use-package bubbleberry-theme :ensure t :defer t)
+(use-package spacegray-theme :ensure t :defer t)
+(use-package arjen-grey-theme :ensure t :defer t)
+(use-package planet-theme :ensure t :defer t)
+(use-package atom-one-dark-theme :ensure t :defer t)
+;
+; other nice themes (that aren't on ELPA)
+; late-night-theme
+; julie-theme
+;
+; load a default theme
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'julie t)
 
-;; (use-package dracula-theme
-;;   :ensure t
-;;   :config (load-theme 'dracula t))
-
-;; (use-package solarized-theme
-;;   :ensure t
-;;   :config (load-theme 'solarized-dark t))
-
-;; (use-package darkokai-theme
-;;   :ensure t
-;;   :config (load-theme 'darkokai t))
-
-;; (use-package gruvbox-theme
-;;   :ensure t
-;;   :config (load-theme 'gruvbox-dark-hard t))
-
-;; (use-package anti-zenburn-theme
-;;   :ensure t
-;;   :config (load-theme 'anti-zenburn t)
-
-;; (use-package seoul256-theme
-;;   :ensure t
-;;   :config (progn (setq seoul256-background 233) (load-theme 'seoul256 t)))
-
-;; (use-package cyberpunk-theme
-;;   :ensure t
-;;   :config (load-theme 'cyberpunk t))
-
-;; (use-package arjen-grey-theme
-;;   :ensure t
-;;   :config (load-theme 'arjen-grey t))
-
-(use-package hc-zenburn-theme
-  :ensure t
-  :config (load-theme 'hc-zenburn t))
 
 ; relative line numbers
 (use-package nlinum-relative
@@ -241,6 +311,21 @@
        `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
        `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
             `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+
+    ; install rust completion (with racer)
+    ; https://github.com/racer-rust/emacs-racer
+    ; make sure racer is installed first by running:
+    ; rustup component add rust-src
+    ; cargo install racer
+    (use-package racer
+      :ensure t
+      :config
+      (progn
+        (add-hook 'rust-mode-hook #'racer-mode)
+        (add-hook 'racer-mode-hook #'company-mode)
+        (require 'rust-mode)
+        (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+        (setq company-tooltip-align-annotations t)))
     
     ; install go completion
     (use-package company-go
@@ -303,5 +388,10 @@
 (setq make-backup-files nil)
 ; enable clipboard integration (NB only works outside of terminal emacs)
 (setq x-select-enable-clipboard t)
-
+; highlight matching parens
+(show-paren-mode 1)
+; Shut up compile saves
+(setq compilation-ask-about-save nil)
+; Don't save *anything* for compilation
+(setq compilation-save-buffers-predicate '(lambda () nil))
 ;;; init ends here
