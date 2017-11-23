@@ -161,7 +161,11 @@
     (setq slime-contribs '(slime-fancy))))
 
 ; golang
-; install  gocode (completion) and godef (for jumping into methods)
+; install gocode (for completion),
+; godef (for jumping into methods), and
+; goimports (for automatically importing packages)
+;
+; go get golang.org/x/tools/cmd/goimports
 ; go get -u github.com/nsf/gocode
 ; go get -u github.com/rogpeppe/godef
 ; completion (with gocode) is configured in the "company" package below
@@ -172,8 +176,11 @@
   (progn
     (add-hook 'go-mode-hook
               (lambda ()
+                ; create compile command for go files
                 (setq compile-command "go build -v && go test -v && go vet")
                 (define-key (current-local-map) "\C-c\C-c" 'compile)
+                ; use goimports instead of gofmt
+                (setq gofmt-command "goimports")
                 (add-hook 'before-save-hook 'gofmt-before-save)))))
 
 
@@ -237,7 +244,9 @@
 (use-package dracula-theme :ensure t :defer t)
 (use-package darkokai-theme :ensure t :defer t)
 (use-package gruvbox-theme :ensure t :defer t)
+(use-package avk-emacs-themes :ensure t :defer t)
 (use-package zenburn-theme :ensure t :defer t)
+(use-package ample-zen-theme :ensure t :defer t)
 (use-package hc-zenburn-theme :ensure t :defer t)
 (use-package anti-zenburn-theme :ensure t :defer t)
 (use-package darkburn-theme :ensure t :defer t)
@@ -260,7 +269,7 @@
 ;
 ; load a default theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'julie t)
+(load-theme 'bubbleberry t)
 
 
 ; relative line numbers
