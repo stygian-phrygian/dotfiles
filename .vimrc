@@ -54,10 +54,10 @@ let g:zenburn_high_Contrast=1
 silent! color desert
 silent! color dracula
 silent! color space-vim-dark
-silent! color meta5
 silent! color monochrome
 silent! color molokai
 silent! color zenburn
+silent! color meta5
 
 "
 "
@@ -236,19 +236,15 @@ inoremap <C-PageDown> <Esc>:bnext<CR>
 inoremap <C-PageUp> <Esc>:bprevious<CR>
 vnoremap <C-PageDown> :bnext<CR>
 vnoremap <C-PageUp> :bprevious<CR>
-" remap the arrow keys to more useful modal actions (and NOPs otherwise)
-" normal mode maps:
-" <down> & <up> move the (current) line down & up (respectively)
-noremap <down> ddp
-noremap <up> ddkP
-noremap <left> <Nop>
-noremap <right> <Nop>
-"visual mode maps:
-vnoremap <down> <Nop>
-vnoremap <up> <Nop>
-vnoremap <left> <Nop>
-vnoremap <right> <Nop>
-"insert mode maps:
+" map Shift-Arrow to buffer switching
+nnoremap <silent> <s-Up>    <c-w>k
+nnoremap <silent> <s-Down>  <c-w>j
+nnoremap <silent> <s-Right> <c-w>l
+nnoremap <silent> <s-Left>  <c-w>h
+inoremap <silent> <s-Up>    <esc><c-w>ki
+inoremap <silent> <s-Down>  <esc><c-w>ji
+inoremap <silent> <s-Right> <esc><c-w>li
+inoremap <silent> <s-Left>  <esc><c-w>hi
 "make pop-up menu more friendly
 "found here:
 "http://vim.wikia.com/wiki/Improve_completion_popup_menu
