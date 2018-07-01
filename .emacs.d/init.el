@@ -403,3 +403,4 @@
 ; Don't save *anything* for compilation
 (setq compilation-save-buffers-predicate '(lambda () nil))
 ;;; init ends here
+(custom-set-variables
