@@ -38,38 +38,55 @@ Plug 'fxn/vim-monochrome'
 Plug 'morhetz/gruvbox'
 Plug 'flazz/vim-colorschemes'
 Plug 'fcpg/vim-orbital'
-Plug 'fcpg/vim-farout'
 Plug 'fcpg/vim-fahrenheit'
+Plug 'fcpg/vim-farout'
+Plug 'Haron-Prime/evening_vim'
+Plug 'Haron-Prime/Antares'
 call plug#end()
-"
+
+
+" GUI options
+if has("gui_running")
+  " turn off GUI widgets (for gvim)
+  set guioptions-=m  "menu bar
+  set guioptions-=T  "toolbar
+  set guioptions-=r  "scrollbar
+  " set fonts (cross-platform)
+  if has("gui_gtk2")       " linux
+    set guifont=Monospace\ 18
+  elseif has("gui_win32")  " windows
+    set guifont=Luxi_Mono:h18:cANSI
+  elseif has("gui_macvim") " mac
+    set guifont=Menlo\ Regular:h18
+  endif
+endif
 
 "----color scheme and syntax highlighting-----------
-"set 256 colors (if not already set)
-set t_Co=256
 syntax on
 "make background dark (might change color scheme slightly)
 set bg=dark
 " configure space-vim-dark
 "   range:   233 (darkest) ~ 238 (lightest)
 "   default: 235
-let g:space_vim_dark_background = 233
-" configure molokai
-"let g:rehash256 = 1
+silent! let g:space_vim_dark_background = 233
 "configure zenburn
-let g:zenburn_high_Contrast=1
+silent! let g:zenburn_high_Contrast=1
 " set colorscheme and fail silently otherwise
 silent! color desert
 silent! color elflord
+silent! color evening
+silent! color antares
 silent! color dracula
-silent! color space-vim-dark
 silent! color monochrome
 silent! color molokai
 silent! color zenburn
 silent! color meta5
-silent! color fahrenheit
 silent! color gruvbox
+silent! color fahrenheit
 silent! color farout
-
+silent! color space-vim-dark
+"set 256 colors (if not already set)
+set t_Co=256
 "
 "
 " change leader key to space
@@ -85,6 +102,7 @@ set showcmd
 autocmd Filetype go setlocal ts=8 sw=8 sts=8 noexpandtab
 "vim-go mappings
 au FileType go nmap <leader>r :GoRun % <CR>
+au FileType go nmap <leader>ie <Plug>(go-iferr)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
@@ -117,11 +135,14 @@ let g:racer_cmd = "$HOME/.cargo/bin/racer"
 "rust completion configuration
 let g:racer_cmd = "/home/j/.cargo/bin/"
 "
-" Enable and configure vim-airline
+"" Enable and configure vim-airline
 set laststatus=2
 set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
 let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+silent! let g:airline_theme='distinguished'
+silent! let g:airline_theme='zenburn'
+silent! let g:airline_theme='badcat'
 "
 " fix a acp plugin issue when typing '<'
 " found here: 
@@ -249,15 +270,16 @@ inoremap ii <esc>
 vnoremap ii <esc>
 """"""""""""""""""""
 "easier (on my keyboard) quick save file
-inoremap <c-left> <esc>:w<CR>
-nnoremap <c-left> <esc>:w<CR>
-vnoremap <c-left> <esc>:w<CR>
 nnoremap <Leader>w <esc>:w<cr>
 "easier (on my keyboard) quick quit
 inoremap <c-w> <esc>:q<CR>
 nnoremap <c-w> <esc>:q<CR>
 vnoremap <c-w> <esc>:q<CR>
 nnoremap <Leader>q <esc>:q<cr>
+"easier (on my keyboard) quick edit
+nnoremap <Leader>e <esc>:e<space>
+"easier (on my keyboard) quick buffer delete
+nnoremap <Leader>x <esc>:bd<cr>
 "easier entering of commands
 nnoremap <Space><Leader> :
 "indent while keeping visual highlighting
