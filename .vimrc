@@ -42,6 +42,7 @@ Plug 'fcpg/vim-fahrenheit'
 Plug 'fcpg/vim-farout'
 Plug 'Haron-Prime/evening_vim'
 Plug 'Haron-Prime/Antares'
+Plug 'bluz71/vim-moonfly-colors'
 call plug#end()
 
 
@@ -62,31 +63,32 @@ if has("gui_running")
 endif
 
 "----color scheme and syntax highlighting-----------
-syntax on
 "make background dark (might change color scheme slightly)
-set bg=dark
-" configure space-vim-dark
-"   range:   233 (darkest) ~ 238 (lightest)
-"   default: 235
-silent! let g:space_vim_dark_background = 233
-"configure zenburn
-silent! let g:zenburn_high_Contrast=1
-" set colorscheme and fail silently otherwise
-silent! color desert
-silent! color elflord
-silent! color evening
-silent! color antares
-silent! color dracula
-silent! color monochrome
-silent! color molokai
-silent! color zenburn
-silent! color meta5
-silent! color gruvbox
-silent! color fahrenheit
-silent! color farout
-silent! color space-vim-dark
+syntax on
+set background=dark
 "set 256 colors (if not already set)
 set t_Co=256
+"set t_ut=
+set termguicolors " <---only works in vim8
+" set colorscheme and fail silently otherwise
+silent! color desert
+"silent! color elflord
+"silent! color evening
+"silent! color antares
+silent! color dracula
+"silent! color monochrome
+"silent! color molokai
+"configure zenburn
+"silent! let g:zenburn_high_Contrast=1
+"silent! color zenburn
+"silent! color meta5
+"silent! color gruvbox
+"silent! color orbital
+"silent! color fahrenheit
+"silent! color farout
+"silent! color moonfly
+"silent! color space-vim-dark
+
 "
 "
 " change leader key to space
@@ -140,9 +142,10 @@ set laststatus=2
 set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
 let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-silent! let g:airline_theme='distinguished'
-silent! let g:airline_theme='zenburn'
-silent! let g:airline_theme='badcat'
+"silent! let g:airline_theme='distinguished'
+"silent! let g:airline_theme='zenburn'
+"silent! let g:airline_theme='badcat'
+"silent! let g:airline_theme='violet' "<--- space-vim-dark
 "
 " fix a acp plugin issue when typing '<'
 " found here: 
