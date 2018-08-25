@@ -1,7 +1,0 @@
-
-
-highlight Hint font-size:200%;font-family:lato;color:black;background-color:yellow;padding:2px;
-highlight HintElem none
-noremap j <Down>
-noremap k <Up>
-set hintchars=asdfghjkl
