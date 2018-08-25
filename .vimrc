@@ -28,6 +28,7 @@ Plug 'racer-rust/vim-racer'
 Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
+Plug 'maksimr/vim-jsbeautify'
 "----color themes----------------------------------
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
@@ -72,22 +73,28 @@ set t_Co=256
 set termguicolors " <---only works in vim8
 " set colorscheme and fail silently otherwise
 silent! color desert
-"silent! color elflord
-"silent! color evening
-"silent! color antares
-silent! color dracula
-"silent! color monochrome
-"silent! color molokai
-"configure zenburn
-"silent! let g:zenburn_high_Contrast=1
-"silent! color zenburn
-"silent! color meta5
-"silent! color gruvbox
-"silent! color orbital
-"silent! color fahrenheit
-"silent! color farout
-"silent! color moonfly
-"silent! color space-vim-dark
+" silent! color elflord
+" silent! color evening
+" silent! color antares
+" silent! color dracula
+" silent! color monochrome
+" silent! color molokai
+" configure zenburn
+" silent! let g:zenburn_high_Contrast=1
+" silent! color zenburn
+" silent! color meta5
+" silent! color gruvbox
+" silent! color orbital
+" silent! color fahrenheit
+silent! color farout
+" silent! color moonfly
+" silent! color space-vim-dark
+"
+" turn on transparency (this line must go below the colorscheme)
+" NB. this might make things look wonky (hence it's commented out)
+" highlight Normal ctermbg=none guibg=none
+" highlight NonText ctermbg=none guibg=none
+
 
 "
 "
@@ -99,6 +106,9 @@ set showcmd
 "----configure plugins----------------------------
 "
 "--language specific configuration
+"--javascript
+" auto formatter (on js filetype buffer write)
+autocmd bufwritepost *.js silent :call JsBeautify()
 "--golang
 " tabs are displayed as 8 spaces (and we use tab characters not spaces)
 autocmd Filetype go setlocal ts=8 sw=8 sts=8 noexpandtab
