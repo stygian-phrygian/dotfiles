@@ -40,6 +40,7 @@ Plug 'fcpg/vim-farout'
 Plug 'Haron-Prime/evening_vim'
 Plug 'Haron-Prime/Antares'
 Plug 'bluz71/vim-moonfly-colors'
+Plug 'whatyouhide/vim-gotham'
 call plug#end()
 
 
@@ -72,6 +73,7 @@ silent! color desert
 " silent! color elflord
 " silent! color evening
 " silent! color antares
+silent! color gotham
 " silent! color dracula
 " silent! color monochrome
 " silent! color molokai
@@ -82,7 +84,7 @@ silent! color desert
 " silent! color gruvbox
 " silent! color orbital
 " silent! color fahrenheit
-silent! color farout
+" silent! color farout
 " silent! color moonfly
 " silent! color space-vim-dark
 "
@@ -101,10 +103,10 @@ set showcmd
 
 "----configure plugins----------------------------
 "
-"--language specific configuration
 "--javascript
 " auto formatter (on js filetype buffer write)
 autocmd bufwritepost *.js silent :call JsBeautify()
+
 "--golang
 " tabs are displayed as 8 spaces (and we use tab characters not spaces)
 autocmd Filetype go setlocal ts=8 sw=8 sts=8 noexpandtab
@@ -115,13 +117,16 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 let g:go_auto_type_info=1 "toggle automatic type info under the cursor
+
 "--rust
 " turn on auto-format  on save
 let g:rustfmt_autosave = 1
 " turn on racer
 let g:racer_cmd = '~/.cargo/bin/racer'
 let g:racer_experimental_completer = 1
-
+au FileType rust nmap <leader>r :Crun <CR>
+au FileType rust nmap <leader>b :Cbuild <CR>
+au FileType rust nmap <leader>t :Ctest <CR>
 
 "" Enable and configure vim-airline
 set laststatus=2
@@ -132,6 +137,9 @@ let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 "silent! let g:airline_theme='zenburn'
 "silent! let g:airline_theme='badcat'
 "silent! let g:airline_theme='violet' "<--- space-vim-dark
+" make vim-gotham a bit less bright in insert
+let g:gotham_airline_emphasised_insert = 0
+
 "
 " fix a acp plugin issue when typing '<'
 " found here: 
