@@ -22,9 +22,8 @@ Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
 Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlighting
-"Plug 'kovisoft/paredit', { 'for': ['clojure', 'scheme'] } "easy lisp structural editing
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
+Plug 'racer-rust/vim-racer' " must install racer prior
 Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
@@ -124,6 +123,7 @@ let g:go_auto_type_info=1 "toggle automatic type info under the cursor
 let g:rustfmt_autosave = 1
 " turn on racer
 let g:racer_cmd = "$HOME/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
 " experimental completion
 "let g:racer_experimental_completer = 1
 "
