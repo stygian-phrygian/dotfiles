@@ -15,15 +15,12 @@ Plug 'easymotion/vim-easymotion'                          "jump around text *way
 "----comment toggling------------------------------
 Plug 'tpope/vim-commentary'
 "----completion------------------------------------
-"Plug 'Shougo/neocomplete.vim'
-"go here for install instruction: https://github.com/Valloric/YouCompleteMe
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
 Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
 Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlighting
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer' " must install racer prior
+Plug 'racer-rust/vim-racer'
 Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
@@ -122,31 +119,10 @@ let g:go_auto_type_info=1 "toggle automatic type info under the cursor
 " turn on auto-format  on save
 let g:rustfmt_autosave = 1
 " turn on racer
-let g:racer_cmd = "$HOME/.cargo/bin/racer"
+let g:racer_cmd = '~/.cargo/bin/racer'
 let g:racer_experimental_completer = 1
-" experimental completion
-"let g:racer_experimental_completer = 1
-"
-"
-"--------------------------------------------------
-"" Use neocomplete.
-"let g:neocomplete#enable_at_startup = 1
-"" Use smartcase.
-"let g:neocomplete#enable_smart_case = 1
-"" Set minimum syntax keyword length.
-"let g:neocomplete#sources#syntax#min_keyword_length = 3
-"" AutoComplPop like behavior.
-""let g:neocomplete#enable_auto_select = 1
-"" Enable omni completion.
-""autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-""autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-""autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-""autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-""autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"
-"rust completion configuration
-let g:racer_cmd = "/home/j/.cargo/bin/"
-"
+
+
 "" Enable and configure vim-airline
 set laststatus=2
 set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
@@ -246,7 +222,7 @@ autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo   set foldmethod=manual"
 "turn on omnicompletion
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
-"make omni-completion pop-up menu match longest 
+" make omni-completion pop-up menu match longest
 " as well as don't select an option initially
 set completeopt=longest,menuone
 "smart tab completion lovingly stolen from here:
@@ -263,7 +239,8 @@ function! Smart_TabComplete()
   endif
   let has_period = match(substr, '\.') != -1      " position of period, if any
   let has_slash = match(substr, '\/') != -1       " position of slash, if any
-  if (!has_period && !has_slash)
+  let has_double_colon=match(substr, '::') != -1  " position of double colon, if any (for rust... I added this)
+  if (!has_period && !has_slash && !has_double_colon)
     return "\<C-X>\<C-P>"                         " existing text matching
   elseif ( has_slash )
     return "\<C-X>\<C-F>"                         " file matching
