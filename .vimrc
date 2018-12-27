@@ -26,14 +26,20 @@ Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
 Plug 'maksimr/vim-jsbeautify'
 "----color themes----------------------------------
+Plug 'flazz/vim-colorschemes'
+Plug 'xolox/vim-colorscheme-switcher'
+Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'christophermca/meta5'
+Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'jnurmine/Zenburn/'
 Plug 'fxn/vim-monochrome'
+Plug 'kamwitsta/nordisk'
+Plug 'Lokaltog/vim-monotone'
 Plug 'morhetz/gruvbox'
-Plug 'flazz/vim-colorschemes'
+Plug 'romainl/flattened' " <--- solarized but without the bullshit
 Plug 'fcpg/vim-orbital'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'fcpg/vim-farout'
@@ -41,8 +47,11 @@ Plug 'Haron-Prime/evening_vim'
 Plug 'Haron-Prime/Antares'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'whatyouhide/vim-gotham'
+Plug 'ajh17/Spacegray.vim'
+Plug 'mgutz/vim-colors' " <--- cappuccino, chance-of-storm, idle, mudcandy, t256, underwater-mod
+" Plug 'vim-scripts/southwest-fog' " <--- originally written by mgutz above but can't find a github for him save this mirror
+Plug 'romainl/Apprentice'
 call plug#end()
-
 
 " GUI options
 if has("gui_running")
@@ -60,6 +69,19 @@ if has("gui_running")
   endif
 endif
 
+"" Enable and configure vim-airline
+set laststatus=2
+set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
+let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+" *sometimes* vim doesn't set airline themes so set an autocmd to do so
+augroup vimrc
+  autocmd!
+  autocmd ColorScheme * let g:airline_theme=expand('<amatch>')
+augroup END
+" make vim-gotham a bit less bright in insert
+let g:gotham_airline_emphasised_insert = 0
+
 "----color scheme and syntax highlighting-----------
 "make background dark (might change color scheme slightly)
 syntax on
@@ -73,12 +95,13 @@ silent! color desert
 " silent! color elflord
 " silent! color evening
 " silent! color antares
-silent! color gotham
+" silent! color gotham
 " silent! color dracula
 " silent! color monochrome
+" silent! color monotone
+" silent! color nordisk
 " silent! color molokai
-" configure zenburn
-" silent! let g:zenburn_high_Contrast=1
+let g:zenburn_high_Contrast=1 " <--- configure zenburn
 " silent! color zenburn
 " silent! color meta5
 " silent! color gruvbox
@@ -87,12 +110,12 @@ silent! color gotham
 " silent! color farout
 " silent! color moonfly
 " silent! color space-vim-dark
-"
-" turn on transparency (this line must go below the colorscheme)
-" NB. this might make things look wonky (hence it's commented out)
-" highlight Normal ctermbg=none guibg=none
-" highlight NonText ctermbg=none guibg=none
-
+" silent! color flattened_dark
+" silent! color mudcandy
+" silent! color apprentice
+" silent! color southwest-fog
+" silent! color spacegray
+silent! color Atelier_PlateauDark
 
 "
 "
@@ -127,12 +150,12 @@ let g:racer_experimental_completer = 1
 au FileType rust nmap <leader>r :Crun <CR>
 au FileType rust nmap <leader>b :Cbuild <CR>
 au FileType rust nmap <leader>t :Ctest <CR>
-
 "" Enable and configure vim-airline
 set laststatus=2
 set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
 let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+autocmd ColorScheme Atelier_PlateauDark let g:airline_theme='Atelier_PlateauDark'
 "silent! let g:airline_theme='distinguished'
 "silent! let g:airline_theme='zenburn'
 "silent! let g:airline_theme='badcat'
@@ -329,3 +352,13 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 nmap     <Leader>f <Plug>(easymotion-overwin-w)
 " search for 1 character
 "nmap <Leader>f <Plug>(easymotion-overwin-f)
+"colorscheme-switcher plugin mappings
+" disable F8=next color, shift-F8=previous color
+let g:colorscheme_switcher_define_mappings=0
+" new mappings are F8=next color, F7=previous color
+nnoremap <F8>      :NextColorScheme<CR>
+inoremap <F8> <ESC>:NextColorScheme<CR>i
+vnoremap <F8> <ESC>:NextColorScheme<CR>v
+nnoremap <F7>      :PrevColorScheme<CR>
+inoremap <F7> <ESC>:PrevColorScheme<CR>i
+vnoremap <F7> <ESC>:PrevColorScheme<CR>v
