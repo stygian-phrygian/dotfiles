@@ -69,56 +69,6 @@ if has("gui_running")
   endif
 endif
 
-"" Enable and configure vim-airline
-set laststatus=2
-set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
-let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-" *sometimes* vim doesn't set airline themes so set an autocmd to do so
-augroup vimrc
-  autocmd!
-  autocmd ColorScheme * let g:airline_theme=expand('<amatch>')
-augroup END
-" make vim-gotham a bit less bright in insert
-let g:gotham_airline_emphasised_insert = 0
-
-"----color scheme and syntax highlighting-----------
-"make background dark (might change color scheme slightly)
-syntax on
-set background=dark
-"set 256 colors (if not already set)
-set t_Co=256
-"set t_ut=
-set termguicolors " <---only works in vim8
-" set colorscheme and fail silently otherwise
-silent! color desert
-" silent! color elflord
-" silent! color evening
-" silent! color antares
-" silent! color gotham
-" silent! color dracula
-" silent! color monochrome
-" silent! color monotone
-" silent! color nordisk
-" silent! color molokai
-let g:zenburn_high_Contrast=1 " <--- configure zenburn
-" silent! color zenburn
-" silent! color meta5
-" silent! color gruvbox
-" silent! color orbital
-" silent! color fahrenheit
-" silent! color farout
-" silent! color moonfly
-" silent! color space-vim-dark
-" silent! color flattened_dark
-" silent! color mudcandy
-" silent! color apprentice
-" silent! color southwest-fog
-" silent! color spacegray
-silent! color Atelier_PlateauDark
-
-"
-"
 " change leader key to space
 let mapleader="\<Space>"
 " show commands (so we can see when timeouts happen)
@@ -150,18 +100,6 @@ let g:racer_experimental_completer = 1
 au FileType rust nmap <leader>r :Crun <CR>
 au FileType rust nmap <leader>b :Cbuild <CR>
 au FileType rust nmap <leader>t :Ctest <CR>
-"" Enable and configure vim-airline
-set laststatus=2
-set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
-let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-autocmd ColorScheme Atelier_PlateauDark let g:airline_theme='Atelier_PlateauDark'
-"silent! let g:airline_theme='distinguished'
-"silent! let g:airline_theme='zenburn'
-"silent! let g:airline_theme='badcat'
-"silent! let g:airline_theme='violet' "<--- space-vim-dark
-" make vim-gotham a bit less bright in insert
-let g:gotham_airline_emphasised_insert = 0
 
 "
 " fix a acp plugin issue when typing '<'
@@ -362,3 +300,56 @@ vnoremap <F8> <ESC>:NextColorScheme<CR>v
 nnoremap <F7>      :PrevColorScheme<CR>
 inoremap <F7> <ESC>:PrevColorScheme<CR>i
 vnoremap <F7> <ESC>:PrevColorScheme<CR>v
+" map <F5> to reload the vimrc
+map <F5> :source $MYVIMRC <CR>
+
+"" Enable and configure vim-airline
+set laststatus=2
+set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
+let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+" *sometimes* vim doesn't set airline themes so we'll set an autocmd to do so
+augroup vimrc
+  autocmd!
+  " autocmd ColorScheme * let g:airline_theme=expand('<amatch>') 
+  " ^ produces a wall of text on themes which do not exist hence we use this
+  autocmd ColorScheme * exec 'AirlineTheme ' . expand('<amatch>')
+augroup END
+
+"----color scheme and syntax highlighting-----------
+"make background dark (might change color scheme slightly)
+syntax on
+set background=dark
+"set 256 colors (if not already set)
+set t_Co=256
+set termguicolors " <---only works in vim8
+" set colorscheme and fail silently otherwise
+silent! color desert
+" silent! color elflord
+" silent! color evening
+" silent! color antares
+let g:gotham_airline_emphasised_insert = 0 " <--- make vim-gotham a bit less bright in insert
+" silent! color gotham
+" silent! color dracula
+" silent! color monochrome
+" silent! color monotone
+" silent! color nordisk
+" silent! color molokai
+let g:zenburn_high_Contrast=1 " <--- configure zenburn
+" silent! color zenburn
+" silent! color meta5
+" silent! color gruvbox
+" silent! color orbital
+" silent! color fahrenheit
+" silent! color farout
+" silent! color moonfly
+" silent! color space-vim-dark
+" silent! color flattened_dark
+" silent! color mudcandy
+" silent! color apprentice
+" silent! color southwest-fog
+" silent! color spacegray
+silent! color Atelier_PlateauDark
+
+"
+"
