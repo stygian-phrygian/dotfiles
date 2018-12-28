@@ -45,7 +45,6 @@ Plug 'fcpg/vim-fahrenheit'
 Plug 'fcpg/vim-farout'
 Plug 'Haron-Prime/evening_vim'
 Plug 'Haron-Prime/Antares'
-Plug 'bluz71/vim-moonfly-colors'
 Plug 'whatyouhide/vim-gotham'
 Plug 'ajh17/Spacegray.vim'
 Plug 'mgutz/vim-colors' " <--- cappuccino, chance-of-storm, idle, mudcandy, t256, underwater-mod
@@ -290,16 +289,17 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 nmap     <Leader>f <Plug>(easymotion-overwin-w)
 " search for 1 character
 "nmap <Leader>f <Plug>(easymotion-overwin-f)
+
 "colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
-" new mappings are F8=next color, F7=previous color
-nnoremap <F8>      :NextColorScheme<CR>
-inoremap <F8> <ESC>:NextColorScheme<CR>i
-vnoremap <F8> <ESC>:NextColorScheme<CR>v
-nnoremap <F7>      :PrevColorScheme<CR>
-inoremap <F7> <ESC>:PrevColorScheme<CR>i
-vnoremap <F7> <ESC>:PrevColorScheme<CR>v
+" new mappings are:
+nnoremap <F4>      :NextColorScheme<CR>
+inoremap <F4> <ESC>:NextColorScheme<CR>i
+vnoremap <F4> <ESC>:NextColorScheme<CR>v
+nnoremap <F3>      :PrevColorScheme<CR>
+inoremap <F3> <ESC>:PrevColorScheme<CR>i
+vnoremap <F3> <ESC>:PrevColorScheme<CR>v
 " map <F5> to reload the vimrc
 map <F5> :source $MYVIMRC <CR>
 
@@ -309,11 +309,10 @@ set ttimeoutlen=1                                " Fix the insert mode to normal
 let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 " *sometimes* vim doesn't set airline themes so we'll set an autocmd to do so
+" also set an airline theme after .vimrc is processed (and plugins are loaded)
 augroup vimrc
   autocmd!
-  " autocmd ColorScheme * let g:airline_theme=expand('<amatch>') 
-  " ^ produces a wall of text on themes which do not exist hence we use this
-  autocmd ColorScheme * exec 'AirlineTheme ' . expand('<amatch>')
+  autocmd VimEnter, ColorScheme * exec 'AirlineTheme ' . expand('<amatch>')
 augroup END
 
 "----color scheme and syntax highlighting-----------
@@ -323,8 +322,9 @@ set background=dark
 "set 256 colors (if not already set)
 set t_Co=256
 set termguicolors " <---only works in vim8
+
 " set colorscheme and fail silently otherwise
-silent! color desert
+" silent! colorscheme desert
 " silent! color elflord
 " silent! color evening
 " silent! color antares
@@ -341,15 +341,11 @@ let g:zenburn_high_Contrast=1 " <--- configure zenburn
 " silent! color gruvbox
 " silent! color orbital
 " silent! color fahrenheit
-" silent! color farout
-" silent! color moonfly
+silent! color farout
 " silent! color space-vim-dark
 " silent! color flattened_dark
 " silent! color mudcandy
 " silent! color apprentice
 " silent! color southwest-fog
 " silent! color spacegray
-silent! color Atelier_PlateauDark
-
-"
-"
+" silent! color Atelier_PlateauDark
