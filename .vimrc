@@ -304,8 +304,18 @@ vnoremap <F3> <ESC>:PrevColorScheme<CR>v
 " map <F5> to reload the vimrc
 map <F5> :source $MYVIMRC <CR>
 
-set laststatus=2
-set ttimeoutlen=1 " Fix the insert mode to normal mode delay
+set laststatus=2        " turn on status line
+set ttimeoutlen=1       " Fix the insert mode to normal mode delay
+set statusline=
+set statusline+=%f      " file name
+set statusline+=%m      " is modified?
+set statusline+=%=      " switching to right section
+set statusline+=%18.18y " file type
+set statusline+=\       " space
+set statusline+=%14.14l " current line number
+set statusline+=\       "space
+set statusline+=%3.3p%% " percentage scrolled through
+
 
 "----color scheme and syntax highlighting-----------
 "make background dark (might change color scheme slightly)
