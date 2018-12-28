@@ -4,8 +4,7 @@
 "run :PlugInstall" and restart vim
 call plug#begin()
 "----graphical improvements------------------------
-Plug 'vim-airline/vim-airline'                            "vim status bar
-Plug 'vim-airline/vim-airline-themes'                     "vim status bar themes
+Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-fugitive'                                 "git integration (works with the status bar above)
 Plug 'roman/golden-ratio'                                 "automatic window resizing to golden ratio
 "----text motion-----------------------------------
@@ -30,10 +29,12 @@ Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
 Plug 'dracula/vim'
+Plug 'dikiaap/minimalist'
 Plug 'tomasr/molokai'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'christophermca/meta5'
 Plug 'atelierbram/vim-colors_atelier-schemes'
+Plug 'atelierbram/Base2Tone-vim'
 Plug 'jnurmine/Zenburn/'
 Plug 'fxn/vim-monochrome'
 Plug 'kamwitsta/nordisk'
@@ -303,17 +304,8 @@ vnoremap <F3> <ESC>:PrevColorScheme<CR>v
 " map <F5> to reload the vimrc
 map <F5> :source $MYVIMRC <CR>
 
-"" Enable and configure vim-airline
 set laststatus=2
-set ttimeoutlen=1                                " Fix the insert mode to normal mode delay
-let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-" *sometimes* vim doesn't set airline themes so we'll set an autocmd to do so
-" also set an airline theme after .vimrc is processed (and plugins are loaded)
-augroup vimrc
-  autocmd!
-  autocmd VimEnter, ColorScheme * exec 'AirlineTheme ' . expand('<amatch>')
-augroup END
+set ttimeoutlen=1 " Fix the insert mode to normal mode delay
 
 "----color scheme and syntax highlighting-----------
 "make background dark (might change color scheme slightly)
@@ -323,12 +315,12 @@ set background=dark
 set t_Co=256
 set termguicolors " <---only works in vim8
 
+
 " set colorscheme and fail silently otherwise
 " silent! colorscheme desert
 " silent! color elflord
 " silent! color evening
 " silent! color antares
-let g:gotham_airline_emphasised_insert = 0 " <--- make vim-gotham a bit less bright in insert
 " silent! color gotham
 " silent! color dracula
 " silent! color monochrome
@@ -348,4 +340,6 @@ silent! color farout
 " silent! color apprentice
 " silent! color southwest-fog
 " silent! color spacegray
+" silent! color minimalist
 " silent! color Atelier_PlateauDark
+" silent! color Base2Tone_CaveDark
