@@ -24,6 +24,7 @@ Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
 Plug 'maksimr/vim-jsbeautify'
+Plug 'HerringtonDarkholme/yats.vim'
 "----color themes----------------------------------
 Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
@@ -69,6 +70,9 @@ if has("gui_running")
   endif
 endif
 
+" turn off netrw banner
+let g:netrw_banner = 0
+
 " change leader key to space
 let mapleader="\<Space>"
 " show commands (so we can see when timeouts happen)
@@ -78,7 +82,22 @@ set showcmd
 "
 "--javascript
 " auto formatter (on js filetype buffer write)
-autocmd bufwritepost *.js silent :call JsBeautify()
+"
+" create a function which formats THEN correctly returns the cursor position
+function! SmartJsBeautify()
+    let saved_view = winsaveview()
+    call JsBeautify()
+    call winrestview(saved_view)
+endfunction
+autocmd bufwritepost *.js silent :call SmartJsBeautify()
+
+" autocmd bufwritepre *.js silent :normal gg=G``
+
+" --json
+" autocmd bufwritepost *.json silent :call JsonBeautify()
+
+" -- css
+" autocmd bufwritepost *.css silent :call CSSBeautify()
 
 "--golang
 " tabs are displayed as 8 spaces (and we use tab characters not spaces)
@@ -101,14 +120,13 @@ au FileType rust nmap <leader>r :Crun <CR>
 au FileType rust nmap <leader>b :Cbuild <CR>
 au FileType rust nmap <leader>t :Ctest <CR>
 
-"
-" fix a acp plugin issue when typing '<'
-" found here: 
-" https://github.com/sukima/xmledit/issues/15
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags noci
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags noci
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"
+" " fix acp plugin issue when typing '<'
+" " found here: 
+" " https://github.com/sukima/xmledit/issues/15
+" autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags noci
+" autocmd FileType html set omnifunc=htmlcomplete#CompleteTags noci
+" autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+
 "configure easymotion
 let g:EasyMotion_smartcase=1
 "turn off the default bindings
@@ -132,11 +150,11 @@ let g:EasyMotion_do_mapping=0
 "----vim indentation/tab configuration------------
 filetype plugin indent on
 " show existing tab with N spaces width
-set tabstop=2
+set tabstop=4
 " when backspacing delete N spaces width
-set softtabstop=2
+set softtabstop=4
 " when indenting with '<' or '>' use N spaces width
-set shiftwidth=2
+set shiftwidth=4
 " insert spaces instead of tab characters
 set expandtab
 " textwidth (what width paragraphs are formatted to)
@@ -338,12 +356,12 @@ set termguicolors " <---only works in vim8
 " silent! color nordisk
 " silent! color molokai
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
-" silent! color zenburn
+silent! color zenburn
 " silent! color meta5
 " silent! color gruvbox
 " silent! color orbital
 " silent! color fahrenheit
-silent! color farout
+" silent! color farout
 " silent! color space-vim-dark
 " silent! color flattened_dark
 " silent! color mudcandy
