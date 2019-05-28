@@ -24,12 +24,14 @@ Plug 'derekwyatt/vim-scala'
 Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
 Plug 'maksimr/vim-jsbeautify'
-Plug 'HerringtonDarkholme/yats.vim'
+Plug 'HerringtonDarkholme/yats.vim' " typescript
+Plug 'dart-lang/dart-vim-plugin'
 "----color themes----------------------------------
 Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
 Plug 'dracula/vim'
+Plug 'MidnaPeach/neonwave.vim'
 Plug 'dikiaap/minimalist'
 Plug 'tomasr/molokai'
 Plug 'liuchengxu/space-vim-dark'
@@ -38,7 +40,6 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'atelierbram/Base2Tone-vim'
 Plug 'jnurmine/Zenburn/'
 Plug 'fxn/vim-monochrome'
-Plug 'kamwitsta/nordisk'
 Plug 'Lokaltog/vim-monotone'
 Plug 'morhetz/gruvbox'
 Plug 'romainl/flattened' " <--- solarized but without the bullshit
@@ -52,6 +53,7 @@ Plug 'ajh17/Spacegray.vim'
 Plug 'mgutz/vim-colors' " <--- cappuccino, chance-of-storm, idle, mudcandy, t256, underwater-mod
 " Plug 'vim-scripts/southwest-fog' " <--- originally written by mgutz above but can't find a github for him save this mirror
 Plug 'romainl/Apprentice'
+Plug 'trapd00r/neverland-vim-theme'
 call plug#end()
 
 " GUI options
@@ -74,7 +76,7 @@ endif
 let g:netrw_banner = 0
 
 " change leader key to space
-let mapleader="\<Space>"
+" let mapleader="\<Space>"
 " show commands (so we can see when timeouts happen)
 set showcmd
 
@@ -120,6 +122,12 @@ au FileType rust nmap <leader>r :Crun <CR>
 au FileType rust nmap <leader>b :Cbuild <CR>
 au FileType rust nmap <leader>t :Ctest <CR>
 
+"--dart
+" format the buffer on save
+let dart_format_on_save = 1
+" enable 2 space formatting as specified by dart style guide
+let dart_style_guide = 2
+
 " " fix acp plugin issue when typing '<'
 " " found here: 
 " " https://github.com/sukima/xmledit/issues/15
@@ -160,8 +168,8 @@ set expandtab
 " textwidth (what width paragraphs are formatted to)
 set textwidth=79
 " provide a column indicator of text width
-set colorcolumn=80
-
+" this is turned off because it doesn't necessarily match the colorscheme colors
+" set colorcolumn=80
 
 "----miscellaneous-------------------------------
 "allow buffers to be hidden
@@ -179,7 +187,9 @@ set incsearch
 " to display (some) invisible characters
 " type ':set !list' to toggle
 set listchars=tab:..,trail:_,extends:>,precedes:<,nbsp:~
+set listchars=tab:→\ ,eol:◄,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 set list
 
 " turn off vim automatic backup
@@ -202,7 +212,7 @@ set foldmethod=manual
 " http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
 "autocmd Filetype csound setlocal ts=8 sw=8 sts=8 noexpandtab
 " fix weird issue with csound files not using foldmethod=manual
-autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo   set foldmethod=manual"
+autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo   set foldmethod=manual
 
 
 "----completion configuration--------------------
@@ -255,6 +265,8 @@ vnoremap <c-w> <esc>:q<CR>
 nnoremap <Leader>q <esc>:q<cr>
 "easier (on my keyboard) quick edit
 nnoremap <Leader>e <esc>:e<space>
+"easier entering of commands
+nnoremap <leader><leader>  <esc>:
 "easier (on my keyboard) quick buffer delete
 nnoremap <Leader>x <esc>:bd<cr>
 "easier entering of commands
@@ -262,20 +274,11 @@ nnoremap <Space><Leader> :
 "indent while keeping visual highlighting
 vmap > >gv
 vmap < <gv
-"move to first and and last characters on a line
-nnoremap 0  ^
-nnoremap 00 g_
 "toggle paste mode
 "https://stackoverflow.com/questions/13967356/vimrc-addition-to-toggle-set-paste/46768583#46768583
 nnoremap <leader>p :set invpaste<CR>
-"easier redo (nb. must press <leader>u THEN release
-"can't just hold down space, tapping 'u' for multiple iterations)
-nnoremap <Leader>u <C-r>
 "turn on smart tab completion in insert mode
 inoremap <tab> <c-r>=Smart_TabComplete()<CR>
-"remap <Leader>h & <Leader>l to buffer previous/next respectively
-nnoremap <Leader>h :bprevious<CR>
-nnoremap <Leader>l :bnext<CR>
 "remap C-PageDown and C-PageUp to buffer movement (much like tabs in a web browser)
 "It turns out remapping C-Tab and C-S-Tab are tricky, see this:
 "http://stackoverflow.com/questions/2686766/mapping-c-tab-in-my-vimrc-fails-in-ubuntu
@@ -322,18 +325,16 @@ vnoremap <F3> <ESC>:PrevColorScheme<CR>v
 " map <F5> to reload the vimrc
 map <F5> :source $MYVIMRC <CR>
 
-set laststatus=2        " turn on status line
-set ttimeoutlen=1       " Fix the insert mode to normal mode delay
+set laststatus=2                " turn on status line
+set ttimeoutlen=1               " Fix the insert mode to normal mode delay
 set statusline=
-set statusline+=%f      " file name
-set statusline+=%m      " is modified?
-set statusline+=%=      " switching to right section
-set statusline+=%18.18y " file type
-set statusline+=\       " space
-set statusline+=%14.14l " current line number
-set statusline+=\       "space
-set statusline+=%3.3p%% " percentage scrolled through
-
+set statusline+=%f              " file name
+set statusline+=%m              " is modified?
+set statusline+=%=              " switching to right section
+set statusline+=%y              " file type
+set statusline+=%#CursorColumn#
+set statusline+=\ %l\:%c          " current line:col number
+set statusline+=\ %3.3p%%       " percentage scrolled through
 
 "----color scheme and syntax highlighting-----------
 "make background dark (might change color scheme slightly)
@@ -342,7 +343,6 @@ set background=dark
 "set 256 colors (if not already set)
 set t_Co=256
 set termguicolors " <---only works in vim8
-
 
 " set colorscheme and fail silently otherwise
 " silent! colorscheme desert
@@ -353,10 +353,9 @@ set termguicolors " <---only works in vim8
 " silent! color dracula
 " silent! color monochrome
 " silent! color monotone
-" silent! color nordisk
 " silent! color molokai
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
-silent! color zenburn
+" silent! color zenburn
 " silent! color meta5
 " silent! color gruvbox
 " silent! color orbital
@@ -368,6 +367,8 @@ silent! color zenburn
 " silent! color apprentice
 " silent! color southwest-fog
 " silent! color spacegray
+silent! color neonwave
 " silent! color minimalist
 " silent! color Atelier_PlateauDark
 " silent! color Base2Tone_CaveDark
+" silent! color neverland
