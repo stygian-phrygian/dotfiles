@@ -265,6 +265,8 @@ vnoremap <c-w> <esc>:q<CR>
 nnoremap <Leader>q <esc>:q<cr>
 "easier (on my keyboard) quick edit
 nnoremap <Leader>e <esc>:e<space>
+"easier (on my keyboard) quick help
+nnoremap <Leader>h <esc>:h<space>
 "easier entering of commands
 nnoremap <leader><leader>  <esc>:
 "easier (on my keyboard) quick buffer delete
@@ -331,10 +333,11 @@ set statusline=
 set statusline+=%f              " file name
 set statusline+=%m              " is modified?
 set statusline+=%=              " switching to right section
-set statusline+=%y              " file type
+set statusline+=%y\             " file type
 set statusline+=%#CursorColumn#
-set statusline+=\ %l\:%c          " current line:col number
-set statusline+=\ %3.3p%%       " percentage scrolled through
+set statusline+=\ %6.l\ \:      " current line number (min 6 characters)
+set statusline+=%3.c            " current col number  (min 3 characters)
+set statusline+=\ %3.3p%%       " percentage scrolled through (min/max 3 characters)
 
 "----color scheme and syntax highlighting-----------
 "make background dark (might change color scheme slightly)
