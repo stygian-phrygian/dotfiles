@@ -27,12 +27,14 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'HerringtonDarkholme/yats.vim' " typescript
 Plug 'dart-lang/dart-vim-plugin'
 "----color themes----------------------------------
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
 Plug 'dracula/vim'
+" Plug 'MidnaPeach/neonwave.vim' " <--- colors don't set correctly for some reason
+Plug 'cinaeco/neonwave.vim'      " <--- these do however in this forked (modified) version
 Plug 'srcery-colors/srcery-vim'
-Plug 'MidnaPeach/neonwave.vim'
+Plug 'Reewr/vim-monokai-phoenix'
 Plug 'dikiaap/minimalist'
 Plug 'tomasr/molokai'
 Plug 'liuchengxu/space-vim-dark'
@@ -372,6 +374,7 @@ let g:zenburn_high_Contrast=1 " <--- configure zenburn
 " silent! color southwest-fog
 " silent! color spacegray
 silent! color neonwave
+" silent! color monokai-phoenix
 " silent! color srcery
 " silent! color minimalist
 " silent! color Atelier_PlateauDark
