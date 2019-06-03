@@ -31,6 +31,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
 Plug 'dracula/vim'
+Plug 'srcery-colors/srcery-vim'
 Plug 'MidnaPeach/neonwave.vim'
 Plug 'dikiaap/minimalist'
 Plug 'tomasr/molokai'
@@ -332,12 +333,12 @@ set ttimeoutlen=1               " Fix the insert mode to normal mode delay
 set statusline=
 set statusline+=%f              " file name
 set statusline+=%m              " is modified?
+set statusline+=\ %y            " file type
 set statusline+=%=              " switching to right section
-set statusline+=%y\             " file type
-set statusline+=%#CursorColumn#
-set statusline+=\ %6.l\ \:      " current line number (min 6 characters)
-set statusline+=%3.c            " current col number  (min 3 characters)
-set statusline+=\ %3.3p%%       " percentage scrolled through (min/max 3 characters)
+" set statusline+=%#CursorColumn#
+set statusline+=%16.l           " current line number (min 16 characters)
+set statusline+=%4.c            " current col number  (min 4 characters)
+set statusline+=%8.p%%          " percentage scrolled through (min 8 characters)
 
 "----color scheme and syntax highlighting-----------
 "make background dark (might change color scheme slightly)
@@ -371,6 +372,7 @@ let g:zenburn_high_Contrast=1 " <--- configure zenburn
 " silent! color southwest-fog
 " silent! color spacegray
 silent! color neonwave
+" silent! color srcery
 " silent! color minimalist
 " silent! color Atelier_PlateauDark
 " silent! color Base2Tone_CaveDark
