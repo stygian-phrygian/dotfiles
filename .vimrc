@@ -25,6 +25,7 @@ Plug 'rhysd/vim-crystal'
 Plug 'fatih/vim-go'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'HerringtonDarkholme/yats.vim' " typescript
+Plug 'Quramy/tsuquyomi'
 Plug 'dart-lang/dart-vim-plugin'
 "----color themes----------------------------------
 " Plug 'flazz/vim-colorschemes'
@@ -57,6 +58,8 @@ Plug 'mgutz/vim-colors' " <--- cappuccino, chance-of-storm, idle, mudcandy, t256
 " Plug 'vim-scripts/southwest-fog' " <--- originally written by mgutz above but can't find a github for him save this mirror
 Plug 'romainl/Apprentice'
 Plug 'trapd00r/neverland-vim-theme'
+Plug 'vim-scripts/reloaded.vim'
+Plug 'vim-scripts/revolutions.vim'
 call plug#end()
 
 " GUI options
@@ -189,10 +192,9 @@ set smartcase
 set incsearch
 " to display (some) invisible characters
 " type ':set !list' to toggle
-set listchars=tab:..,trail:_,extends:>,precedes:<,nbsp:~
-set listchars=tab:→\ ,eol:◄,nbsp:␣,trail:•,extends:⟩,precedes:⟨
-set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
-set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " british newline
+set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " american newline
+set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " no newline
 set list
 
 " turn off vim automatic backup
@@ -251,14 +253,6 @@ endfunction
 
 
 "----mappings------------------------------------
-"remap esc (we're experiementing)
-" remember, <C-[> is already bound to <Esc>
-" """""""""""""""""
-inoremap <C-\> <esc>
-vnoremap <C-\> <esc>
-inoremap ii <esc>
-vnoremap ii <esc>
-""""""""""""""""""""
 "easier (on my keyboard) quick save file
 nnoremap <Leader>w <esc>:w<cr>
 "easier (on my keyboard) quick quit
@@ -351,32 +345,32 @@ set t_Co=256
 set termguicolors " <---only works in vim8
 
 " set colorscheme and fail silently otherwise
-" silent! colorscheme desert
-" silent! color elflord
-" silent! color evening
 " silent! color antares
-" silent! color gotham
-" silent! color dracula
-" silent! color monochrome
-" silent! color monotone
-" silent! color molokai
-let g:zenburn_high_Contrast=1 " <--- configure zenburn
-" silent! color zenburn
-" silent! color meta5
-" silent! color gruvbox
-" silent! color orbital
-" silent! color fahrenheit
-" silent! color farout
-" silent! color space-vim-dark
-" silent! color flattened_dark
-" silent! color mudcandy
 " silent! color apprentice
-" silent! color southwest-fog
-" silent! color spacegray
-silent! color neonwave
-" silent! color monokai-phoenix
-" silent! color srcery
-" silent! color minimalist
 " silent! color Atelier_PlateauDark
 " silent! color Base2Tone_CaveDark
+" silent! color dracula
+" silent! color evening
+" silent! color fahrenheit
+" silent! color farout
+" silent! color flattened_dark
+silent! color gotham
+" silent! color gruvbox
+" silent! color meta5
+" silent! color minimalist
+" silent! color molokai
+" silent! color monochrome
+" silent! color monokai-phoenix
+" silent! color monotone
+" silent! color mudcandy
+" silent! color neonwave
 " silent! color neverland
+" silent! color orbital
+" silent! color southwest-fog
+" silent! color spacegray
+" silent! color space-vim-dark
+" silent! color srcery
+" silent! color reloaded
+" silent! color revolutions
+let g:zenburn_high_Contrast=1 " <--- configure zenburn
+" silent! color zenburn
