@@ -1,4 +1,3 @@
-
 "vim-plug plugin manager
 "put plugins to install (github repos) between begin() and end()
 "run :PlugInstall" and restart vim
@@ -17,7 +16,16 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
-Plug 'luisjure/csound',  { 'for': ['csound'] }            "csound syntax highlighting
+Plug 'luisjure/csound',  { 'for': ['csound'] } "csound syntax highlighting
+" nota bene: plug-installing this isn't enough, you need to find where
+" it's installed, and then git submodule the necessary components (namely for
+" completion with the rope submodule)
+" run these commands
+" cd ~/.vim/plugged/python-mode/
+" git clone --recurse-submodules https://github.com/python-mode/python-mode
+" git submodule update --init --recursive
+" completion works with rope via initializing a .ropeproject automatically
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'derekwyatt/vim-scala'
@@ -127,6 +135,14 @@ let g:racer_experimental_completer = 1
 au FileType rust nmap <leader>r :Crun <CR>
 au FileType rust nmap <leader>b :Cbuild <CR>
 au FileType rust nmap <leader>t :Ctest <CR>
+
+"--python
+" enable python 3 syntax checking
+let g:pymode_python = 'python3'
+" turn off errors window focus
+let g:pymode_lint_cwindow = 0
+" autoformat python code
+autocmd bufwritepost *.py silent :PymodeLintAuto
 
 "--dart
 " format the buffer on save
