@@ -1,6 +1,6 @@
-"vim-plug plugin manager
-"put plugins to install (github repos) between begin() and end()
-"run :PlugInstall" and restart vim
+" vim-plug plugin manager
+" put plugins to install (github repos) between begin() and end()
+" run :PlugInstall" and restart vim
 call plug#begin()
 "----graphical improvements------------------------
 Plug 'ap/vim-buftabline'
@@ -16,32 +16,33 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
-Plug 'luisjure/csound',  { 'for': ['csound'] } "csound syntax highlighting
-" nota bene: plug-installing this isn't enough, you need to find where
-" it's installed, and then git submodule the necessary components (namely for
-" completion with the rope submodule)
+Plug 'luisjure/csound',  { 'for': ['csound'] }            " csound syntax highlighting/completion
+Plug 'rust-lang/rust.vim'                                 " rust
+Plug 'racer-rust/vim-racer'                               " rust completion
+Plug 'derekwyatt/vim-scala'                               " scala
+Plug 'rhysd/vim-crystal'                                  " crystal
+Plug 'fatih/vim-go'                                       " go
+Plug 'maksimr/vim-jsbeautify'                             " js formatter
+Plug 'Quramy/tsuquyomi'                                   " typescript mode
+Plug 'HerringtonDarkholme/yats.vim'                       " typescript highlighting
+Plug 'dart-lang/dart-vim-plugin'                          " dart
+"
+" nota bene: plug-installing the following python plugin isn't enough, you need
+" to find where it's installed, and then git submodule the necessary components
+" (namely for completion with the rope submodule)
 " run these commands
-" cd ~/.vim/plugged/python-mode/
+" cd ~/.vim/plugged/python-mode/ # where it's likely installed
 " git clone --recurse-submodules https://github.com/python-mode/python-mode
 " git submodule update --init --recursive
 " completion works with rope via initializing a .ropeproject automatically
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
-Plug 'derekwyatt/vim-scala'
-Plug 'rhysd/vim-crystal'
-Plug 'fatih/vim-go'
-Plug 'maksimr/vim-jsbeautify'
-Plug 'HerringtonDarkholme/yats.vim' " typescript
-Plug 'Quramy/tsuquyomi'
-Plug 'dart-lang/dart-vim-plugin'
 "----color themes----------------------------------
 " Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
 Plug 'dracula/vim'
-" Plug 'MidnaPeach/neonwave.vim' " <--- colors don't set correctly for some reason
-Plug 'cinaeco/neonwave.vim'      " <--- these do however in this forked (modified) version
+" Plug 'MidnaPeach/neonwave.vim'   " <--- colors don't set correctly for some reason
+Plug 'cinaeco/neonwave.vim'        " <--- these do however in this forked (modified) version
 Plug 'srcery-colors/srcery-vim'
 Plug 'Reewr/vim-monokai-phoenix'
 Plug 'dikiaap/minimalist'
@@ -54,7 +55,7 @@ Plug 'jnurmine/Zenburn/'
 Plug 'fxn/vim-monochrome'
 Plug 'Lokaltog/vim-monotone'
 Plug 'morhetz/gruvbox'
-Plug 'romainl/flattened' " <--- solarized but without the bullshit
+Plug 'romainl/flattened'           " <--- solarized but without the bullshit
 Plug 'fcpg/vim-orbital'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'fcpg/vim-farout'
@@ -62,15 +63,14 @@ Plug 'Haron-Prime/evening_vim'
 Plug 'Haron-Prime/Antares'
 Plug 'whatyouhide/vim-gotham'
 Plug 'ajh17/Spacegray.vim'
-Plug 'mgutz/vim-colors' " <--- cappuccino, chance-of-storm, idle, mudcandy, t256, underwater-mod
-" Plug 'vim-scripts/southwest-fog' " <--- originally written by mgutz above but can't find a github for him save this mirror
+Plug 'mgutz/vim-colors'            " <--- cappuccino, chance-of-storm, idle, mudcandy, t256, underwater-mod
 Plug 'romainl/Apprentice'
 Plug 'trapd00r/neverland-vim-theme'
 Plug 'vim-scripts/reloaded.vim'
 Plug 'vim-scripts/revolutions.vim'
 call plug#end()
 
-" GUI options
+"----GUI options---------------------------------
 if has("gui_running")
   " turn off GUI widgets (for gvim)
   set guioptions-=m  "menu bar
@@ -86,44 +86,27 @@ if has("gui_running")
   endif
 endif
 
-" turn off netrw banner
-let g:netrw_banner = 0
-
-" change leader key to space
-" let mapleader="\<Space>"
-" show commands (so we can see when timeouts happen)
-set showcmd
-
 "----configure plugins----------------------------
-"
+
 "--javascript
-" auto formatter (on js filetype buffer write)
-"
 " create a function which formats THEN correctly returns the cursor position
 function! SmartJsBeautify()
     let saved_view = winsaveview()
     call JsBeautify()
     call winrestview(saved_view)
 endfunction
-autocmd bufwritepost *.js silent :call SmartJsBeautify()
-
-" autocmd bufwritepre *.js silent :normal gg=G``
-
-" --json
-" autocmd bufwritepost *.json silent :call JsonBeautify()
-
-" -- css
-" autocmd bufwritepost *.css silent :call CSSBeautify()
+" auto format on js filetype buffer write
+autocmd BufWritePost *.js silent :call SmartJsBeautify()
 
 "--golang
 " tabs are displayed as 8 spaces (and we use tab characters not spaces)
-autocmd Filetype go setlocal ts=8 sw=8 sts=8 noexpandtab
-"vim-go mappings
-au FileType go nmap <leader>r :GoRun % <CR>
-au FileType go nmap <leader>ie <Plug>(go-iferr)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
+autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
+" vim-go mappings
+au FileType go nmap <leader>r :GoRun % <cr>
+au FileType go nmap <leader>ie <plug>(go-iferr)
+au FileType go nmap <leader>b  <plug>(go-build)
+au FileType go nmap <leader>t  <plug>(go-test)
+au FileType go nmap <leader>c  <plug>(go-coverage)
 let g:go_auto_type_info=1 "toggle automatic type info under the cursor
 
 "--rust
@@ -132,9 +115,9 @@ let g:rustfmt_autosave = 1
 " turn on racer
 let g:racer_cmd = '~/.cargo/bin/racer'
 let g:racer_experimental_completer = 1
-au FileType rust nmap <leader>r :Crun <CR>
-au FileType rust nmap <leader>b :Cbuild <CR>
-au FileType rust nmap <leader>t :Ctest <CR>
+au FileType rust nmap <leader>r :Crun <cr>
+au FileType rust nmap <leader>b :Cbuild <cr>
+au FileType rust nmap <leader>t :Ctest <cr>
 
 "--python
 " enable python 3 syntax checking
@@ -142,7 +125,7 @@ let g:pymode_python = 'python3'
 " turn off errors window focus
 let g:pymode_lint_cwindow = 0
 " autoformat python code
-autocmd bufwritepost *.py silent :PymodeLintAuto
+autocmd BufWritePost *.py silent :PymodeLintAuto
 
 "--dart
 " format the buffer on save
@@ -150,32 +133,15 @@ let dart_format_on_save = 1
 " enable 2 space formatting as specified by dart style guide
 let dart_style_guide = 2
 
-" " fix acp plugin issue when typing '<'
-" " found here: 
-" " https://github.com/sukima/xmledit/issues/15
-" autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags noci
-" autocmd FileType html set omnifunc=htmlcomplete#CompleteTags noci
-" autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"--csound
+" fix weird issue with csound files not using foldmethod=manual
+autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo set foldmethod=manual
 
-"configure easymotion
+"--easymotion
 let g:EasyMotion_smartcase=1
-"turn off the default bindings
-"if on, can't do <leader><leader> below as easymotion wants that
+" turn off the default bindings
+" if on, can't do <leader><leader> below as easymotion wants that
 let g:EasyMotion_do_mapping=0
-"
-"configure netrw (vim's file browser)
-"configuration gleaned from here:
-"https://shapeshed.com/vim-netrw/
-"let g:netrw_banner = -1
-"let g:netrw_liststyle = 2
-"let g:netrw_browse_split = 3
-"let g:netrw_altv = 0
-"let g:netrw_winsize = 24
-"augroup ProjectDrawer
-"  autocmd!
-"  autocmd VimEnter * :Vexplore
-"augroup END
-
 
 "----vim indentation/tab configuration------------
 filetype plugin indent on
@@ -194,7 +160,9 @@ set textwidth=79
 " set colorcolumn=80
 
 "----miscellaneous-------------------------------
-"allow buffers to be hidden
+" show commands (so we can see when timeouts happen)
+set showcmd
+" allow buffers to be hidden
 set hidden
 " turn off line wrapping
 set nowrap
@@ -210,13 +178,12 @@ set incsearch
 " type ':set !list' to toggle
 set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " british newline
 set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " american newline
-set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " no newline
+set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨       " no newline
 set list
-
 " turn off vim automatic backup
 set nobackup
 set noswapfile
-"turn on mouse
+" turn on mouse
 set mouse=a
 " turn off folding for all files
 set nofoldenable
@@ -227,27 +194,17 @@ set nofoldenable
 " http://stackoverflow.com/a/4277400
 set foldmethod=manual
 
-
-"----csound specific configuration---------------
-" configure csound indentation and use of tab characters
-" http://stackoverflow.com/questions/158968/changing-vim-indentation-behavior-by-file-type
-"autocmd Filetype csound setlocal ts=8 sw=8 sts=8 noexpandtab
-" fix weird issue with csound files not using foldmethod=manual
-autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo   set foldmethod=manual
-
-
 "----completion configuration--------------------
-"turn on omnicompletion
+" turn on omnicompletion
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 " make omni-completion pop-up menu match longest
 " as well as don't select an option initially
 set completeopt=longest,menuone
-"smart tab completion lovingly stolen from here:
+" smart tab completion lovingly stolen from here:
 "http://vim.wikia.com/wiki/Smart_mapping_for_tab_completion
 function! Smart_TabComplete()
   let line = getline('.')                         " current line
-
   let substr = strpart(line, -1, col('.')+1)      " from the start of the current
                                                   " line to one character right
                                                   " of the cursor
@@ -259,87 +216,84 @@ function! Smart_TabComplete()
   let has_slash = match(substr, '\/') != -1       " position of slash, if any
   let has_double_colon=match(substr, '::') != -1  " position of double colon, if any (for rust... I added this)
   if (!has_period && !has_slash && !has_double_colon)
-    return "\<C-X>\<C-P>"                         " existing text matching
+    return "\<C-X>\<C-P>"                         " existing text matching (syntax omnicompletion)
   elseif ( has_slash )
     return "\<C-X>\<C-F>"                         " file matching
   else
     return "\<C-X>\<C-O>"                         " plugin matching
   endif
 endfunction
+" turn on smart tab completion in insert mode
+inoremap <tab> <c-r>=Smart_TabComplete()<cr>
+" make pop-up menu more friendly
+" found here:
+" http://vim.wikia.com/wiki/Improve_completion_popup_menu
+" http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+" NB. we can't map <esc> in insert mode for some reason (it turns the arrow keys into letters)
+inoremap <expr> <cr>       pumvisible() ? "\<c-y>" : "\<cr>"
+inoremap <expr> <down>     pumvisible() ? "\<c-n>" : "\<down>"
+inoremap <expr> <up>       pumvisible() ? "\<c-p>" : "\<up>"
+inoremap <expr> <pagedown> pumvisible() ? "\<pagedown>\<c-p>\<c-n>" : "\<pagedown>"
+inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>" : "\<pageup>"
 
-
-"----mappings------------------------------------
-"easier (on my keyboard) quick save file
-nnoremap <Leader>w <esc>:w<cr>
-"easier (on my keyboard) quick quit
-inoremap <c-w> <esc>:q<CR>
-nnoremap <c-w> <esc>:q<CR>
-vnoremap <c-w> <esc>:q<CR>
-nnoremap <Leader>q <esc>:q<cr>
-"easier (on my keyboard) quick edit
-nnoremap <Leader>e <esc>:e<space>
-"easier (on my keyboard) quick help
-nnoremap <Leader>h <esc>:h<space>
-"easier entering of commands
-nnoremap <leader><leader>  <esc>:
-"easier (on my keyboard) quick buffer delete
-nnoremap <Leader>x <esc>:bd<cr>
-"easier entering of commands
-nnoremap <Space><Leader> :
-"indent while keeping visual highlighting
+"----mappings-------------------------------------
+" save file
+nnoremap <leader>w <esc>:w<cr>
+" edit file
+nnoremap <leader>e <esc>:e<space>
+" close buffer
+nnoremap <leader>x <esc>:bd<cr>
+" quit
+inoremap <c-w> <esc>:q<cr>
+nnoremap <c-w> <esc>:q<cr>
+vnoremap <c-w> <esc>:q<cr>
+nnoremap <leader>q <esc>:q<cr>
+" reload vimrc
+map <f5> :source $MYVIMRC<cr>
+" edit vimrc
+nnoremap <leader>v <esc>:e $MYVIMRC<cr>
+" command
+nnoremap <leader><leader> <esc>:
+" help
+nnoremap <leader>h <esc>:h<space>
+" indent while keeping visual highlighting
 vmap > >gv
 vmap < <gv
-"toggle paste mode
-"https://stackoverflow.com/questions/13967356/vimrc-addition-to-toggle-set-paste/46768583#46768583
-nnoremap <leader>p :set invpaste<CR>
-"turn on smart tab completion in insert mode
-inoremap <tab> <c-r>=Smart_TabComplete()<CR>
-"remap C-PageDown and C-PageUp to buffer movement (much like tabs in a web browser)
-"It turns out remapping C-Tab and C-S-Tab are tricky, see this:
-"http://stackoverflow.com/questions/2686766/mapping-c-tab-in-my-vimrc-fails-in-ubuntu
-nnoremap <C-PageDown>      :bnext<CR>
-nnoremap <C-PageUp>        :bprevious<CR>
-inoremap <C-PageDown> <Esc>:bnext<CR>
-inoremap <C-PageUp>   <Esc>:bprevious<CR>
-vnoremap <C-PageDown>      :bnext<CR>
-vnoremap <C-PageUp>        :bprevious<CR>
+" toggle paste mode
+" https://stackoverflow.com/questions/13967356/vimrc-addition-to-toggle-set-paste/46768583#46768583
+nnoremap <leader>p :set invpaste<cr>
+" remap C-PageDown and C-PageUp to buffer movement (much like tabs in a web browser)
+" It turns out remapping C-Tab and C-S-Tab are tricky, see this:
+" http://stackoverflow.com/questions/2686766/mapping-c-tab-in-my-vimrc-fails-in-ubuntu
+nnoremap <c-pagedown>      :bnext<cr>
+nnoremap <c-pageup>        :bprevious<cr>
+inoremap <c-pagedown> <esc>:bnext<cr>
+inoremap <c-pageup>   <esc>:bprevious<cr>
+vnoremap <c-pagedown>      :bnext<cr>
+vnoremap <c-pageup>        :bprevious<cr>
 " map Shift-Arrow to buffer switching
-nnoremap <silent> <s-Up>    <c-w>k
-nnoremap <silent> <s-Down>  <c-w>j
-nnoremap <silent> <s-Right> <c-w>l
-nnoremap <silent> <s-Left>  <c-w>h
-inoremap <silent> <s-Up>    <esc><c-w>ki
-inoremap <silent> <s-Down>  <esc><c-w>ji
-inoremap <silent> <s-Right> <esc><c-w>li
-inoremap <silent> <s-Left>  <esc><c-w>hi
-"make pop-up menu more friendly
-"found here:
-"http://vim.wikia.com/wiki/Improve_completion_popup_menu
-"http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
-" NB. we can't map <Esc> in insert mode for some reason (it turns the arrow keys into letters)
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+nnoremap <silent> <s-up>    <c-w>k
+nnoremap <silent> <s-down>  <c-w>j
+nnoremap <silent> <s-right> <c-w>l
+nnoremap <silent> <s-left>  <c-w>h
+inoremap <silent> <s-up>    <esc><c-w>ki
+inoremap <silent> <s-down>  <esc><c-w>ji
+inoremap <silent> <s-right> <esc><c-w>li
+inoremap <silent> <s-left>  <esc><c-w>hi
 " easymotion mappings
-nmap     <Leader>f <Plug>(easymotion-overwin-w)
-" search for 1 character
-"nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-"colorscheme-switcher plugin mappings
+nmap     <leader>f <plug>(easymotion-overwin-w)
+" colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
 " new mappings are:
-nnoremap <F4>      :NextColorScheme<CR>
-inoremap <F4> <ESC>:NextColorScheme<CR>i
-vnoremap <F4> <ESC>:NextColorScheme<CR>v
-nnoremap <F3>      :PrevColorScheme<CR>
-inoremap <F3> <ESC>:PrevColorScheme<CR>i
-vnoremap <F3> <ESC>:PrevColorScheme<CR>v
-" map <F5> to reload the vimrc
-map <F5> :source $MYVIMRC <CR>
+nnoremap <f4>      :NextColorScheme<cr>
+inoremap <f4> <esc>:NextColorScheme<cr>i
+vnoremap <f4> <esc>:NextColorScheme<cr>v
+nnoremap <f3>      :PrevColorScheme<cr>
+inoremap <f3> <esc>:PrevColorScheme<cr>i
+vnoremap <f3> <esc>:PrevColorScheme<cr>v
 
+"----statusline-----------------------------------
 set laststatus=2                " turn on status line
 set ttimeoutlen=1               " Fix the insert mode to normal mode delay
 set statusline=
@@ -347,19 +301,17 @@ set statusline+=%f              " file name
 set statusline+=%m              " is modified?
 set statusline+=\ %y            " file type
 set statusline+=%=              " switching to right section
-" set statusline+=%#CursorColumn#
 set statusline+=%16.l           " current line number (min 16 characters)
 set statusline+=%4.c            " current col number  (min 4 characters)
 set statusline+=%8.p%%          " percentage scrolled through (min 8 characters)
 
-"----color scheme and syntax highlighting-----------
-"make background dark (might change color scheme slightly)
+"----color scheme and syntax highlighting---------
+" make background dark (might change color scheme slightly)
 syntax on
 set background=dark
-"set 256 colors (if not already set)
+" set 256 colors (if not already set)
 set t_Co=256
 set termguicolors " <---only works in vim8
-
 " set colorscheme and fail silently otherwise
 " silent! color antares
 " silent! color apprentice
@@ -370,7 +322,7 @@ set termguicolors " <---only works in vim8
 " silent! color fahrenheit
 " silent! color farout
 " silent! color flattened_dark
-silent! color gotham
+" silent! color gotham
 " silent! color gruvbox
 " silent! color meta5
 " silent! color minimalist
@@ -382,11 +334,10 @@ silent! color gotham
 " silent! color neonwave
 " silent! color neverland
 " silent! color orbital
-" silent! color southwest-fog
 " silent! color spacegray
 " silent! color space-vim-dark
 " silent! color srcery
 " silent! color reloaded
 " silent! color revolutions
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
-" silent! color zenburn
+silent! color zenburn
