@@ -63,11 +63,11 @@ Plug 'Haron-Prime/evening_vim'
 Plug 'Haron-Prime/Antares'
 Plug 'whatyouhide/vim-gotham'
 Plug 'ajh17/Spacegray.vim'
-Plug 'mgutz/vim-colors'            " <--- cappuccino, chance-of-storm, idle, mudcandy, t256, underwater-mod
 Plug 'romainl/Apprentice'
 Plug 'trapd00r/neverland-vim-theme'
 Plug 'vim-scripts/reloaded.vim'
 Plug 'vim-scripts/revolutions.vim'
+Plug 'axvr/photon.vim'
 call plug#end()
 
 "----GUI options---------------------------------
@@ -244,9 +244,6 @@ nnoremap <leader>e <esc>:e<space>
 " close buffer
 nnoremap <leader>x <esc>:bd<cr>
 " quit
-inoremap <c-w> <esc>:q<cr>
-nnoremap <c-w> <esc>:q<cr>
-vnoremap <c-w> <esc>:q<cr>
 nnoremap <leader>q <esc>:q<cr>
 " reload vimrc
 map <f5> :source $MYVIMRC<cr>
@@ -330,10 +327,10 @@ set termguicolors " <---only works in vim8
 " silent! color monochrome
 " silent! color monokai-phoenix
 " silent! color monotone
-" silent! color mudcandy
 " silent! color neonwave
 " silent! color neverland
 " silent! color orbital
+" silent! color photon
 " silent! color spacegray
 " silent! color space-vim-dark
 " silent! color srcery
