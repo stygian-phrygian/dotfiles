@@ -4,28 +4,28 @@
 call plug#begin()
 "----graphical improvements------------------------
 Plug 'ap/vim-buftabline'
-Plug 'tpope/vim-fugitive'                                 "git integration (works with the status bar above)
-Plug 'roman/golden-ratio'                                 "automatic window resizing to golden ratio
+Plug 'tpope/vim-fugitive'                                       "git integration (works with the status bar above)
+Plug 'roman/golden-ratio'                                       "automatic window resizing to golden ratio
 "----text motion-----------------------------------
-Plug 'tpope/vim-surround'                                 "change surrounding delimiters efficiently
-Plug 'tpope/vim-repeat'                                   "repeat actions correctly for plugins
-Plug 'easymotion/vim-easymotion'                          "jump around text *way* easier
+Plug 'tpope/vim-surround'                                       "change surrounding delimiters efficiently
+Plug 'tpope/vim-repeat'                                         "repeat actions correctly for plugins
+Plug 'easymotion/vim-easymotion'                                "jump around text *way* easier
 "----comment toggling------------------------------
 Plug 'tpope/vim-commentary'
 "----completion------------------------------------
 Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
-Plug 'luisjure/csound',  { 'for': ['csound'] }            " csound syntax highlighting/completion
-Plug 'rust-lang/rust.vim'                                 " rust
-Plug 'racer-rust/vim-racer'                               " rust completion
-Plug 'derekwyatt/vim-scala'                               " scala
-Plug 'rhysd/vim-crystal'                                  " crystal
-Plug 'fatih/vim-go'                                       " go
-Plug 'maksimr/vim-jsbeautify'                             " js formatter
-Plug 'Quramy/tsuquyomi'                                   " typescript mode
-Plug 'HerringtonDarkholme/yats.vim'                       " typescript highlighting
-Plug 'dart-lang/dart-vim-plugin'                          " dart
+Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
+Plug 'rust-lang/rust.vim'                                       " rust
+Plug 'racer-rust/vim-racer'                                     " rust completion
+Plug 'derekwyatt/vim-scala'                                     " scala
+Plug 'rhysd/vim-crystal'                                        " crystal
+Plug 'fatih/vim-go'                                             " go
+Plug 'maksimr/vim-jsbeautify'                                   " js formatter
+Plug 'Quramy/tsuquyomi'                                         " typescript mode
+Plug 'HerringtonDarkholme/yats.vim'                             " typescript highlighting
+Plug 'dart-lang/dart-vim-plugin'                                " dart
 "
 " nota bene: plug-installing the following python plugin isn't enough, you need
 " to find where it's installed, and then git submodule the necessary components
@@ -124,6 +124,18 @@ au FileType rust nmap <leader>t :Ctest <cr>
 let g:pymode_python = 'python3'
 " turn off errors window focus
 let g:pymode_lint_cwindow = 0
+" turn on documentation
+let g:pymode_doc = 1
+" bind key for documentation
+let g:pymode_doc_bind = '<leader>d'
+" turn on rope mode
+let g:pymode_rope = 1
+" turn on rope completion
+let g:pymode_rope_completion = 1
+" turn off auto-completion when a dot is typed
+let g:pymode_rope_complete_on_dot = 0
+" regenerate rope cache on saves
+let g:pymode_rope_regenerate_on_write = 1
 " autoformat python code
 autocmd BufWritePost *.py silent :PymodeLintAuto
 
@@ -136,6 +148,8 @@ let dart_style_guide = 2
 "--csound
 " fix weird issue with csound files not using foldmethod=manual
 autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo set foldmethod=manual
+" turn off line wrapping
+autocmd FileType csound setlocal formatoptions-=t
 
 "--easymotion
 let g:EasyMotion_smartcase=1
