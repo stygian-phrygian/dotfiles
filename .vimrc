@@ -86,6 +86,10 @@ if has("gui_running")
   endif
 endif
 
+"----turn off automatic backup-------------------
+set nobackup
+set noswapfile
+
 "----configure plugins----------------------------
 
 "--javascript
@@ -157,7 +161,10 @@ let g:EasyMotion_smartcase=1
 " if on, can't do <leader><leader> below as easymotion wants that
 let g:EasyMotion_do_mapping=0
 
-"----vim indentation/tab configuration------------
+"--goyo
+let g:goyo_width=85
+
+"----vim indentation/spacing configuration-------
 filetype plugin indent on
 " show existing tab with N spaces width
 set tabstop=4
@@ -173,30 +180,23 @@ set textwidth=76
 " this is turned off because it doesn't necessarily match the colorscheme colors
 " set colorcolumn=80
 
-"----miscellaneous-------------------------------
+"----miscellaneous display-----------------------
 " show commands (so we can see when timeouts happen)
 set showcmd
 " allow buffers to be hidden
+" (buffers persist when window onto buffer is switched)
 set hidden
 " turn off line wrapping
 set nowrap
 " turn on hybrid mode line numbers ----
 set number         " turn on line numbers
 set relativenumber " turn on relative line numbers
-" turn on case insensitivity unless caps are present
-set ignorecase
-set smartcase
-" move cursor to matched searches
-set incsearch
 " to display (some) invisible characters
 " type ':set !list' to toggle
 set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " british newline
 set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " american newline
 set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨       " no newline
 set list
-" turn off vim automatic backup
-set nobackup
-set noswapfile
 " turn on mouse
 set mouse=a
 " turn off folding for all files
@@ -208,7 +208,12 @@ set nofoldenable
 " http://stackoverflow.com/a/4277400
 set foldmethod=manual
 
-"----completion configuration--------------------
+"----completion/searching configuration----------
+" turn on case insensitivity unless caps are present
+set ignorecase
+set smartcase
+" move cursor to matched searches
+set incsearch
 " turn on omnicompletion
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
@@ -291,37 +296,10 @@ inoremap <silent> <s-up>    <esc><c-w>ki
 inoremap <silent> <s-down>  <esc><c-w>ji
 inoremap <silent> <s-right> <esc><c-w>li
 inoremap <silent> <s-left>  <esc><c-w>hi
-" easymotion mappings
+" easymotion plugin mappings
 nmap     <leader>f <plug>(easymotion-overwin-w)
-"
-" minimalist writer mode mappings (homebrewed)
-" turns off statusline, ruler (percentage thing in statusline)
-" line numbers, and that's it.
-"
-" create the toggle variable
-let s:minimalist_mode_on=0
-" create the function which toggles it
-function! ToggleMinimalistMode()
-  if s:minimalist_mode_on == 0
-    " if minimalist mode is off, toggle on
-    set laststatus=0
-    set noruler
-    set nonumber
-    set norelativenumber
-    let s:minimalist_mode_on=1
-  else
-    " else minimalist mode is on, toggle off
-    set laststatus=2
-    set ruler
-    set number
-    set relativenumber
-    let s:minimalist_mode_on=0
-  endif
-endfunction
-" mapping toggle minimalist mode
-" nnoremap <leader>- :call ToggleMinimalistMode()<cr>
+" goyo plugin mappings
 nnoremap <leader>- :silent! Goyo<cr>
-"
 " colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
@@ -333,7 +311,7 @@ nnoremap <f3>      :PrevColorScheme<cr>
 inoremap <f3> <esc>:PrevColorScheme<cr>i
 vnoremap <f3> <esc>:PrevColorScheme<cr>v
 
-"----statusline-----------------------------------
+"----statusline configuration---------------------
 set laststatus=2                " turn on status line
 set ttimeoutlen=1               " Fix the insert mode to normal mode delay
 set statusline=
@@ -345,7 +323,7 @@ set statusline+=%16.l           " current line number (min 16 characters)
 set statusline+=%4.c            " current col number  (min 4 characters)
 set statusline+=%8.p%%          " percentage scrolled through (min 8 characters)
 
-"----color scheme and syntax highlighting---------
+"----color scheme and syntax configuration--------
 " make background dark (might change color scheme slightly)
 syntax on
 set background=dark
