@@ -3,7 +3,7 @@
 " run :PlugInstall" and restart vim
 call plug#begin()
 "----graphical improvements------------------------
-Plug 'ap/vim-buftabline'
+" Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-fugitive'                                       "git integration (works with the status bar above)
 Plug 'roman/golden-ratio'                                       "automatic window resizing to golden ratio
 "----text motion-----------------------------------
@@ -16,6 +16,7 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
+Plug 'junegunn/goyo.vim'                                        " centers text & removes distraction (for writing)
 Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
 Plug 'rust-lang/rust.vim'                                       " rust
 Plug 'racer-rust/vim-racer'                                     " rust completion
@@ -26,7 +27,6 @@ Plug 'maksimr/vim-jsbeautify'                                   " js formatter
 Plug 'Quramy/tsuquyomi'                                         " typescript mode
 Plug 'HerringtonDarkholme/yats.vim'                             " typescript highlighting
 Plug 'dart-lang/dart-vim-plugin'                                " dart
-"
 " nota bene: plug-installing the following python plugin isn't enough, you need
 " to find where it's installed, and then git submodule the necessary components
 " (namely for completion with the rope submodule)
@@ -168,7 +168,7 @@ set shiftwidth=4
 " insert spaces instead of tab characters
 set expandtab
 " textwidth (what width paragraphs are formatted to)
-set textwidth=79
+set textwidth=76
 " provide a column indicator of text width
 " this is turned off because it doesn't necessarily match the colorscheme colors
 " set colorcolumn=80
@@ -293,6 +293,35 @@ inoremap <silent> <s-right> <esc><c-w>li
 inoremap <silent> <s-left>  <esc><c-w>hi
 " easymotion mappings
 nmap     <leader>f <plug>(easymotion-overwin-w)
+"
+" minimalist writer mode mappings (homebrewed)
+" turns off statusline, ruler (percentage thing in statusline)
+" line numbers, and that's it.
+"
+" create the toggle variable
+let s:minimalist_mode_on=0
+" create the function which toggles it
+function! ToggleMinimalistMode()
+  if s:minimalist_mode_on == 0
+    " if minimalist mode is off, toggle on
+    set laststatus=0
+    set noruler
+    set nonumber
+    set norelativenumber
+    let s:minimalist_mode_on=1
+  else
+    " else minimalist mode is on, toggle off
+    set laststatus=2
+    set ruler
+    set number
+    set relativenumber
+    let s:minimalist_mode_on=0
+  endif
+endfunction
+" mapping toggle minimalist mode
+" nnoremap <leader>- :call ToggleMinimalistMode()<cr>
+nnoremap <leader>- :silent! Goyo<cr>
+"
 " colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
