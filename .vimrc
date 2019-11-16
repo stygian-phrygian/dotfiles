@@ -3,7 +3,7 @@
 " run :PlugInstall" and restart vim
 call plug#begin()
 "----graphical improvements------------------------
-" Plug 'ap/vim-buftabline'
+Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-fugitive'                                       "git integration (works with the status bar above)
 Plug 'roman/golden-ratio'                                       "automatic window resizing to golden ratio
 "----text motion-----------------------------------
@@ -16,7 +16,6 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-scripts/L9'
 Plug 'vim-scripts/AutoComplPop'
 "----language specific improvements----------------
-Plug 'junegunn/goyo.vim'                                        " centers text & removes distraction (for writing)
 Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
 Plug 'rust-lang/rust.vim'                                       " rust
 Plug 'racer-rust/vim-racer'                                     " rust completion
@@ -161,9 +160,6 @@ let g:EasyMotion_smartcase=1
 " if on, can't do <leader><leader> below as easymotion wants that
 let g:EasyMotion_do_mapping=0
 
-"--goyo
-let g:goyo_width=85
-
 "----vim indentation/spacing configuration-------
 filetype plugin indent on
 " show existing tab with N spaces width
@@ -175,7 +171,7 @@ set shiftwidth=4
 " insert spaces instead of tab characters
 set expandtab
 " textwidth (what width paragraphs are formatted to)
-set textwidth=76
+set textwidth=79
 " provide a column indicator of text width
 " this is turned off because it doesn't necessarily match the colorscheme colors
 " set colorcolumn=80
@@ -298,8 +294,6 @@ inoremap <silent> <s-right> <esc><c-w>li
 inoremap <silent> <s-left>  <esc><c-w>hi
 " easymotion plugin mappings
 nmap     <leader>f <plug>(easymotion-overwin-w)
-" goyo plugin mappings
-nnoremap <leader>- :silent! Goyo<cr>
 " colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
