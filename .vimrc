@@ -25,7 +25,7 @@ Plug 'fatih/vim-go'                                             " go
 Plug 'maksimr/vim-jsbeautify'                                   " js formatter
 Plug 'Quramy/tsuquyomi'                                         " typescript mode
 Plug 'HerringtonDarkholme/yats.vim'                             " typescript highlighting
-Plug 'dart-lang/dart-vim-plugin'                                " dart
+Plug 'maxmellon/vim-jsx-pretty'
 " nota bene: plug-installing the following python plugin isn't enough, you need
 " to find where it's installed, and then git submodule the necessary components
 " (namely for completion with the rope submodule)
@@ -141,12 +141,6 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_rope_regenerate_on_write = 1
 " autoformat python code
 autocmd BufWritePost *.py silent :PymodeLintAuto
-
-"--dart
-" format the buffer on save
-let dart_format_on_save = 1
-" enable 2 space formatting as specified by dart style guide
-let dart_style_guide = 2
 
 "--csound
 " fix weird issue with csound files not using foldmethod=manual
