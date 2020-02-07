@@ -89,6 +89,9 @@ endif
 set nobackup
 set noswapfile
 
+"----turn off intro message-----------------------
+set shortmess+=I
+
 "----configure plugins----------------------------
 
 "--javascript
