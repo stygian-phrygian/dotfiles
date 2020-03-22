@@ -13,8 +13,9 @@ Plug 'easymotion/vim-easymotion'                                "jump around tex
 "----comment toggling------------------------------
 Plug 'tpope/vim-commentary'
 "----completion------------------------------------
-Plug 'vim-scripts/L9'
-Plug 'vim-scripts/AutoComplPop'
+" Plug 'vim-scripts/L9'
+" Plug 'vim-scripts/AutoComplPop'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': 'javascript', } " completion for ts/js
 "----language specific improvements----------------
 Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
 Plug 'rust-lang/rust.vim'                                       " rust
@@ -22,10 +23,11 @@ Plug 'racer-rust/vim-racer'                                     " rust completio
 Plug 'derekwyatt/vim-scala'                                     " scala
 Plug 'rhysd/vim-crystal'                                        " crystal
 Plug 'fatih/vim-go'                                             " go
+Plug 'pangloss/vim-javascript'                                  " js
 Plug 'maksimr/vim-jsbeautify'                                   " js formatter
+Plug 'maxmellon/vim-jsx-pretty'                                 " jsx highlighting and formatter
 Plug 'Quramy/tsuquyomi'                                         " typescript mode
 Plug 'HerringtonDarkholme/yats.vim'                             " typescript highlighting
-Plug 'maxmellon/vim-jsx-pretty'
 " nota bene: plug-installing the following python plugin isn't enough, you need
 " to find where it's installed, and then git submodule the necessary components
 " (namely for completion with the rope submodule)
@@ -103,8 +105,23 @@ function! SmartJsBeautify()
 endfunction
 " auto format on js filetype buffer write
 autocmd BufWritePost *.js silent :call SmartJsBeautify()
+"
+" correct the object formatting of js-beautify
+" objects with one property should be on one line
+"
+" NB. To configure vim-jsbeautifier, we must locate the .editorconfig file
+" conveniently hidden away in the plugin directory which for me is
+" ~/.vim/plugged/vim-jsbeautify/plugin/.editorconfig
+" In this file, under the header labeled: [**.js],
+" write the following:
+" brace_style = collapse-preserve-inline
+"
+" I want to applaud the plugin writer for such an immaculately easy
+" customization.  Why bother containing everything in the vimrc really when I
+" can burn more of my time hunting down externalities.
 
 "--golang
+" vim-go requires you to first :GoInstallBinaries to get completion
 " tabs are displayed as 8 spaces (and we use tab characters not spaces)
 autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
 " vim-go mappings
