@@ -28,6 +28,7 @@ Plug 'maksimr/vim-jsbeautify'                                   " js formatter
 Plug 'maxmellon/vim-jsx-pretty'                                 " jsx highlighting and formatter
 Plug 'Quramy/tsuquyomi'                                         " typescript mode
 Plug 'HerringtonDarkholme/yats.vim'                             " typescript highlighting
+Plug 'tpope/vim-fireplace'
 " nota bene: plug-installing the following python plugin isn't enough, you need
 " to find where it's installed, and then git submodule the necessary components
 " (namely for completion with the rope submodule)
@@ -125,11 +126,11 @@ autocmd BufWritePost *.js silent :call SmartJsBeautify()
 " tabs are displayed as 8 spaces (and we use tab characters not spaces)
 autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
 " vim-go mappings
-au FileType go nmap <leader>r :GoRun % <cr>
-au FileType go nmap <leader>ie <plug>(go-iferr)
-au FileType go nmap <leader>b  <plug>(go-build)
-au FileType go nmap <leader>t  <plug>(go-test)
-au FileType go nmap <leader>c  <plug>(go-coverage)
+au FileType go nnoremap <leader>r :GoRun % <cr>
+au FileType go nnoremap <leader>ie <plug>(go-iferr)
+au FileType go nnoremap <leader>b  <plug>(go-build)
+au FileType go nnoremap <leader>t  <plug>(go-test)
+au FileType go nnoremap <leader>c  <plug>(go-coverage)
 let g:go_auto_type_info=1 "toggle automatic type info under the cursor
 
 "--rust
@@ -167,6 +168,8 @@ autocmd BufWritePost *.py silent :PymodeLintAuto
 autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo set foldmethod=manual
 " turn off line wrapping
 autocmd FileType csound setlocal formatoptions-=t
+" turn off relative line numbering which slows it down for some reason
+autocmd FileType csound set norelativenumber
 
 "--easymotion
 let g:EasyMotion_smartcase=1
@@ -275,7 +278,7 @@ nnoremap <leader>x <esc>:bd<cr>
 " quit
 nnoremap <leader>q <esc>:q<cr>
 " reload vimrc
-map <f5> :source $MYVIMRC<cr>
+noremap  <f5> :source $MYVIMRC<cr>
 " edit vimrc
 nnoremap <leader>v <esc>:e $MYVIMRC<cr>
 " command
@@ -283,8 +286,8 @@ nnoremap <leader><leader> <esc>:
 " help
 nnoremap <leader>h <esc>:h<space>
 " indent while keeping visual highlighting
-vmap > >gv
-vmap < <gv
+vnoremap > >gv
+vnoremap < <gv
 " toggle paste mode
 " https://stackoverflow.com/questions/13967356/vimrc-addition-to-toggle-set-paste/46768583#46768583
 nnoremap <leader>p :set invpaste<cr>
@@ -307,7 +310,7 @@ inoremap <silent> <s-down>  <esc><c-w>ji
 inoremap <silent> <s-right> <esc><c-w>li
 inoremap <silent> <s-left>  <esc><c-w>hi
 " easymotion plugin mappings
-nmap     <leader>f <plug>(easymotion-overwin-w)
+nnoremap <leader>f <plug>(easymotion-overwin-w)
 " colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
