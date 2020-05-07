@@ -314,9 +314,6 @@ nnoremap <leader>h <esc>:h<space>
 " indent while keeping visual highlighting
 vnoremap > >gv
 vnoremap < <gv
-" toggle paste mode
-" https://stackoverflow.com/questions/13967356/vimrc-addition-to-toggle-set-paste/46768583#46768583
-nnoremap <leader>p :set invpaste<cr>
 " remap C-PageDown and C-PageUp to buffer movement (much like tabs in a web browser)
 " NB. for future readers on the distinctions among buffers, windows,
 " and tabs (a la vim).  Buffers are just a buffer of text (obviously), windows
