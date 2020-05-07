@@ -5,7 +5,6 @@ call plug#begin()
 "----graphical improvements------------------------
 Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-fugitive'                                       "git integration (works with the status bar above)
-Plug 'roman/golden-ratio'                                       "automatic window resizing to golden ratio
 "----text motion-----------------------------------
 Plug 'tpope/vim-surround'                                       "change surrounding delimiters efficiently
 Plug 'tpope/vim-repeat'                                         "repeat actions correctly for plugins
@@ -88,6 +87,12 @@ if has("gui_running")
   endif
 endif
 
+"----netrw configuration-------------------------
+" disable the banner
+let g:netrw_banner=0
+" view file listing as a tree
+let g:netrw_liststyle=3
+
 "----turn off automatic backup-------------------
 set nobackup
 set noswapfile
@@ -104,13 +109,17 @@ function! SmartJsBeautify()
     call JsBeautify()
     call winrestview(saved_view)
 endfunction
-" auto format on js filetype buffer write
-autocmd BufWritePost *.js silent :call SmartJsBeautify()
+augroup filetype_js
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    " auto format on js filetype buffer write
+    autocmd BufWritePost *.js silent :call SmartJsBeautify()
+augroup END
 "
 " correct the object formatting of js-beautify
 " objects with one property should be on one line
 "
-" NB. To configure vim-jsbeautifier, we must locate the .editorconfig file
+" To configure vim-jsbeautifier, we must locate the .editorconfig file
 " conveniently hidden away in the plugin directory which for me is
 " ~/.vim/plugged/vim-jsbeautify/plugin/.editorconfig
 " In this file, under the header labeled: [**.js],
@@ -122,16 +131,21 @@ autocmd BufWritePost *.js silent :call SmartJsBeautify()
 " can burn more of my time hunting down externalities.
 
 "--golang
-" vim-go requires you to first :GoInstallBinaries to get completion
-" tabs are displayed as 8 spaces (and we use tab characters not spaces)
-autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
-" vim-go mappings
-au FileType go nnoremap <leader>r :GoRun % <cr>
-au FileType go nnoremap <leader>ie <plug>(go-iferr)
-au FileType go nnoremap <leader>b  <plug>(go-build)
-au FileType go nnoremap <leader>t  <plug>(go-test)
-au FileType go nnoremap <leader>c  <plug>(go-coverage)
-let g:go_auto_type_info=1 "toggle automatic type info under the cursor
+augroup filetype_go
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    " vim-go requires you to first :GoInstallBinaries to get completion
+    " tabs are displayed as 8 spaces (and we use tab characters not spaces)
+    autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
+    " vim-go mappings
+    autocmd FileType go nnoremap <leader>r :GoRun % <cr>
+    autocmd FileType go nnoremap <leader>ie <plug>(go-iferr)
+    autocmd FileType go nnoremap <leader>b  <plug>(go-build)
+    autocmd FileType go nnoremap <leader>t  <plug>(go-test)
+    autocmd FileType go nnoremap <leader>c  <plug>(go-coverage)
+augroup END
+" toggle automatic type info under the cursor
+let g:go_auto_type_info = 1
 
 "--rust
 " turn on auto-format  on save
@@ -139,9 +153,13 @@ let g:rustfmt_autosave = 1
 " turn on racer
 let g:racer_cmd = '~/.cargo/bin/racer'
 let g:racer_experimental_completer = 1
-au FileType rust nmap <leader>r :Crun <cr>
-au FileType rust nmap <leader>b :Cbuild <cr>
-au FileType rust nmap <leader>t :Ctest <cr>
+augroup filetype_rust
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    autocmd FileType rust nmap <leader>r :Crun <cr>
+    autocmd FileType rust nmap <leader>b :Cbuild <cr>
+    autocmd FileType rust nmap <leader>t :Ctest <cr>
+augroup END
 
 "--python
 " enable python 3 syntax checking
@@ -160,16 +178,24 @@ let g:pymode_rope_completion = 1
 let g:pymode_rope_complete_on_dot = 0
 " regenerate rope cache on saves
 let g:pymode_rope_regenerate_on_write = 1
-" autoformat python code
-autocmd BufWritePost *.py silent :PymodeLintAuto
+augroup filetype_python
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    " autoformat python code
+    autocmd BufWritePost *.py silent :PymodeLintAuto
+augroup END
 
 "--csound
-" fix weird issue with csound files not using foldmethod=manual
-autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo set foldmethod=manual
-" turn off line wrapping
-autocmd FileType csound setlocal formatoptions-=t
-" turn off relative line numbering which slows it down for some reason
-autocmd FileType csound set norelativenumber
+augroup filetype_csound
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    " fix weird issue with csound files not using foldmethod=manual
+    autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo set foldmethod=manual
+    " turn off line wrapping
+    autocmd FileType csound setlocal formatoptions-=t
+    " turn off relative line numbering which slows it down for some reason
+    autocmd FileType csound set norelativenumber
+augroup END
 
 "--easymotion
 let g:EasyMotion_smartcase=1
@@ -292,6 +318,9 @@ vnoremap < <gv
 " https://stackoverflow.com/questions/13967356/vimrc-addition-to-toggle-set-paste/46768583#46768583
 nnoremap <leader>p :set invpaste<cr>
 " remap C-PageDown and C-PageUp to buffer movement (much like tabs in a web browser)
+" NB. for future readers on the distinctions among buffers, windows,
+" and tabs (a la vim).  Buffers are just a buffer of text (obviously), windows
+" are a view on that text (you seeing the buffer), and tabs are an arrangement of windows.
 " It turns out remapping C-Tab and C-S-Tab are tricky, see this:
 " http://stackoverflow.com/questions/2686766/mapping-c-tab-in-my-vimrc-fails-in-ubuntu
 nnoremap <c-pagedown>      :bnext<cr>
@@ -300,7 +329,7 @@ inoremap <c-pagedown> <esc>:bnext<cr>
 inoremap <c-pageup>   <esc>:bprevious<cr>
 vnoremap <c-pagedown>      :bnext<cr>
 vnoremap <c-pageup>        :bprevious<cr>
-" map Shift-Arrow to buffer switching
+" map Shift-Arrow to window switching
 nnoremap <silent> <s-up>    <c-w>k
 nnoremap <silent> <s-down>  <c-w>j
 nnoremap <silent> <s-right> <c-w>l
@@ -309,6 +338,15 @@ inoremap <silent> <s-up>    <esc><c-w>ki
 inoremap <silent> <s-down>  <esc><c-w>ji
 inoremap <silent> <s-right> <esc><c-w>li
 inoremap <silent> <s-left>  <esc><c-w>hi
+" map Ctrl-Shift-Arrow to window dimensions
+nnoremap <silent> <c-s-up>    <c-w>+
+nnoremap <silent> <c-s-down>  <c-w>-
+nnoremap <silent> <c-s-right> <c-w>>
+nnoremap <silent> <c-s-left>  <c-w><
+inoremap <silent> <c-s-up>    <esc><c-w>+
+inoremap <silent> <c-s-down>  <esc><c-w>-
+inoremap <silent> <c-s-right> <esc><c-w>>
+inoremap <silent> <c-s-left>  <esc><c-w><
 " easymotion plugin mappings
 nnoremap <leader>f <plug>(easymotion-overwin-w)
 " colorscheme-switcher plugin mappings
@@ -345,7 +383,7 @@ set termguicolors " <---only works in vim8
 " silent! color antares
 " silent! color apprentice
 " silent! color Atelier_PlateauDark
-" silent! color Base2Tone_CaveDark
+" silent! color Base2Tone_MotelDark
 " silent! color dracula
 " silent! color evening
 " silent! color fahrenheit
