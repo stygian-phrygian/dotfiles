@@ -56,7 +56,7 @@ Plug 'jnurmine/Zenburn/'
 Plug 'fxn/vim-monochrome'
 Plug 'Lokaltog/vim-monotone'
 Plug 'morhetz/gruvbox'
-Plug 'romainl/flattened'           " <--- solarized but without the bullshit
+Plug 'romainl/flattened'           " <--- solarized simplified
 Plug 'fcpg/vim-orbital'
 Plug 'fcpg/vim-fahrenheit'
 Plug 'fcpg/vim-farout'
@@ -71,13 +71,28 @@ Plug 'vim-scripts/revolutions.vim'
 Plug 'axvr/photon.vim'
 call plug#end()
 
-"----GUI options---------------------------------
+"-----------------------------------------------
+" configure options ----------------------------
+"-----------------------------------------------
+" turn off intro message
+set shortmess+=I
+" turn syntax highlighting on
+syntax on
+" make background dark (might change color scheme slightly)
+set background=dark
+" set 256 colors (if not already set)
+set t_Co=256
+set termguicolors
+" turn off automatic backup
+set nobackup
+set noswapfile
+" miscellaneous gui options
 if has("gui_running")
-  " turn off GUI widgets (for gvim)
-  set guioptions-=m  "menu bar
-  set guioptions-=T  "toolbar
-  set guioptions-=r  "scrollbar
-  " set fonts (cross-platform)
+  " turn off GUI widgets
+  set guioptions-=m  " menu bar
+  set guioptions-=T  " toolbar
+  set guioptions-=r  " scrollbar
+  " set default GUI fonts (cross-platform)
   if has("gui_gtk2")       " linux
     set guifont=Monospace\ 18
   elseif has("gui_win32")  " windows
@@ -86,21 +101,73 @@ if has("gui_running")
     set guifont=Menlo\ Regular:h18
   endif
 endif
+" turn on filetype detection, plugin, and indentation
+" https://vi.stackexchange.com/a/10125
+filetype plugin indent on
+" show existing tab with N spaces width
+set tabstop=4
+" when backspacing delete N spaces width
+set softtabstop=4
+" when indenting with '<' or '>' use N spaces width
+set shiftwidth=4
+" insert spaces instead of tab characters
+set expandtab
+" textwidth (what width paragraphs are formatted to)
+set textwidth=79
+" provide a column indicator of text width
+" this is turned off because it doesn't necessarily match the colorscheme colors
+" set colorcolumn=80
+" show commands (so we can see when timeouts happen)
+set showcmd
+" allow buffers to be hidden
+" (buffers persist when not displayed by a window)
+set hidden
+" turn off line wrapping
+set nowrap
+" turn on hybrid mode line numbers
+set number         " turn on line numbers
+set relativenumber " turn on relative line numbers
+" to display (some) invisible characters
+" type ':set !list' to toggle
+set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " british newline
+set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " american newline
+set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨       " no newline
+set list
+" turn on mouse
+set mouse=a
+" turn off folding for all files
+set nofoldenable
+" vim's ACP plugin is painfully slow unless this is used
+" solution found on this page:
+" http://stackoverflow.com/questions/2169645/vims-autocomplete-is-excruciatingly-slow
+" exact link to specific answer (on same page above):
+" http://stackoverflow.com/a/4277400
+set foldmethod=manual
+" turn on case insensitivity unless caps are present
+set ignorecase
+set smartcase
+" move cursor to matched searches
+set incsearch
+" set statusline
+set laststatus=2                " turn on status line
+set ttimeoutlen=1               " Fix the insert mode to normal mode delay
+set statusline=
+set statusline+=%f              " file name
+set statusline+=%m              " is modified?
+set statusline+=\ %y            " file type
+set statusline+=%=              " switching to right section
+set statusline+=\ %16.l         " current line number (min 16 characters)
+set statusline+=\ %4.c          " current col number  (min 4 characters)
+set statusline+=%8.p%%          " percentage scrolled through (min 8 characters)
 
-"----netrw configuration-------------------------
+"-----------------------------------------------
+" configure plugins ----------------------------
+"-----------------------------------------------
+"--netrw
 " disable the banner
 let g:netrw_banner=0
 " view file listing as a tree
 let g:netrw_liststyle=3
-
-"----turn off automatic backup-------------------
-set nobackup
-set noswapfile
-
-"----turn off intro message-----------------------
-set shortmess+=I
-
-"----configure plugins----------------------------
 
 "--javascript
 " create a function which formats THEN correctly returns the cursor position
@@ -203,58 +270,8 @@ let g:EasyMotion_smartcase=1
 " if on, can't do <leader><leader> below as easymotion wants that
 let g:EasyMotion_do_mapping=0
 
-"----vim indentation/spacing configuration-------
-filetype plugin indent on
-" show existing tab with N spaces width
-set tabstop=4
-" when backspacing delete N spaces width
-set softtabstop=4
-" when indenting with '<' or '>' use N spaces width
-set shiftwidth=4
-" insert spaces instead of tab characters
-set expandtab
-" textwidth (what width paragraphs are formatted to)
-set textwidth=79
-" provide a column indicator of text width
-" this is turned off because it doesn't necessarily match the colorscheme colors
-" set colorcolumn=80
-
-"----miscellaneous display-----------------------
-" show commands (so we can see when timeouts happen)
-set showcmd
-" allow buffers to be hidden
-" (buffers persist when window onto buffer is switched)
-set hidden
-" turn off line wrapping
-set nowrap
-" turn on hybrid mode line numbers ----
-set number         " turn on line numbers
-set relativenumber " turn on relative line numbers
-" to display (some) invisible characters
-" type ':set !list' to toggle
-set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " british newline
-set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " american newline
-set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨       " no newline
-set list
-" turn on mouse
-set mouse=a
-" turn off folding for all files
-set nofoldenable
-" vim's ACP plugin is painfully slow unless this is used
-" solution found on this page:
-" http://stackoverflow.com/questions/2169645/vims-autocomplete-is-excruciatingly-slow
-" exact link to specific answer (on same page above):
-" http://stackoverflow.com/a/4277400
-set foldmethod=manual
 
 "----completion/searching configuration----------
-" turn on case insensitivity unless caps are present
-set ignorecase
-set smartcase
-" move cursor to matched searches
-set incsearch
-" turn on omnicompletion
-filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 " make omni-completion pop-up menu match longest
 " as well as don't select an option initially
@@ -294,7 +311,9 @@ inoremap <expr> <up>       pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <expr> <pagedown> pumvisible() ? "\<pagedown>\<c-p>\<c-n>" : "\<pagedown>"
 inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>" : "\<pageup>"
 
-"----mappings-------------------------------------
+"------------------------------------------------
+" configure mappings ----------------------------
+"------------------------------------------------
 " save file
 nnoremap <leader>w <esc>:w<cr>
 " edit file
@@ -357,26 +376,10 @@ nnoremap <f3>      :PrevColorScheme<cr>
 inoremap <f3> <esc>:PrevColorScheme<cr>i
 vnoremap <f3> <esc>:PrevColorScheme<cr>v
 
-"----statusline configuration---------------------
-set laststatus=2                " turn on status line
-set ttimeoutlen=1               " Fix the insert mode to normal mode delay
-set statusline=
-set statusline+=%f              " file name
-set statusline+=%m              " is modified?
-set statusline+=\ %y            " file type
-set statusline+=%=              " switching to right section
-set statusline+=%16.l           " current line number (min 16 characters)
-set statusline+=%4.c            " current col number  (min 4 characters)
-set statusline+=%8.p%%          " percentage scrolled through (min 8 characters)
-
-"----color scheme and syntax configuration--------
-" make background dark (might change color scheme slightly)
-syntax on
-set background=dark
-" set 256 colors (if not already set)
-set t_Co=256
-set termguicolors " <---only works in vim8
-" set colorscheme and fail silently otherwise
+"------------------------------------------------
+" configure colorscheme -------------------------
+"------------------------------------------------
+" select colorscheme and fail silently otherwise
 " silent! color antares
 " silent! color apprentice
 " silent! color Atelier_PlateauDark
