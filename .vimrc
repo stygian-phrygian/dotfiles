@@ -76,14 +76,7 @@ call plug#end()
 "-----------------------------------------------
 " turn off intro message
 set shortmess+=I
-" turn syntax highlighting on
-syntax on
-" make background dark (might change color scheme slightly)
-set background=dark
-" set 256 colors (if not already set)
-set t_Co=256
-set termguicolors
-" turn off automatic backup
+" turn off automatic backup and hidden swap file
 set nobackup
 set noswapfile
 " miscellaneous gui options
@@ -148,6 +141,13 @@ set ignorecase
 set smartcase
 " move cursor to matched searches
 set incsearch
+" turn on syntax highlighting
+syntax on
+" must set this for color to work correctly
+set background=dark
+" set 256 colors (if not already set)
+set t_Co=256
+set termguicolors
 " set statusline
 set laststatus=2                " turn on status line
 set ttimeoutlen=1               " Fix the insert mode to normal mode delay
@@ -339,12 +339,14 @@ vnoremap < <gv
 " are a view on that text (you seeing the buffer), and tabs are an arrangement of windows.
 " It turns out remapping C-Tab and C-S-Tab are tricky, see this:
 " http://stackoverflow.com/questions/2686766/mapping-c-tab-in-my-vimrc-fails-in-ubuntu
-nnoremap <c-pagedown>      :bnext<cr>
-nnoremap <c-pageup>        :bprevious<cr>
-inoremap <c-pagedown> <esc>:bnext<cr>
-inoremap <c-pageup>   <esc>:bprevious<cr>
-vnoremap <c-pagedown>      :bnext<cr>
-vnoremap <c-pageup>        :bprevious<cr>
+nnoremap <c-pagedown>           :bnext<cr>
+nnoremap <c-pageup>             :bprevious<cr>
+inoremap <c-pagedown>      <esc>:bnext<cr>
+inoremap <c-pageup>        <esc>:bprevious<cr>
+vnoremap <c-pagedown>           :bnext<cr>
+vnoremap <c-pageup>             :bprevious<cr>
+tnoremap <c-pagedown> <c-\><c-n>:bnext<cr>
+tnoremap <c-pageup>   <c-\><c-n>:bprevious<cr>
 " map Shift-Arrow to window switching
 nnoremap <silent> <s-up>    <c-w>k
 nnoremap <silent> <s-down>  <c-w>j
@@ -354,6 +356,10 @@ inoremap <silent> <s-up>    <esc><c-w>ki
 inoremap <silent> <s-down>  <esc><c-w>ji
 inoremap <silent> <s-right> <esc><c-w>li
 inoremap <silent> <s-left>  <esc><c-w>hi
+tnoremap <silent> <s-up>    <c-w>k
+tnoremap <silent> <s-down>  <c-w>j
+tnoremap <silent> <s-right> <c-w>l
+tnoremap <silent> <s-left>  <c-w>h
 " map Ctrl-Shift-Arrow to window dimensions
 nnoremap <silent> <c-s-up>    <c-w>+
 nnoremap <silent> <c-s-down>  <c-w>-
@@ -363,6 +369,10 @@ inoremap <silent> <c-s-up>    <esc><c-w>+
 inoremap <silent> <c-s-down>  <esc><c-w>-
 inoremap <silent> <c-s-right> <esc><c-w>>
 inoremap <silent> <c-s-left>  <esc><c-w><
+tnoremap <silent> <c-s-up>    <c-w>+
+tnoremap <silent> <c-s-down>  <c-w>-
+tnoremap <silent> <c-s-right> <c-w>>
+tnoremap <silent> <c-s-left>  <c-w><
 " easymotion plugin mappings
 nnoremap <leader>f <plug>(easymotion-overwin-w)
 " colorscheme-switcher plugin mappings
