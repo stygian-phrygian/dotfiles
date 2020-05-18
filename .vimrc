@@ -105,6 +105,10 @@ set softtabstop=4
 set shiftwidth=4
 " insert spaces instead of tab characters
 set expandtab
+" tab inserts shiftwidth amount of spaces
+set smarttab
+" make backspace not insane
+set backspace=indent,eol,start
 " textwidth (what width paragraphs are formatted to)
 set textwidth=79
 " provide a column indicator of text width
@@ -141,6 +145,10 @@ set ignorecase
 set smartcase
 " move cursor to matched searches
 set incsearch
+" turn off completion scanning current/included files
+set complete-=i
+" turn off interpreting leading zero numbers as octal
+set nrformats-=octal
 " turn on syntax highlighting
 syntax on
 " must set this for color to work correctly
