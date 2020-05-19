@@ -79,6 +79,16 @@ set shortmess+=I
 " turn off automatic backup and hidden swap file
 set nobackup
 set noswapfile
+" turn on syntax highlighting
+syntax on
+" must set this for color to work correctly
+set background=dark
+" set 256 colors (if not already set)
+set t_Co=256
+set termguicolors
+" turn on filetype detection, plugin, and indentation
+" https://vi.stackexchange.com/a/10125
+filetype plugin indent on
 " miscellaneous gui options
 if has("gui_running")
   " turn off GUI widgets
@@ -94,9 +104,6 @@ if has("gui_running")
     set guifont=Menlo\ Regular:h18
   endif
 endif
-" turn on filetype detection, plugin, and indentation
-" https://vi.stackexchange.com/a/10125
-filetype plugin indent on
 " show existing tab with N spaces width
 set tabstop=4
 " when backspacing delete N spaces width
@@ -132,14 +139,8 @@ set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨       " no n
 set list
 " turn on mouse
 set mouse=a
-" turn off folding for all files
+" turn off folding for all files by default
 set nofoldenable
-" vim's ACP plugin is painfully slow unless this is used
-" solution found on this page:
-" http://stackoverflow.com/questions/2169645/vims-autocomplete-is-excruciatingly-slow
-" exact link to specific answer (on same page above):
-" http://stackoverflow.com/a/4277400
-set foldmethod=manual
 " turn on case insensitivity unless caps are present
 set ignorecase
 set smartcase
@@ -147,15 +148,12 @@ set smartcase
 set incsearch
 " turn off completion scanning current/included files
 set complete-=i
+" turn on syntax completion
+set omnifunc=syntaxcomplete#Complete
+" make omni-completion pop-up menu match longest and don't select an option initially
+set completeopt=longest,menuone
 " turn off interpreting leading zero numbers as octal
 set nrformats-=octal
-" turn on syntax highlighting
-syntax on
-" must set this for color to work correctly
-set background=dark
-" set 256 colors (if not already set)
-set t_Co=256
-set termguicolors
 " set statusline
 set laststatus=2                " turn on status line
 set ttimeoutlen=1               " Fix the insert mode to normal mode delay
@@ -278,12 +276,9 @@ let g:EasyMotion_smartcase=1
 " if on, can't do <leader><leader> below as easymotion wants that
 let g:EasyMotion_do_mapping=0
 
-
-"----completion/searching configuration----------
-set omnifunc=syntaxcomplete#Complete
-" make omni-completion pop-up menu match longest
-" as well as don't select an option initially
-set completeopt=longest,menuone
+"------------------------------------------------
+" configure mappings ----------------------------
+"------------------------------------------------
 " smart tab completion lovingly stolen from here:
 "http://vim.wikia.com/wiki/Smart_mapping_for_tab_completion
 function! Smart_TabComplete()
@@ -318,10 +313,7 @@ inoremap <expr> <down>     pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <up>       pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <expr> <pagedown> pumvisible() ? "\<pagedown>\<c-p>\<c-n>" : "\<pagedown>"
 inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>" : "\<pageup>"
-
-"------------------------------------------------
-" configure mappings ----------------------------
-"------------------------------------------------
+"
 " save file
 nnoremap <leader>w <esc>:w<cr>
 " edit file
@@ -414,6 +406,7 @@ vnoremap <f3> <esc>:PrevColorScheme<cr>v
 " silent! color molokai
 " silent! color monochrome
 " silent! color monokai-phoenix
+" let g:monotone_color = [100, 50, 70] " to reset colors live call :Monotone 100 50 70
 " silent! color monotone
 " silent! color neonwave
 " silent! color neverland
