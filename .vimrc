@@ -235,6 +235,8 @@ augroup filetype_rust
 augroup END
 
 "--python
+" let longer lines remain
+let g:pymode_options_max_line_length = 160
 " enable python 3 syntax checking
 let g:pymode_python = 'python3'
 " turn off errors window focus
@@ -374,7 +376,8 @@ tnoremap <silent> <c-s-down>  <c-w>-
 tnoremap <silent> <c-s-right> <c-w>>
 tnoremap <silent> <c-s-left>  <c-w><
 " easymotion plugin mappings
-nnoremap <leader>f <plug>(easymotion-overwin-w)
+" must be nmap not nnoremap
+nmap <leader>f <plug>(easymotion-overwin-w)
 " colorscheme-switcher plugin mappings
 " disable F8=next color, shift-F8=previous color
 let g:colorscheme_switcher_define_mappings=0
