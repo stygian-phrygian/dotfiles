@@ -152,6 +152,9 @@ set complete-=i
 set omnifunc=syntaxcomplete#Complete
 " make omni-completion pop-up menu match longest and don't select an option initially
 set completeopt=longest,menuone
+" enhance command completion
+set wildmode=full
+set wildmenu
 " turn off interpreting leading zero numbers as octal
 set nrformats-=octal
 " set statusline
