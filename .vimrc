@@ -335,6 +335,8 @@ nnoremap <leader>v <esc>:e $MYVIMRC<cr>
 nnoremap <leader><leader> <esc>:
 " help
 nnoremap <leader>h <esc>:h<space>
+" terminal open (in vertical right window)
+nnoremap <leader>t <esc>:vertical botright terminal<cr>
 " indent while keeping visual highlighting
 vnoremap > >gv
 vnoremap < <gv
