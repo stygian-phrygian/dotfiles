@@ -2,73 +2,35 @@
 " put plugins to install (github repos) between begin() and end()
 " run :PlugInstall" and restart vim
 call plug#begin()
-"----graphical improvements------------------------
-Plug 'ap/vim-buftabline'
-Plug 'tpope/vim-fugitive'                                       "git integration (works with the status bar above)
-"----text motion-----------------------------------
-Plug 'tpope/vim-surround'                                       "change surrounding delimiters efficiently
-Plug 'tpope/vim-repeat'                                         "repeat actions correctly for plugins
-Plug 'easymotion/vim-easymotion'                                "jump around text *way* easier
-"----comment toggling------------------------------
-Plug 'tpope/vim-commentary'
-"----completion------------------------------------
-" Plug 'vim-scripts/L9'
-" Plug 'vim-scripts/AutoComplPop'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer', 'for': 'javascript', } " completion for ts/js
-"----language specific improvements----------------
+"----workflow--------------------------------------
+Plug 'tpope/vim-fugitive'                                       " git integration
+Plug 'tpope/vim-surround'                                       " change surrounding delimiters efficiently
+Plug 'tpope/vim-repeat'                                         " repeat actions correctly for plugins
+Plug 'tpope/vim-commentary'                                     " toggle comments
+Plug 'easymotion/vim-easymotion'                                " jump around text *way* easier
+Plug 'vim-airline/vim-airline'                                  " better status bar (works with git fugitive)
+"----languages-------------------------------------
+Plug 'xavierd/clang_complete'
 Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
 Plug 'rust-lang/rust.vim'                                       " rust
 Plug 'racer-rust/vim-racer'                                     " rust completion
-Plug 'derekwyatt/vim-scala'                                     " scala
-Plug 'rhysd/vim-crystal'                                        " crystal
 Plug 'fatih/vim-go'                                             " go
 Plug 'pangloss/vim-javascript'                                  " js
 Plug 'maksimr/vim-jsbeautify'                                   " js formatter
-Plug 'maxmellon/vim-jsx-pretty'                                 " jsx highlighting and formatter
-Plug 'Quramy/tsuquyomi'                                         " typescript mode
-Plug 'HerringtonDarkholme/yats.vim'                             " typescript highlighting
-Plug 'tpope/vim-fireplace'
-" nota bene: plug-installing the following python plugin isn't enough, you need
-" to find where it's installed, and then git submodule the necessary components
-" (namely for completion with the rope submodule)
-" run these commands
-" cd ~/.vim/plugged/python-mode/ # where it's likely installed
-" git clone --recurse-submodules https://github.com/python-mode/python-mode
-" git submodule update --init --recursive
-" completion works with rope via initializing a .ropeproject automatically
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'tpope/vim-fireplace'                                      " clojure
+Plug 'davidhalter/jedi-vim'                                     " python completion
+Plug 'psf/black'                                                " python formatter
 "----color themes----------------------------------
-" Plug 'flazz/vim-colorschemes'
-Plug 'xolox/vim-colorscheme-switcher'
-Plug 'xolox/vim-misc' " <--- this is required for the vim-colorscheme-switcher plugin above to work
-Plug 'dracula/vim'
 " Plug 'MidnaPeach/neonwave.vim'   " <--- colors don't set correctly for some reason
 Plug 'cinaeco/neonwave.vim'        " <--- these do however in this forked (modified) version
-Plug 'srcery-colors/srcery-vim'
-Plug 'Reewr/vim-monokai-phoenix'
-Plug 'dikiaap/minimalist'
-Plug 'tomasr/molokai'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'christophermca/meta5'
-Plug 'atelierbram/vim-colors_atelier-schemes'
-Plug 'atelierbram/Base2Tone-vim'
 Plug 'jnurmine/Zenburn/'
-Plug 'fxn/vim-monochrome'
-Plug 'Lokaltog/vim-monotone'
 Plug 'morhetz/gruvbox'
-Plug 'romainl/flattened'           " <--- solarized simplified
-Plug 'fcpg/vim-orbital'
-Plug 'fcpg/vim-fahrenheit'
 Plug 'fcpg/vim-farout'
-Plug 'Haron-Prime/evening_vim'
-Plug 'Haron-Prime/Antares'
 Plug 'whatyouhide/vim-gotham'
 Plug 'ajh17/Spacegray.vim'
-Plug 'romainl/Apprentice'
-Plug 'trapd00r/neverland-vim-theme'
-Plug 'vim-scripts/reloaded.vim'
-Plug 'vim-scripts/revolutions.vim'
 Plug 'axvr/photon.vim'
+Plug 'nikolvs/vim-sunbather'
+Plug 'kyoz/purify', { 'rtp': 'vim' }
 call plug#end()
 
 "-----------------------------------------------
@@ -91,18 +53,18 @@ set termguicolors
 filetype plugin indent on
 " miscellaneous gui options
 if has("gui_running")
-  " turn off GUI widgets
-  set guioptions-=m  " menu bar
-  set guioptions-=T  " toolbar
-  set guioptions-=r  " scrollbar
-  " set default GUI fonts (cross-platform)
-  if has("gui_gtk2")       " linux
+    " turn off GUI widgets
+    set guioptions-=m  " menu bar
+    set guioptions-=T  " toolbar
+    set guioptions-=r  " scrollbar
+    " set default GUI fonts (cross-platform)
+    if has("gui_gtk2")       " linux
     set guifont=Monospace\ 18
-  elseif has("gui_win32")  " windows
+    elseif has("gui_win32")  " windows
     set guifont=Luxi_Mono:h18:cANSI
-  elseif has("gui_macvim") " mac
+    elseif has("gui_macvim") " mac
     set guifont=Menlo\ Regular:h18
-  endif
+    endif
 endif
 " show existing tab with N spaces width
 set tabstop=4
@@ -172,6 +134,12 @@ set statusline+=%8.p%%          " percentage scrolled through (min 8 characters)
 "-----------------------------------------------
 " configure plugins ----------------------------
 "-----------------------------------------------
+"--c++
+let g:clang_library_path='/usr/lib/llvm-10/lib/libclang.so.1'
+
+"--airline
+let g:airline_symbols_ascii=1
+
 "--netrw
 " disable the banner
 let g:netrw_banner=0
@@ -238,29 +206,16 @@ augroup filetype_rust
 augroup END
 
 "--python
-" let longer lines remain
-let g:pymode_options_max_line_length = 160
-" enable python 3 syntax checking
-let g:pymode_python = 'python3'
-" turn off errors window focus
-let g:pymode_lint_cwindow = 0
-" turn on documentation
-let g:pymode_doc = 1
-" bind key for documentation
-let g:pymode_doc_bind = '<leader>d'
-" turn on rope mode
-let g:pymode_rope = 1
-" turn on rope completion
-let g:pymode_rope_completion = 1
-" turn off auto-completion when a dot is typed
-let g:pymode_rope_complete_on_dot = 0
-" regenerate rope cache on saves
-let g:pymode_rope_regenerate_on_write = 1
+" no automatic dot completion
+let g:jedi#popup_on_dot = 0
 augroup filetype_python
     " clear previous autocommands in this autocommand group
     autocmd!
-    " autoformat python code
-    autocmd BufWritePost *.py silent :PymodeLintAuto
+    " auto format python according to pep8
+    autocmd BufWritePre *.py execute ':Black'
+    " turn off jedi keybinding (which collides with this binding)
+    let g:jedi#rename_command = ""
+    autocmd FileType python nnoremap <leader>r :!"%:p"<cr>
 augroup END
 
 "--csound
@@ -325,7 +280,7 @@ nnoremap <leader>w <esc>:w<cr>
 nnoremap <leader>e <esc>:e<space>
 " close buffer
 nnoremap <leader>x <esc>:bd<cr>
-" quit
+" close window or quit if last window
 nnoremap <leader>q <esc>:q<cr>
 " reload vimrc
 noremap  <f5> :source $MYVIMRC<cr>
@@ -337,6 +292,14 @@ nnoremap <leader><leader> <esc>:
 nnoremap <leader>h <esc>:h<space>
 " terminal open (in vertical right window)
 nnoremap <leader>t <esc>:vertical botright terminal<cr>
+" make <c-^> (switch to alternate-file (the last buffer)) work in terminal
+tnoremap <c-^> <c-w>:b#<cr>
+tnoremap <c-6> <c-w>:b#<cr>
+" make ctrl-d work as it does in terminal
+tnoremap <c-d> <c-d>
+tnoremap <c-^> <c-w>:b#<cr>
+" terminal enter normal mode https://github.com/vim/vim/issues/2216#issuecomment-337566816
+tnoremap <esc><esc> <c-\><c-n>
 " indent while keeping visual highlighting
 vnoremap > >gv
 vnoremap < <gv
@@ -352,8 +315,8 @@ inoremap <c-pagedown>      <esc>:bnext<cr>
 inoremap <c-pageup>        <esc>:bprevious<cr>
 vnoremap <c-pagedown>           :bnext<cr>
 vnoremap <c-pageup>             :bprevious<cr>
-tnoremap <c-pagedown> <c-\><c-n>:bnext<cr>
-tnoremap <c-pageup>   <c-\><c-n>:bprevious<cr>
+tnoremap <c-pagedown>      <c-w>:bnext<cr>
+tnoremap <c-pageup>        <c-w>:bprevious<cr>
 " map Shift-Arrow to window switching
 nnoremap <silent> <s-up>    <c-w>k
 nnoremap <silent> <s-down>  <c-w>j
@@ -383,47 +346,18 @@ tnoremap <silent> <c-s-left>  <c-w><
 " easymotion plugin mappings
 " must be nmap not nnoremap
 nmap <leader>f <plug>(easymotion-overwin-w)
-" colorscheme-switcher plugin mappings
-" disable F8=next color, shift-F8=previous color
-let g:colorscheme_switcher_define_mappings=0
-" new mappings are:
-nnoremap <f4>      :NextColorScheme<cr>
-inoremap <f4> <esc>:NextColorScheme<cr>i
-vnoremap <f4> <esc>:NextColorScheme<cr>v
-nnoremap <f3>      :PrevColorScheme<cr>
-inoremap <f3> <esc>:PrevColorScheme<cr>i
-vnoremap <f3> <esc>:PrevColorScheme<cr>v
 
 "------------------------------------------------
 " configure colorscheme -------------------------
 "------------------------------------------------
 " select colorscheme and fail silently otherwise
-" silent! color antares
-" silent! color apprentice
-" silent! color Atelier_PlateauDark
-" silent! color Base2Tone_MotelDark
-" silent! color dracula
-" silent! color evening
-" silent! color fahrenheit
 " silent! color farout
-" silent! color flattened_dark
 " silent! color gotham
 " silent! color gruvbox
-" silent! color meta5
-" silent! color minimalist
-" silent! color molokai
-" silent! color monochrome
-" silent! color monokai-phoenix
-" let g:monotone_color = [100, 50, 70] " to reset colors live call :Monotone 100 50 70
-" silent! color monotone
 " silent! color neonwave
-" silent! color neverland
-" silent! color orbital
 " silent! color photon
+" silent! color purify
 " silent! color spacegray
-" silent! color space-vim-dark
-" silent! color srcery
-" silent! color reloaded
-" silent! color revolutions
+" silent! color sunbather
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
 silent! color zenburn
