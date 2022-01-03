@@ -224,9 +224,9 @@ augroup filetype_python
     " turn off jedi keybindings
     let g:jedi#rename_command = ""
     let g:jedi#goto_command = "gd"
-    let g:jedi#goto_assignments = ""
-    let g:jedi#goto_stubs = ""
-    let g:jedi#usages = ""
+    let g:jedi#goto_assignments_command = ""
+    let g:jedi#goto_stubs_command = ""
+    " let g:jedi#usages_command = ""
 augroup END
 
 "--csound
