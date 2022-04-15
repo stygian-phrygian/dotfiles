@@ -19,8 +19,6 @@ Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax 
 Plug 'rust-lang/rust.vim'                                       " rust syntax highlighting
 Plug 'racer-rust/vim-racer'                                     " rust completion
 Plug 'fatih/vim-go'                                             " go syntax highlighting/completion
-Plug 'pangloss/vim-javascript'                                  " js syntax highlighting
-Plug 'maksimr/vim-jsbeautify'                                   " js formatter
 Plug 'tpope/vim-fireplace'                                      " clojure highlighting/repl/completion
 Plug 'davidhalter/jedi-vim'                                     " python completion
 Plug 'psf/black'                                                " python formatter
@@ -55,21 +53,6 @@ set termguicolors
 " turn on filetype detection, plugin, and indentation
 " https://vi.stackexchange.com/a/10125
 filetype plugin indent on
-" miscellaneous gui options
-if has("gui_running")
-    " turn off GUI widgets
-    set guioptions-=m  " menu bar
-    set guioptions-=T  " toolbar
-    set guioptions-=r  " scrollbar
-    " set default GUI fonts (cross-platform)
-    if has("gui_gtk2")       " linux
-    set guifont=Monospace\ 18
-    elseif has("gui_win32")  " windows
-    set guifont=Luxi_Mono:h18:cANSI
-    elseif has("gui_macvim") " mac
-    set guifont=Menlo\ Regular:h18
-    endif
-endif
 " show existing tab with N spaces width
 set tabstop=4
 " when backspacing delete N spaces width
@@ -159,34 +142,12 @@ let g:netrw_liststyle=3
 
 "--c++
 let g:clang_library_path='/usr/lib/llvm-10/lib/libclang.so.1'
-
-"--javascript
-" create a function which formats THEN correctly returns the cursor position
-function! SmartJsBeautify()
-    let saved_view = winsaveview()
-    call JsBeautify()
-    call winrestview(saved_view)
-endfunction
-augroup filetype_js
-" clear previous autocommands in this autocommand group
-autocmd!
-" auto format on js filetype buffer write
-autocmd BufWritePost *.js silent :call SmartJsBeautify()
+augroup filetype_cpp
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    " avoid needing to press shift for scope operator
+    autocmd FileType cpp inoremap ;; ::
 augroup END
-"
-" correct the object formatting of js-beautify
-" objects with one property should be on one line
-"
-" To configure vim-jsbeautifier, we must locate the .editorconfig file
-" conveniently hidden away in the plugin directory which for me is
-" ~/.vim/plugged/vim-jsbeautify/plugin/.editorconfig
-" In this file, under the header labeled: [**.js],
-" write the following:
-" brace_style = collapse-preserve-inline
-"
-" I want to applaud the plugin writer for such an immaculately easy
-" customization.  Why bother containing everything in the vimrc really when I
-" can burn more of my time hunting down externalities.
 
 "--golang
 augroup filetype_go
@@ -306,6 +267,8 @@ nnoremap <leader>qq <esc>:qa!<cr>
 nnoremap <leader><leader> <esc>:
 " help
 nnoremap <leader>h <esc>:h<space>
+" make <tab> switch to alternate file in normal mode
+nnoremap <tab> <c-^>
 " make <c-^> (switch to alternate-file (the last buffer)) work in terminal
 tnoremap <c-^> <c-w>:b#<cr>
 tnoremap <c-6> <c-w>:b#<cr>
@@ -352,17 +315,30 @@ inoremap <c-s-pageup>   <esc>:tabmove -1<cr>
 inoremap <c-s-pagedown> <esc>:tabmove +1<cr>
 tnoremap <c-s-pageup>   <c-w>:tabmove -1<cr>
 tnoremap <c-s-pagedown> <c-w>:tabmove +1<cr>
-" easymotion plugin
-" must be nmap not nnoremap
-nmap <leader>f <plug>(easymotion-overwin-w)
-" goyo plugin
+" toggle spellchecking
+function! ToggleSpell()
+    set spell!
+    if &spell
+        echo 'spellcheck on'
+        nnoremap <buffer> s 1z=
+    else
+        echo 'spellcheck off'
+        nnoremap <buffer> s s
+    endif
+endfunction
+nnoremap <leader>s :call ToggleSpell()<cr>
+" goyo: toggle
 nnoremap <leader>y :Goyo<cr>
-" fzf plugin
+" easymotion: find (must be nmap not nnoremap)
+nmap <leader>f <plug>(easymotion-overwin-w)
+" fugitive: git blame
+nnoremap gb :Git blame<cr>
+" fzf: fuzzy find file
 nnoremap <leader>p :FZF!<cr>
-nnoremap <leader>g :grep!<space>
-if executable('rg')
-    nnoremap <leader>g :Rg!<space>
-endif
+" fzf: grep
+nnoremap <leader>g :Rg!<space>
+" fzf: grep <cword>
+nnoremap gh :Rg!<space><c-r><c-w><cr>
 
 "------------------------------------------------
 " configure colorscheme -------------------------
