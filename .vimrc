@@ -13,6 +13,7 @@ Plug 'easymotion/vim-easymotion'                                " jump around te
 Plug 'junegunn/goyo.vim'                                        " distraction free writing
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'                                         " fuzzy file finder (hopefully installed)
+Plug 'dense-analysis/ale'                                       " syntax linter
 "----languages-------------------------------------
 Plug 'xavierd/clang_complete'                                   " c++ completion
 Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
@@ -327,6 +328,7 @@ function! ToggleSpell()
     endif
 endfunction
 nnoremap <leader>s :call ToggleSpell()<cr>
+" -plugins---------------------------------------
 " goyo: toggle
 nnoremap <leader>y :Goyo<cr>
 " easymotion: find (must be nmap not nnoremap)
@@ -339,6 +341,10 @@ nnoremap <leader>p :FZF!<cr>
 nnoremap <leader>g :Rg!<space>
 " fzf: grep <cword>
 nnoremap gh :Rg!<space><c-r><c-w><cr>
+" ale: cycle warnings
+nnoremap ]a :ALENext<cr>
+nnoremap [a :ALEPrevious<cr>
+nnoremap <leader>a :ALEDetail<cr>
 
 "------------------------------------------------
 " configure colorscheme -------------------------
