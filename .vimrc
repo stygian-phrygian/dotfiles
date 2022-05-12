@@ -12,7 +12,7 @@ Plug 'tpope/vim-apathy'                                         " fix path
 Plug 'easymotion/vim-easymotion'                                " jump around text *way* easier
 Plug 'junegunn/goyo.vim'                                        " distraction free writing
 Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'                                         " fuzzy file finder (hopefully installed)
+Plug 'junegunn/fzf.vim'                                         " fuzzy file finder
 Plug 'dense-analysis/ale'                                       " syntax linter
 "----languages-------------------------------------
 Plug 'xavierd/clang_complete'                                   " c++ completion
@@ -24,8 +24,6 @@ Plug 'tpope/vim-fireplace'                                      " clojure highli
 Plug 'davidhalter/jedi-vim'                                     " python completion
 Plug 'psf/black'                                                " python formatter
 "----color themes----------------------------------
-" Plug 'MidnaPeach/neonwave.vim'   " <--- colors don't set correctly for some reason
-Plug 'cinaeco/neonwave.vim'        " <--- these do however in this forked (modified) version
 Plug 'jnurmine/Zenburn/'
 Plug 'morhetz/gruvbox'
 Plug 'fcpg/vim-farout'
@@ -344,6 +342,7 @@ nnoremap gh :Rg!<space><c-r><c-w><cr>
 " ale: cycle warnings
 nnoremap ]a :ALENext<cr>
 nnoremap [a :ALEPrevious<cr>
+" ale: print warning
 nnoremap <leader>a :ALEDetail<cr>
 
 "------------------------------------------------
@@ -353,7 +352,6 @@ nnoremap <leader>a :ALEDetail<cr>
 " silent! color farout
 " silent! color gotham
 " silent! color gruvbox
-" silent! color neonwave
 " silent! color photon
 " silent! color purify
 " silent! color spacegray
