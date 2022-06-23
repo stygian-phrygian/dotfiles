@@ -2,28 +2,44 @@
 " put plugins to install (github repos) between begin() and end()
 " run :PlugInstall" and restart vim
 call plug#begin()
-"----workflow--------------------------------------
-Plug 'tpope/vim-fugitive'                                       " git integration
-Plug 'tpope/vim-surround'                                       " change surrounding delimiters efficiently
-Plug 'tpope/vim-repeat'                                         " repeat actions correctly for plugins
-Plug 'tpope/vim-commentary'                                     " toggle comments
-Plug 'tpope/vim-unimpaired'                                     " pairs of useful mapping
-Plug 'tpope/vim-apathy'                                         " fix path
-Plug 'easymotion/vim-easymotion'                                " jump around text *way* easier
-Plug 'junegunn/goyo.vim'                                        " distraction free writing
+"----workflow----------------------------------------------------------------
+" integrate git
+Plug 'tpope/vim-fugitive'
+" change surrounding delimiters
+Plug 'tpope/vim-surround'
+" repeat plugin maps
+Plug 'tpope/vim-repeat'
+" add pairs of useful maps
+Plug 'tpope/vim-unimpaired'
+" toggle comments
+Plug 'tpope/vim-commentary'
+" fix 'path' option
+Plug 'tpope/vim-apathy'
+" jump around text *way* easier
+Plug 'easymotion/vim-easymotion'
+" fuzzy find files
 Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'                                         " fuzzy file finder
-Plug 'dense-analysis/ale'                                       " syntax linter
-"----languages-------------------------------------
-Plug 'xavierd/clang_complete'                                   " c++ completion
-Plug 'luisjure/csound',  { 'for': ['csound'] }                  " csound syntax highlighting/completion
-Plug 'rust-lang/rust.vim'                                       " rust syntax highlighting
-Plug 'racer-rust/vim-racer'                                     " rust completion
-Plug 'fatih/vim-go'                                             " go syntax highlighting/completion
-Plug 'tpope/vim-fireplace'                                      " clojure highlighting/repl/completion
-Plug 'davidhalter/jedi-vim'                                     " python completion
-Plug 'psf/black'                                                " python formatter
-"----color themes----------------------------------
+Plug 'junegunn/fzf.vim'
+" lint
+Plug 'dense-analysis/ale'
+"----languages---------------------------------------------------------------
+" c++ completion
+Plug 'xavierd/clang_complete'
+" csound syntax highlighting/completion
+Plug 'luisjure/csound'
+" rust syntax highlighting
+Plug 'rust-lang/rust.vim'
+" rust completion
+Plug 'racer-rust/vim-racer'
+" go syntax highlighting/completion
+Plug 'fatih/vim-go'
+" clojure highlighting/repl/completion
+Plug 'tpope/vim-fireplace'
+" python completion
+Plug 'davidhalter/jedi-vim'
+" python formatter
+Plug 'psf/black'
+"----color themes------------------------------------------------------------
 Plug 'jnurmine/Zenburn/'
 Plug 'morhetz/gruvbox'
 Plug 'fcpg/vim-farout'
@@ -34,24 +50,19 @@ Plug 'nikolvs/vim-sunbather'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
 call plug#end()
 
-"-----------------------------------------------
-" configure options ----------------------------
-"-----------------------------------------------
+"----------------------------------------------------------------------------
+" configure options ---------------------------------------------------------
+"----------------------------------------------------------------------------
 " turn off intro message
 set shortmess+=I
 " turn off automatic backup and hidden swap file
 set nobackup
 set noswapfile
-" turn on syntax highlighting
-syntax on
 " must set this for color to work correctly
 set background=dark
 " set 256 colors (if not already set)
 set t_Co=256
 set termguicolors
-" turn on filetype detection, plugin, and indentation
-" https://vi.stackexchange.com/a/10125
-filetype plugin indent on
 " show existing tab with N spaces width
 set tabstop=4
 " when backspacing delete N spaces width
@@ -66,25 +77,19 @@ set smarttab
 set backspace=indent,eol,start
 " textwidth (what width paragraphs are formatted to)
 set textwidth=78
-" provide a column indicator of text width
-" this is turned off because it doesn't necessarily match the colorscheme colors
-" set colorcolumn=80
 " show commands (so we can see when timeouts happen)
 set showcmd
 " allow buffers to be hidden
-" (buffers persist when not displayed by a window)
 set hidden
 " turn off line wrapping
 set nowrap
 " turn on hybrid mode line numbers
 set number         " turn on line numbers
 set relativenumber " turn on relative line numbers
-" to display (some) invisible characters
-" type ':set !list' to toggle
-set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " british newline
-set listchars=tab:→\ ,eol:↵,nbsp:␣,trail:•,extends:⟩,precedes:⟨ " american newline
-set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨       " no newline
+" display invisible characters
 set list
+" use these characters to display invisible characters
+set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 " turn on mouse
 set mouse=a
 " turn off folding for all files by default
@@ -104,35 +109,52 @@ set completeopt=longest,menuone
 set wildmode=full
 set wildignorecase
 set wildmenu
-" mapping delay
+" set mapping delay
 set timeoutlen=420
-" keycode delay (fixes perceptible latency moving from insert mode to normal mode)
+" set keycode delay (fixes perceptible latency moving from insert mode to normal mode)
 set ttimeoutlen=1
 " turn off interpreting leading zero numbers as octal
 set nrformats-=octal
 " turn on statusline
 set laststatus=2
-" configure statusline -------------------------
+" stop redundant mode printing
+set noshowmode
+" create function to display mode
 let g:currentmode={'n':'NORMAL', 'v':'VISUAL','V':'V-LINE','t':'TERMINAL',"\<C-V>":'V-BLOCK','i':'INSERT','R':'REPLACE','Rv':'V-REPLACE','c':'COMMAND'}
 function! GetMode()
 return get(g:currentmode, mode(), '       ')
 endfunction
+" configure status line
 set statusline=
-set statusline+=\ %-{GetMode()}\                " current mode
-set noshowmode                                  " stop redundant mode printing
-set statusline+=%f                              " file name
-set statusline+=%m                              " is modified?
-set statusline+=%=                              " switching to right section
-set statusline+=\ %y                            " file type
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding} " file encoding
-set statusline+=\[%{&fileformat}]               " file line ending
-set statusline+=\ ln:%l/%{line('$')}            " current line number
-set statusline+=\ cn:%c                         " current col number
-set statusline+=\ %p%%                          " percentage scrolled through
+" current mode
+set statusline+=\ %-{GetMode()}\ 
+" file name
+set statusline+=%f
+" is modified?
+set statusline+=%m
+" switching to right section
+set statusline+=%=
+" file type
+set statusline+=\ %y
+" file encoding
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" file line ending
+set statusline+=\[%{&fileformat}]
+" current line number
+set statusline+=\ ln:%l/%{line('$')}
+" current col number
+set statusline+=\ cn:%c
+" percentage scrolled through
+set statusline+=\ %p%%
 
-"-----------------------------------------------
-" configure plugins ----------------------------
-"-----------------------------------------------
+"----------------------------------------------------------------------------
+" configure plugins ---------------------------------------------------------
+"----------------------------------------------------------------------------
+" turn on syntax highlighting
+syntax on
+" turn on filetype detection, plugin, and indentation
+filetype plugin indent on
+
 "--netrw
 " disable the banner
 let g:netrw_banner=0
@@ -140,12 +162,16 @@ let g:netrw_banner=0
 let g:netrw_liststyle=3
 
 "--c++
-let g:clang_library_path='/usr/lib/llvm-10/lib/libclang.so.1'
 augroup filetype_cpp
     " clear previous autocommands in this autocommand group
     autocmd!
+    let g:clang_library_path='/usr/lib/llvm-14/lib/libclang.so.1'
+    " ale cpp options
+    let g:ale_cpp_cc_options='-std=c++17 -Wall -Wextra -Wpedantic'
     " avoid needing to press shift for scope operator
     autocmd FileType cpp inoremap ;; ::
+    " set c/c++ comment style to '//'
+    autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
 
 "--golang
@@ -157,30 +183,29 @@ augroup filetype_go
     autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
     " vim-go mappings
     autocmd FileType go nnoremap <leader>b  <plug>(go-build)
+    " toggle automatic type info under the cursor
+    let g:go_auto_type_info = 1
 augroup END
-" toggle automatic type info under the cursor
-let g:go_auto_type_info = 1
 
 "--rust
-" turn on auto-format  on save
-let g:rustfmt_autosave = 1
-" turn on racer
-let g:racer_cmd = '~/.cargo/bin/racer'
-let g:racer_experimental_completer = 1
 augroup filetype_rust
     " clear previous autocommands in this autocommand group
     autocmd!
-    autocmd FileType rust nmap <leader>b :Cbuild <cr>
+    " turn on racer
+    let g:racer_cmd = '~/.cargo/bin/racer'
+    let g:racer_experimental_completer = 1
+    " turn on auto-format  on save
+    let g:rustfmt_autosave = 1
 augroup END
 
 "--python
-" no automatic dot completion
-let g:jedi#popup_on_dot = 0
 augroup filetype_python
     " clear previous autocommands in this autocommand group
     autocmd!
     " auto format python according to pep8
     " autocmd BufWritePre *.py execute ':Black'
+    " no automatic dot completion
+    let g:jedi#popup_on_dot = 0
     " turn off jedi keybindings
     let g:jedi#rename_command = ""
     let g:jedi#goto_command = "gd"
@@ -207,30 +232,54 @@ let g:EasyMotion_smartcase=1
 " if on, can't do <leader><leader> below as easymotion wants that
 let g:EasyMotion_do_mapping=0
 
-"------------------------------------------------
-" configure mappings ----------------------------
-"------------------------------------------------
+"--fzf
+" place preview window thusly
+let g:fzf_preview_window = ['up:50%', 'ctrl-/']
+
+"--terminal
+augroup terminal_buffer
+    autocmd!
+    " turn off line numbers in terminal buffers
+    autocmd TerminalOpen * setlocal nonumber norelativenumber
+    " set empty lines below end of buffer to <space>
+    autocmd TerminalOpen * setlocal fillchars+=eob:\ 
+augroup END
+
+
+"----------------------------------------------------------------------------
+" configure mappings --------------------------------------------------------
+"----------------------------------------------------------------------------
 " smart tab completion lovingly stolen from here:
 "http://vim.wikia.com/wiki/Smart_mapping_for_tab_completion
 function! Smart_TabComplete()
-    let substr = strpart(getline('.'), -1, col('.'))    " from the start of the current line to the cursor
-    let substr = matchstr(substr, "[^ \t]*$")           " word till cursor
-    if (strlen(substr)==0)                              " nothing to match on empty string
+
+    " get the word before cursor
+    let current_line = getline('.')
+    let until_cursor = strpart(current_line, -1, col('.'))
+    let substr       = matchstr(until_cursor, "[^ \t]*$")
+
+    " nothing to match on empty string
+    if (strlen(substr)==0)
         return "\<tab>"
     endif
-    let has_period        = match(substr, '\.') != -1   " position of period, if any
-    let has_forward_slash = match(substr, '\/') != -1   " position of forward slash, if any
-    let has_double_colon  = match(substr, '::') != -1   " position of double colon, if any (for rust... I added this)
+
+    let has_period        = match(substr, '\.') != -1
+    let has_forward_slash = match(substr, '\/') != -1
+    let has_double_colon  = match(substr, '::') != -1
     if (!has_period && !has_forward_slash && !has_double_colon)
-        return "\<C-X>\<C-P>"                           " existing text matching (syntax omnicompletion)
+       " existing text matching (syntax omnicompletion)
+        return "\<c-x>\<c-p>"
     elseif (has_forward_slash)
-        return "\<C-X>\<C-F>"                           " file matching
+        " file matching
+        return "\<c-x>\<c-f>"
     else
-        return "\<C-X>\<C-O>"                           " plugin matching
+        " plugin matching
+        return "\<c-x>\<c-o>"
     endif
 endfunction
 " turn on smart tab completion in insert mode
 inoremap <tab> <c-r>=Smart_TabComplete()<cr>
+
 " make pop-up menu more friendly
 " found here:
 " http://vim.wikia.com/wiki/Improve_completion_popup_menu
@@ -241,7 +290,7 @@ inoremap <expr> <down>     pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <up>       pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <expr> <pagedown> pumvisible() ? "\<pagedown>\<c-p>\<c-n>" : "\<pagedown>"
 inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>" : "\<pageup>"
-"
+
 " open vimrc (in new tab)
 nnoremap <leader>v <esc>:tabnew $MYVIMRC<cr>
 " open buffer (in window)
@@ -326,15 +375,14 @@ function! ToggleSpell()
     endif
 endfunction
 nnoremap <leader>s :call ToggleSpell()<cr>
-" -plugins---------------------------------------
-" goyo: toggle
-nnoremap <leader>y :Goyo<cr>
 " easymotion: find (must be nmap not nnoremap)
 nmap <leader>f <plug>(easymotion-overwin-w)
 " fugitive: git blame
 nnoremap gb :Git blame<cr>
 " fzf: fuzzy find file
-nnoremap <leader>p :FZF!<cr>
+nnoremap <leader>p :Files!<cr>
+" fzf: buffers
+nnoremap <leader>b :Buffers!<cr>
 " fzf: grep
 nnoremap <leader>g :Rg!<space>
 " fzf: grep <cword>
@@ -344,10 +392,15 @@ nnoremap ]a :ALENext<cr>
 nnoremap [a :ALEPrevious<cr>
 " ale: print warning
 nnoremap <leader>a :ALEDetail<cr>
+" unimpaired: overwrite tag movement with tab movement
+nnoremap [t :tabprevious<cr>
+nnoremap ]t :tabnext<cr>
+nnoremap [T :tabfirst<cr>
+nnoremap ]T :tablast<cr>
 
-"------------------------------------------------
-" configure colorscheme -------------------------
-"------------------------------------------------
+"----------------------------------------------------------------------------
+" configure colorscheme -----------------------------------------------------
+"----------------------------------------------------------------------------
 " select colorscheme and fail silently otherwise
 " silent! color farout
 " silent! color gotham
@@ -358,3 +411,4 @@ nnoremap <leader>a :ALEDetail<cr>
 " silent! color sunbather
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
 silent! color zenburn
+
