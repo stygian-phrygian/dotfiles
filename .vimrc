@@ -27,12 +27,6 @@ Plug 'dense-analysis/ale'
 Plug 'xavierd/clang_complete'
 " csound syntax highlighting/completion
 Plug 'luisjure/csound'
-" rust syntax highlighting
-Plug 'rust-lang/rust.vim'
-" rust completion
-Plug 'racer-rust/vim-racer'
-" go syntax highlighting/completion
-Plug 'fatih/vim-go'
 " clojure highlighting/repl/completion
 Plug 'tpope/vim-fireplace'
 " python completion
@@ -40,14 +34,15 @@ Plug 'davidhalter/jedi-vim'
 " python formatter
 Plug 'psf/black'
 "----color themes------------------------------------------------------------
-Plug 'jnurmine/Zenburn/'
-Plug 'morhetz/gruvbox'
-Plug 'fcpg/vim-farout'
-Plug 'whatyouhide/vim-gotham'
+Plug 'Haron-Prime/Antares'
 Plug 'ajh17/Spacegray.vim'
 Plug 'axvr/photon.vim'
-Plug 'nikolvs/vim-sunbather'
+Plug 'fcpg/vim-farout'
+Plug 'jnurmine/Zenburn/'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
+Plug 'morhetz/gruvbox'
+Plug 'nikolvs/vim-sunbather'
+Plug 'whatyouhide/vim-gotham'
 call plug#end()
 
 "----------------------------------------------------------------------------
@@ -89,7 +84,8 @@ set relativenumber " turn on relative line numbers
 " display invisible characters
 set list
 " use these characters to display invisible characters
-set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+" set listchars=tab:>\ ,trail:.,precedes:<,extends:>
+set listchars=tab:→\ ,trail:•,precedes:⟨,extends:⟩
 " turn on mouse
 set mouse=a
 " turn off folding for all files by default
@@ -172,30 +168,6 @@ augroup filetype_cpp
     autocmd FileType cpp inoremap ;; ::
     " set c/c++ comment style to '//'
     autocmd FileType c,cpp setlocal commentstring=//\ %s
-augroup END
-
-"--golang
-augroup filetype_go
-    " clear previous autocommands in this autocommand group
-    autocmd!
-    " vim-go requires you to first :GoInstallBinaries to get completion
-    " tabs are displayed as 8 spaces (and we use tab characters not spaces)
-    autocmd FileType go setlocal ts=8 sw=8 sts=8 noexpandtab
-    " vim-go mappings
-    autocmd FileType go nnoremap <leader>b  <plug>(go-build)
-    " toggle automatic type info under the cursor
-    let g:go_auto_type_info = 1
-augroup END
-
-"--rust
-augroup filetype_rust
-    " clear previous autocommands in this autocommand group
-    autocmd!
-    " turn on racer
-    let g:racer_cmd = '~/.cargo/bin/racer'
-    let g:racer_experimental_completer = 1
-    " turn on auto-format  on save
-    let g:rustfmt_autosave = 1
 augroup END
 
 "--python
@@ -305,6 +277,9 @@ nnoremap <leader>rr <esc>:tab terminal<cr>
 nnoremap <leader>w <esc>:w<cr>
 " reload vimrc
 noremap  <f5> :source $MYVIMRC<cr>
+" format paragraph
+nnoremap Q gqip
+vnoremap Q gq
 " close buffer
 nnoremap <leader>x <esc>:bd<cr>
 " close window or tab
@@ -392,11 +367,9 @@ nnoremap ]a :ALENext<cr>
 nnoremap [a :ALEPrevious<cr>
 " ale: print warning
 nnoremap <leader>a :ALEDetail<cr>
-" unimpaired: overwrite tag movement with tab movement
-nnoremap [t :tabprevious<cr>
-nnoremap ]t :tabnext<cr>
-nnoremap [T :tabfirst<cr>
-nnoremap ]T :tablast<cr>
+" tab movement
+nnoremap [t gT<cr>
+nnoremap ]t gt<cr>
 
 "----------------------------------------------------------------------------
 " configure colorscheme -----------------------------------------------------
