@@ -70,6 +70,8 @@ set expandtab
 set smarttab
 " make backspace not insane
 set backspace=indent,eol,start
+" make join commands only insert 1 space (not 2) after '.' '?' or '!'
+set nojoinspaces
 " textwidth (what width paragraphs are formatted to)
 set textwidth=78
 " show commands (so we can see when timeouts happen)
@@ -156,6 +158,19 @@ filetype plugin indent on
 let g:netrw_banner=0
 " view file listing as a tree
 let g:netrw_liststyle=3
+
+"--text/markdown
+augroup filetype_text
+    " clear previous autocommands in this autocommand group
+    autocmd!
+    " everytime text is inserted or deleted, the paragraph will be formated
+    autocmd FileType text,markdown set formatoptions+=a
+    " when formatted, preserve list indentation
+    autocmd FileType text,markdown set formatoptions+=n
+    " whitespace continues paragraph
+    " https://stackoverflow.com/a/21610187
+    autocmd FileType text,markdown set formatoptions+=w
+augroup END
 
 "--c++
 augroup filetype_cpp
