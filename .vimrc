@@ -20,6 +20,8 @@ Plug 'easymotion/vim-easymotion'
 " fuzzy find files
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+" prose
+Plug 'junegunn/goyo.vim'
 " lint
 Plug 'dense-analysis/ale'
 "----languages---------------------------------------------------------------
@@ -377,6 +379,10 @@ nnoremap <leader>b :Buffers!<cr>
 nnoremap <leader>g :Rg!<space>
 " fzf: grep <cword>
 nnoremap gh :Rg!<space><c-r><c-w><cr>
+" goyo
+let g:goyo_width="88"
+let g:goyo_height="75%"
+nnoremap <leader>y :Goyo<cr>
 " ale: cycle warnings
 nnoremap ]a :ALENext<cr>
 nnoremap [a :ALEPrevious<cr>
@@ -390,6 +396,7 @@ nnoremap ]t gt<cr>
 " configure colorscheme -----------------------------------------------------
 "----------------------------------------------------------------------------
 " select colorscheme and fail silently otherwise
+" silent! color antares
 " silent! color farout
 " silent! color gotham
 " silent! color gruvbox
