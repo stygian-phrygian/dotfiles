@@ -33,17 +33,17 @@ Plug 'luisjure/csound'
 Plug 'tpope/vim-fireplace'
 " python completion
 Plug 'davidhalter/jedi-vim'
-" python formatter
-Plug 'psf/black'
 "----color themes------------------------------------------------------------
 Plug 'Haron-Prime/Antares'
 Plug 'ajh17/Spacegray.vim'
 Plug 'axvr/photon.vim'
+Plug 'davidosomething/vim-colors-meh'
 Plug 'fcpg/vim-farout'
 Plug 'jnurmine/Zenburn/'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'morhetz/gruvbox'
 Plug 'nikolvs/vim-sunbather'
+Plug 'pgdouyon/vim-yin-yang'
 Plug 'whatyouhide/vim-gotham'
 call plug#end()
 
@@ -165,13 +165,15 @@ let g:netrw_liststyle=3
 augroup filetype_text
     " clear previous autocommands in this autocommand group
     autocmd!
+    " turn off visible trailing spaces
+    autocmd FileType text,markdown setlocal listchars=tab:→\ ,precedes:⟨,extends:⟩
     " everytime text is inserted or deleted, the paragraph will be formated
-    autocmd FileType text,markdown set formatoptions+=a
+    autocmd FileType text,markdown setlocal formatoptions+=a
     " when formatted, preserve list indentation
-    autocmd FileType text,markdown set formatoptions+=n
+    autocmd FileType text,markdown setlocal formatoptions+=n
     " whitespace continues paragraph
     " https://stackoverflow.com/a/21610187
-    autocmd FileType text,markdown set formatoptions+=w
+    autocmd FileType text,markdown setlocal formatoptions+=w
 augroup END
 
 "--c++
@@ -191,8 +193,6 @@ augroup END
 augroup filetype_python
     " clear previous autocommands in this autocommand group
     autocmd!
-    " auto format python according to pep8
-    " autocmd BufWritePre *.py execute ':Black'
     " no automatic dot completion
     let g:jedi#popup_on_dot = 0
     " turn off jedi keybindings
@@ -208,11 +208,11 @@ augroup filetype_csound
     " clear previous autocommands in this autocommand group
     autocmd!
     " fix weird issue with csound files not using foldmethod=manual
-    autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo set foldmethod=manual
+    autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo setlocal foldmethod=manual
     " turn off line wrapping
     autocmd FileType csound setlocal formatoptions-=t
     " turn off relative line numbering which slows it down for some reason
-    autocmd FileType csound set norelativenumber
+    autocmd FileType csound setlocal norelativenumber
 augroup END
 
 "--easymotion
@@ -400,10 +400,12 @@ nnoremap ]t gt<cr>
 " silent! color farout
 " silent! color gotham
 " silent! color gruvbox
+" silent! color meh
 " silent! color photon
 " silent! color purify
 " silent! color spacegray
-" silent! color sunbather
+" silent! color spacegray
+" silent! color yin
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
 silent! color zenburn
 
