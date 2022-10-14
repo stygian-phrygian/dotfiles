@@ -379,6 +379,8 @@ nnoremap <leader>b :Buffers!<cr>
 nnoremap <leader>g :Rg!<space>
 " fzf: grep <cword>
 nnoremap gh :Rg!<space><c-r><c-w><cr>
+" grep only in local buffer
+nnoremap gy /<c-r><c-w><cr>
 " goyo
 let g:goyo_width="88"
 let g:goyo_height="75%"
@@ -389,8 +391,8 @@ nnoremap [a :ALEPrevious<cr>
 " ale: print warning
 nnoremap <leader>a :ALEDetail<cr>
 " tab movement
-nnoremap [t gT<cr>
-nnoremap ]t gt<cr>
+nnoremap [t gT
+nnoremap ]t gt
 
 "----------------------------------------------------------------------------
 " configure colorscheme -----------------------------------------------------
