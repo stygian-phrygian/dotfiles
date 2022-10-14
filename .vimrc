@@ -27,8 +27,6 @@ Plug 'dense-analysis/ale'
 "----languages---------------------------------------------------------------
 " c++ completion
 Plug 'xavierd/clang_complete'
-" csound syntax highlighting/completion
-Plug 'luisjure/csound'
 " clojure highlighting/repl/completion
 Plug 'tpope/vim-fireplace'
 " python completion
@@ -201,18 +199,6 @@ augroup filetype_python
     let g:jedi#goto_assignments_command = ""
     let g:jedi#goto_stubs_command = ""
     " let g:jedi#usages_command = ""
-augroup END
-
-"--csound
-augroup filetype_csound
-    " clear previous autocommands in this autocommand group
-    autocmd!
-    " fix weird issue with csound files not using foldmethod=manual
-    autocmd BufNewFile,BufRead *.orc,*.sco,*.csd,*.udo setlocal foldmethod=manual
-    " turn off line wrapping
-    autocmd FileType csound setlocal formatoptions-=t
-    " turn off relative line numbering which slows it down for some reason
-    autocmd FileType csound setlocal norelativenumber
 augroup END
 
 "--easymotion
