@@ -58,6 +58,10 @@ set background=dark
 " set 256 colors (if not already set)
 set t_Co=256
 set termguicolors
+" horizontal splits default open below
+set splitbelow
+" vertical splits default open right
+set splitright
 " show existing tab with N spaces width
 set tabstop=4
 " when backspacing delete N spaces width
@@ -74,7 +78,9 @@ set backspace=indent,eol,start
 set nojoinspaces
 " textwidth (what width paragraphs are formatted to)
 set textwidth=78
-" show commands (so we can see when timeouts happen)
+" always show sign column
+set signcolumn=yes
+" show commands
 set showcmd
 " allow buffers to be hidden
 set hidden
@@ -182,7 +188,7 @@ augroup filetype_cpp
     " ale cpp options
     let g:ale_cpp_cc_options='-std=c++17 -Wall -Wextra -Wpedantic'
     " avoid needing to press shift for scope operator
-    autocmd FileType cpp inoremap ;; ::
+    autocmd FileType cpp inoremap std std::
     " set c/c++ comment style to '//'
     autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
@@ -266,6 +272,8 @@ inoremap <expr> <up>       pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <expr> <pagedown> pumvisible() ? "\<pagedown>\<c-p>\<c-n>" : "\<pagedown>"
 inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>" : "\<pageup>"
 
+" execute commands
+nnoremap <leader><leader> <esc>:
 " open vimrc (in new tab)
 nnoremap <leader>v <esc>:tabnew $MYVIMRC<cr>
 " open buffer (in window)
@@ -278,37 +286,39 @@ nnoremap <leader>r <esc>:botright terminal<cr>
 nnoremap <leader>rr <esc>:tab terminal<cr>
 " save buffer
 nnoremap <leader>w <esc>:w<cr>
-" reload vimrc
-noremap  <f5> :source $MYVIMRC<cr>
-" format paragraph
-nnoremap Q gqip
-vnoremap Q gq
+" switch to the 'alternate file'
+nnoremap <tab> <c-^>
 " close buffer
 nnoremap <leader>x <esc>:bd<cr>
 " close window or tab
 nnoremap <leader>q <esc>:q<cr>
-" force close
+" close everything
 nnoremap <leader>qq <esc>:qa!<cr>
-" command
-nnoremap <leader><leader> <esc>:
 " help
 nnoremap <leader>h <esc>:h<space>
-" make <tab> switch to alternate file in normal mode
-nnoremap <tab> <c-^>
-" make <c-^> (switch to alternate-file (the last buffer)) work in terminal
-tnoremap <c-^> <c-w>:b#<cr>
-tnoremap <c-6> <c-w>:b#<cr>
-" make ctrl-d work as it does in terminal
-tnoremap <c-d> <c-d>
-" terminal enter normal mode https://github.com/vim/vim/issues/2216#issuecomment-337566816
-tnoremap <esc><esc> <c-\><c-n>
-" make terminal tab movement similar to window tab movement
-tnoremap <c-pagedown>      <c-w>gt<cr>
-tnoremap <c-pageup>        <c-w>gT<cr>
-" indent while keeping visual highlighting
+" reload vimrc
+nnoremap <f5> :source $MYVIMRC<cr>
+" redo
+nnoremap U <c-r>
+" copy to end of line similar to C and D operators
+nnoremap Y y$
+" mark position (remap existing mark line)
+nnoremap ' `
+" format paragraph
+nnoremap Q gqip
+vnoremap Q gq
+" indent but keep visual highlighting
 vnoremap > >gv
 vnoremap < <gv
-" map Shift-Arrow to window switching
+" enter normal mode from terminal mode
+tnoremap <esc><esc> <c-\><c-n>
+" change tabs focus from terminal mode similar to normal mode
+tnoremap <c-pagedown> <c-w>gt<cr>
+tnoremap <c-pageup> <c-w>gT<cr>
+" change tab focus
+nnoremap [t gT
+nnoremap ]t gt
+" change window focus
 nnoremap <silent> <s-up>         <c-w>k
 nnoremap <silent> <s-down>       <c-w>j
 nnoremap <silent> <s-right>      <c-w>l
@@ -321,7 +331,7 @@ tnoremap <silent> <s-up>         <c-w>k
 tnoremap <silent> <s-down>       <c-w>j
 tnoremap <silent> <s-right>      <c-w>l
 tnoremap <silent> <s-left>       <c-w>h
-" map Ctrl-Shift-Arrow to window dimensions
+" change window dimensions
 nnoremap <silent> <c-s-up>         <c-w>+
 nnoremap <silent> <c-s-down>       <c-w>-
 nnoremap <silent> <c-s-right>      <c-w>>
@@ -334,7 +344,7 @@ tnoremap <silent> <c-s-up>         <c-w>+
 tnoremap <silent> <c-s-down>       <c-w>-
 tnoremap <silent> <c-s-right>      <c-w>>
 tnoremap <silent> <c-s-left>       <c-w><
-" map Ctrl-Shift-Page{Up,Down} for tab reordering
+" reorder tabs
 nnoremap <c-s-pageup>        :tabmove -1<cr>
 nnoremap <c-s-pagedown>      :tabmove +1<cr>
 inoremap <c-s-pageup>   <esc>:tabmove -1<cr>
@@ -359,7 +369,7 @@ nmap <leader>f <plug>(easymotion-overwin-w)
 nnoremap gb :Git blame<cr>
 " fzf: fuzzy find file
 nnoremap <leader>p :Files!<cr>
-" fzf: buffers
+" fzf: fuzzy find buffers
 nnoremap <leader>b :Buffers!<cr>
 " fzf: grep
 nnoremap <leader>g :Rg!<space>
@@ -374,11 +384,8 @@ nnoremap <leader>y :Goyo<cr>
 " ale: cycle warnings
 nnoremap ]a :ALENext<cr>
 nnoremap [a :ALEPrevious<cr>
-" ale: print warning
+" ale: show warning
 nnoremap <leader>a :ALEDetail<cr>
-" tab movement
-nnoremap [t gT
-nnoremap ]t gt
 
 "----------------------------------------------------------------------------
 " configure colorscheme -----------------------------------------------------
