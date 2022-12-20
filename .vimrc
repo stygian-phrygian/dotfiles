@@ -186,9 +186,9 @@ augroup filetype_cpp
     autocmd!
     let g:clang_library_path='/usr/lib/llvm-14/lib/libclang.so.1'
     " ale cpp options
-    let g:ale_cpp_cc_options='-std=c++17 -Wall -Wextra -Wpedantic'
+    let g:ale_cpp_cc_options='-std=c++20 -Wall -Wextra -Wpedantic'
     " avoid needing to press shift for scope operator
-    autocmd FileType cpp inoremap std std::
+    autocmd FileType cpp inoremap ;; ::
     " set c/c++ comment style to '//'
     autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
