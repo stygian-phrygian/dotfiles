@@ -58,8 +58,6 @@ set background=dark
 " set 256 colors (if not already set)
 set t_Co=256
 set termguicolors
-" horizontal splits default open below
-set splitbelow
 " vertical splits default open right
 set splitright
 " show existing tab with N spaces width
@@ -89,6 +87,8 @@ set nowrap
 " turn on hybrid mode line numbers
 set number         " turn on line numbers
 set relativenumber " turn on relative line numbers
+" highlight cursor's line
+set cursorline
 " display invisible characters
 set list
 " use these characters to display invisible characters
@@ -165,19 +165,19 @@ let g:netrw_banner=0
 " view file listing as a tree
 let g:netrw_liststyle=3
 
-"--text/markdown
-augroup filetype_text
+"--markdown
+augroup filetype_markdown
     " clear previous autocommands in this autocommand group
     autocmd!
     " turn off visible trailing spaces
-    autocmd FileType text,markdown setlocal listchars=tab:→\ ,precedes:⟨,extends:⟩
+    autocmd FileType markdown setlocal listchars=tab:→\ ,precedes:⟨,extends:⟩
     " everytime text is inserted or deleted, the paragraph will be formated
-    autocmd FileType text,markdown setlocal formatoptions+=a
+    autocmd FileType markdown setlocal formatoptions+=a
     " when formatted, preserve list indentation
-    autocmd FileType text,markdown setlocal formatoptions+=n
+    autocmd FileType markdown setlocal formatoptions+=n
     " whitespace continues paragraph
     " https://stackoverflow.com/a/21610187
-    autocmd FileType text,markdown setlocal formatoptions+=w
+    autocmd FileType markdown setlocal formatoptions+=w
 augroup END
 
 "--c++
@@ -398,7 +398,6 @@ nnoremap <leader>a :ALEDetail<cr>
 " silent! color meh
 " silent! color photon
 " silent! color purify
-" silent! color spacegray
 " silent! color spacegray
 " silent! color yin
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
