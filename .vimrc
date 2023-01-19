@@ -15,8 +15,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 " fix 'path' option
 Plug 'tpope/vim-apathy'
-" jump around text *way* easier
-Plug 'easymotion/vim-easymotion'
 " fuzzy find files
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -126,7 +124,7 @@ set noshowmode
 " create function to display mode
 let g:currentmode={'n':'NORMAL', 'v':'VISUAL','V':'V-LINE','t':'TERMINAL',"\<C-V>":'V-BLOCK','i':'INSERT','R':'REPLACE','Rv':'V-REPLACE','c':'COMMAND'}
 function! GetMode()
-return get(g:currentmode, mode(), '       ')
+    return get(g:currentmode, mode(), '       ')
 endfunction
 " configure status line
 set statusline=
@@ -207,12 +205,6 @@ augroup filetype_python
     " let g:jedi#usages_command = ""
 augroup END
 
-"--easymotion
-let g:EasyMotion_smartcase=1
-" turn off the default bindings
-" if on, can't do <leader><leader> below as easymotion wants that
-let g:EasyMotion_do_mapping=0
-
 "--fzf
 " place preview window thusly
 let g:fzf_preview_window = ['up:50%', 'ctrl-/']
@@ -225,7 +217,6 @@ augroup terminal_buffer
     " set empty lines below end of buffer to <space>
     autocmd TerminalOpen * setlocal fillchars+=eob:\ 
 augroup END
-
 
 "----------------------------------------------------------------------------
 " configure mappings --------------------------------------------------------
@@ -275,27 +266,27 @@ inoremap <expr> <pageup>   pumvisible() ? "\<pageup>\<c-p>\<c-n>" : "\<pageup>"
 " execute commands
 nnoremap <leader><leader> <esc>:
 " open vimrc (in new tab)
-nnoremap <leader>v <esc>:tabnew $MYVIMRC<cr>
+nnoremap <leader>v :tabnew $MYVIMRC<cr>
 " open buffer (in window)
-nnoremap <leader>e <esc>:e<space>
+nnoremap <leader>e :e<space>
 " open buffer (in new tab)
-nnoremap <leader>t <esc>:tabnew<space>
+nnoremap <leader>t :tabnew<space>
 " open terminal (in bottom right window)
-nnoremap <leader>r <esc>:botright terminal<cr>
+nnoremap <leader>r :botright terminal<cr>
 " open terminal (in new tab)
-nnoremap <leader>rr <esc>:tab terminal<cr>
+nnoremap <leader>rr :tab terminal<cr>
 " save buffer
-nnoremap <leader>w <esc>:w<cr>
+nnoremap <leader>w :w<cr>
 " switch to the 'alternate file'
 nnoremap <tab> <c-^>
 " close buffer
-nnoremap <leader>x <esc>:bd<cr>
+nnoremap <leader>x :bd<cr>
 " close window or tab
-nnoremap <leader>q <esc>:q<cr>
+nnoremap <leader>q :q<cr>
 " close everything
-nnoremap <leader>qq <esc>:qa!<cr>
+nnoremap <leader>qq :qa!<cr>
 " help
-nnoremap <leader>h <esc>:h<space>
+nnoremap <leader>h :h<space>
 " reload vimrc
 nnoremap <f5> :source $MYVIMRC<cr>
 " redo
@@ -363,8 +354,6 @@ function! ToggleSpell()
     endif
 endfunction
 nnoremap <leader>s :call ToggleSpell()<cr>
-" easymotion: find (must be nmap not nnoremap)
-nmap <leader>f <plug>(easymotion-overwin-w)
 " fugitive: git blame
 nnoremap gb :Git blame<cr>
 " fzf: fuzzy find file
@@ -375,8 +364,6 @@ nnoremap <leader>b :Buffers!<cr>
 nnoremap <leader>g :Rg!<space>
 " fzf: grep <cword>
 nnoremap gh :Rg!<space><c-r><c-w><cr>
-" grep only in local buffer
-nnoremap gy /<c-r><c-w><cr>
 " goyo
 let g:goyo_width="88"
 let g:goyo_height="75%"
@@ -395,6 +382,7 @@ nnoremap <leader>a :ALEDetail<cr>
 " silent! color farout
 " silent! color gotham
 " silent! color gruvbox
+" silent! color habamax
 " silent! color meh
 " silent! color photon
 " silent! color purify
