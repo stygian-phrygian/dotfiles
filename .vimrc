@@ -31,7 +31,6 @@ Plug 'tpope/vim-fireplace'
 Plug 'davidhalter/jedi-vim'
 "----color themes------------------------------------------------------------
 Plug 'Haron-Prime/Antares'
-Plug 'ajh17/Spacegray.vim'
 Plug 'axvr/photon.vim'
 Plug 'davidosomething/vim-colors-meh'
 Plug 'fcpg/vim-farout'
@@ -167,8 +166,6 @@ let g:netrw_liststyle=3
 augroup filetype_markdown
     " clear previous autocommands in this autocommand group
     autocmd!
-    " turn off visible trailing spaces
-    autocmd FileType markdown setlocal listchars=tab:→\ ,precedes:⟨,extends:⟩
     " everytime text is inserted or deleted, the paragraph will be formated
     autocmd FileType markdown setlocal formatoptions+=a
     " when formatted, preserve list indentation
@@ -386,7 +383,7 @@ nnoremap <leader>a :ALEDetail<cr>
 " silent! color meh
 " silent! color photon
 " silent! color purify
-" silent! color spacegray
+" silent! color sunbather
 " silent! color yin
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
 silent! color zenburn
