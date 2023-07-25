@@ -1,3 +1,5 @@
 [user]
 	name = stygian-phrygian
 	email = stygian-phrygian@users.noreply.github.com
+[core]
+	editor = vim
