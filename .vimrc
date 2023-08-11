@@ -7,7 +7,7 @@ call plug#begin()
 Plug 'tpope/vim-fugitive'
 " change surrounding delimiters
 Plug 'tpope/vim-surround'
-" repeat plugin maps
+" add repeat plugin maps
 Plug 'tpope/vim-repeat'
 " add pairs of useful maps
 Plug 'tpope/vim-unimpaired'
@@ -47,33 +47,34 @@ call plug#end()
 "----------------------------------------------------------------------------
 " turn off intro message
 set shortmess+=I
-" turn off automatic backup and hidden swap file
+" turn off automatic backup
 set nobackup
+" turn off hidden swap files
 set noswapfile
-" must set this for color to work correctly
+" set this for color to work correctly
 set background=dark
-" set 256 colors (if not already set)
+" prefer 256 colors
 set t_Co=256
 set termguicolors
-" vertical splits default open right
+" when (vertically) splitting, open new window to the right
 set splitright
 " show existing tab with N spaces width
 set tabstop=4
-" when backspacing delete N spaces width
+" when backspacing, delete N spaces width
 set softtabstop=4
-" when indenting with '<' or '>' use N spaces width
+" when indenting with '<' or '>', use N spaces width
 set shiftwidth=4
-" insert spaces instead of tab characters
+" insert spaces instead of tabs
 set expandtab
-" tab inserts shiftwidth amount of spaces
+" make tab key insert shiftwidth amount of spaces
 set smarttab
 " make backspace not insane
 set backspace=indent,eol,start
-" make join commands only insert 1 space (not 2) after '.' '?' or '!'
+" make join commands insert one space, not two, after '.' '?' or '!'
 set nojoinspaces
-" textwidth (what width paragraphs are formatted to)
+" when formatting, set text width to N
 set textwidth=78
-" always show sign column
+" show sign column
 set signcolumn=yes
 " show commands
 set showcmd
@@ -91,7 +92,7 @@ set list
 " use these characters to display invisible characters
 " set listchars=tab:>\ ,trail:.,precedes:<,extends:>
 set listchars=tab:→\ ,trail:•,precedes:⟨,extends:⟩
-" turn on mouse
+" enable mouse
 set mouse=a
 " turn off folding for all files by default
 set nofoldenable
@@ -120,7 +121,7 @@ set nrformats-=octal
 set laststatus=2
 " stop redundant mode printing
 set noshowmode
-" create function to display mode
+" for use in statusline messages, prettify current mode
 let g:currentmode={'n':'NORMAL', 'v':'VISUAL','V':'V-LINE','t':'TERMINAL',"\<C-V>":'V-BLOCK','i':'INSERT','R':'REPLACE','Rv':'V-REPLACE','c':'COMMAND'}
 function! GetMode()
     return get(g:currentmode, mode(), '       ')
@@ -166,11 +167,12 @@ let g:netrw_liststyle=3
 augroup filetype_markdown
     " clear previous autocommands in this autocommand group
     autocmd!
-    " everytime text is inserted or deleted, the paragraph will be formated
+    " when text is inserted or deleted, automatically format it
     autocmd FileType markdown setlocal formatoptions+=a
-    " when formatted, preserve list indentation
+    " when formatting, preserve list indentation (autoindent option must be on)
     autocmd FileType markdown setlocal formatoptions+=n
-    " whitespace continues paragraph
+    autocmd FileType markdown setlocal autoindent
+    " make whitespace continue paragraph
     " https://stackoverflow.com/a/21610187
     autocmd FileType markdown setlocal formatoptions+=w
 augroup END
@@ -180,7 +182,7 @@ augroup filetype_cpp
     " clear previous autocommands in this autocommand group
     autocmd!
     let g:clang_library_path='/usr/lib/llvm-14/lib/libclang.so.1'
-    " ale cpp options
+    " make ale lint with modern C++20 warnings
     let g:ale_cpp_cc_options='-std=c++20 -Wall -Wextra -Wpedantic'
     " avoid needing to press shift for scope operator
     autocmd FileType cpp inoremap ;; ::
@@ -192,7 +194,7 @@ augroup END
 augroup filetype_python
     " clear previous autocommands in this autocommand group
     autocmd!
-    " no automatic dot completion
+    " turn off automatic dot completion
     let g:jedi#popup_on_dot = 0
     " turn off jedi keybindings
     let g:jedi#rename_command = ""
@@ -219,7 +221,7 @@ augroup END
 " configure mappings --------------------------------------------------------
 "----------------------------------------------------------------------------
 " smart tab completion lovingly stolen from here:
-"http://vim.wikia.com/wiki/Smart_mapping_for_tab_completion
+" http://vim.wikia.com/wiki/Smart_mapping_for_tab_completion
 function! Smart_TabComplete()
 
     " get the word before cursor
