@@ -5,6 +5,8 @@ call plug#begin()
 "----workflow----------------------------------------------------------------
 " integrate git
 Plug 'tpope/vim-fugitive'
+" display version control changes
+Plug 'mhinz/vim-signify'
 " change surrounding delimiters
 Plug 'tpope/vim-surround'
 " add repeat plugin maps
