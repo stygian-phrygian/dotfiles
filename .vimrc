@@ -32,15 +32,9 @@ Plug 'tpope/vim-fireplace'
 " python completion
 Plug 'davidhalter/jedi-vim'
 "----color themes------------------------------------------------------------
-Plug 'Haron-Prime/Antares'
-Plug 'axvr/photon.vim'
-Plug 'davidosomething/vim-colors-meh'
 Plug 'fcpg/vim-farout'
 Plug 'jnurmine/Zenburn/'
-Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'morhetz/gruvbox'
-Plug 'nikolvs/vim-sunbather'
-Plug 'pgdouyon/vim-yin-yang'
 Plug 'whatyouhide/vim-gotham'
 call plug#end()
 
@@ -379,16 +373,9 @@ nnoremap <leader>a :ALEDetail<cr>
 " configure colorscheme -----------------------------------------------------
 "----------------------------------------------------------------------------
 " select colorscheme and fail silently otherwise
-" silent! color antares
 " silent! color farout
 " silent! color gotham
 " silent! color gruvbox
-" silent! color habamax
-" silent! color meh
-" silent! color photon
-" silent! color purify
-" silent! color sunbather
-" silent! color yin
 let g:zenburn_high_Contrast=1 " <--- configure zenburn
 silent! color zenburn
 
