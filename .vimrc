@@ -24,6 +24,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 " lint
 Plug 'dense-analysis/ale'
+" copy paste buffer integration (for wayland, install `wl-clipboard`)
+" Plug 'jasonccox/vim-wayland-clipboard'
 "----languages---------------------------------------------------------------
 " c++ completion
 Plug 'xavierd/clang_complete'
