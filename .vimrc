@@ -203,8 +203,23 @@ augroup filetype_python
 augroup END
 
 "--fzf
-" place preview window thusly
+" orient preview window thusly
 let g:fzf_preview_window = ['up:50%', 'ctrl-/']
+" avoid fullscreen commands bug
+" if we employ the fullscreen commands,
+" ie. those ending in character '!', like: 'Files!', 'Buffers!', or 'Rg!',
+" transitioning to fullscreen opens a terminal window,
+" which broadcasts an escape sequence like: ^[[I,
+" which vim cannot process quickly (possibly due to ttimeoutlen values)
+" which FZF receives, inputting some of it into the preview window,
+" eg. just the 'I',
+" which is a data race (and annoying).
+" hence, to fix it, we refrain from the fullscreen commands,
+" then we specify the preview window layout to open in a new tab,
+" which mimics the fullscreen nature we desire,
+" then wipe the buffer on exit,
+" which permits us to exit the preview window with escape.
+let g:fzf_layout = { 'window': 'tabnew | setlocal bufhidden=wipe' }
 
 "--terminal
 augroup terminal_buffer
@@ -354,13 +369,13 @@ nnoremap <leader>s :call ToggleSpell()<cr>
 " fugitive: git blame
 nnoremap gb :Git blame<cr>
 " fzf: fuzzy find file
-nnoremap <leader>p :Files!<cr>
+nnoremap <leader>p :Files<cr>
 " fzf: fuzzy find buffers
-nnoremap <leader>b :Buffers!<cr>
+nnoremap <leader>b :Buffers<cr>
 " fzf: grep
-nnoremap <leader>g :Rg!<space>
+nnoremap <leader>g :Rg<space>
 " fzf: grep <cword>
-nnoremap gh :Rg!<space><c-r><c-w><cr>
+nnoremap gh :Rg<space><c-r><c-w><cr>
 " goyo
 let g:goyo_width="88"
 let g:goyo_height="75%"
