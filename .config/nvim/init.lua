@@ -65,8 +65,8 @@ vim.opt.smartcase = true
 -- turn off completion scanning current/included files
 vim.opt.complete:remove("i")
 
--- make omni-completion pop-up menu match longest and don't select an option initially
-vim.opt.completeopt = { "longest", "menuone" }
+-- make the omni-completion pop-up menu 1) pop up, 2) even on only one match 3) and do not auto-select any item
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- enhance command completion
 vim.opt.wildmode = "full"
