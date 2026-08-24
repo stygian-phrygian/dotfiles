@@ -168,9 +168,6 @@ require('fzf-lua').setup({
 require('mini.completion').setup({
   -- delay before popup window appears automatically (in ms)
   delay = { popup = 100, info = 200 },
-
-  -- prevent completion from triggering in comments
-  fallback_action = function() vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, true, true), 'n', true) end,
 })
 
 ---------------- LSP
