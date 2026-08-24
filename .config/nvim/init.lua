@@ -172,24 +172,78 @@ require('fzf-lua').setup({
 
 require('mini.completion').setup({
   -- delay before popup window appears automatically (in ms)
-  delay = { popup = 100, info = 200 },
+  delay = { completion = 100, info = 200, signature = 50},
 })
 
 ---------------- LSP
 
--- TODO: assert this works correctly, specifically the mappings function
+
+--- super tab completion mechanics
+
+--- determine if a valid keyword is before the cursor
+local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+--- map <Tab> to cycle to the next pop up menu item or natively trigger LSP completion
+vim.keymap.set("i", "<Tab>", function()
+    -- if the pop up menu is visible
+    if vim.fn.pumvisible() == 1 then
+        -- move to next menu item
+        return "<C-n>"
+    -- if it's not visible but there are words before
+    elseif has_words_before() then
+        -- trigger the completion engine
+        vim.lsp.completion.trigger()
+        -- return empty string (so no extra text leaks into the buffer)
+        return ""
+    -- else it's not visible and there are not words before
+    else
+        -- return normal <Tab>
+        return "<Tab>"
+    end
+end, { expr = true, replace_keycodes = true, desc = "Super-Tab Navigation" })
+
+--- map <S-Tab> to cycle to the previous pop up menu item or natively trigger the LSP completion
+vim.keymap.set("i", "<S-Tab>", function()
+    -- if the pop up menu is visible
+    if vim.fn.pumvisible() == 1 then
+        -- move to previous menu item
+        return "<C-p>"
+    -- else it's not visible
+    else
+        -- return normal <S-Tab>
+        return "<S-Tab>"
+    end
+end, { expr = true, replace_keycodes = true })
+
+--- map <CR> to choose a pop up menu item
+vim.keymap.set("i", "<CR>", function()
+    -- if the pop up menu is visible
+    if vim.fn.pumvisible() == 1 then
+        -- choose pop up menu item
+        return "<C-y>"
+    -- else it's not visible
+    else
+        -- return a normal <CR>
+        return "<CR>"
+    end
+end, { expr = true, replace_keycodes = true })
+
+-----------------------------------
 
 -- autocommand whenever a language server attaches
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
-        local bufnr = args.buf
-        -- Bind Neovim's internal completion engine to the active server
-        vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-        -- Standard LSP shortcut keys
-        local opts = { buffer = bufnr }
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts) -- Go to Definition
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)       -- See docs on hover
+        local opts = { buffer = args.buf }
+        -- go to definition
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        -- go to implementation
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        -- see docs
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     end,
 })
 
