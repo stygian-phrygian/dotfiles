@@ -75,6 +75,11 @@ vim.opt.wildignorecase = true
 -- set mapping delay
 vim.opt.timeoutlen = 420
 
+-- allow yanking to system clipboard
+-- sudo apt install wl-clipboard # wayland
+-- sudo apt install xclip xsel   # x11 / xorg
+vim.opt.clipboard = "unnamedplus"
+
 ---------------- LOAD PLUGINS
 
 vim.pack.add({
