@@ -102,6 +102,9 @@ vim.pack.add({
   -- enhance statusline
   { src = 'https://github.com/nvim-mini/mini.statusline' },
 
+  -- enhance file management
+  { src = 'https://github.com/stevearc/oil.nvim' },
+
   -- enhance window management
   { src = 'https://github.com/mrjones2014/smart-splits.nvim'},
 
@@ -149,6 +152,8 @@ require('zen-mode').setup({ window = { width = 0.85, height = 0.75 } })
 require('twilight').setup({})
 
 require('mini.statusline').setup({ use_icons = false, })
+
+require('oil').setup({})
 
 require('smart-splits').setup({ default_amount = 4, })
 
