@@ -96,9 +96,6 @@ vim.pack.add({
   -- remove distractions
   { src = 'https://github.com/folke/zen-mode.nvim'},
 
-  -- dim inactive portions of code
-  { src = 'https://github.com/folke/twilight.nvim' },
-
   -- enhance statusline
   { src = 'https://github.com/nvim-mini/mini.statusline' },
 
@@ -148,8 +145,6 @@ require('gitsigns').setup({
 })
 
 require('zen-mode').setup({ window = { width = 0.85, height = 0.75 } })
-
-require('twilight').setup({})
 
 require('mini.statusline').setup({ use_icons = false, })
 
