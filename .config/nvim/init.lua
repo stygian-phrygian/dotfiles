@@ -90,8 +90,8 @@ vim.keymap.set('n', '<Leader>v', function() vim.cmd.tabnew('$MYVIMRC') end, { de
 vim.keymap.set('n', '<Leader>t', function() vim.cmd.tabnew() end, { desc = 'open empty new tab' })
 vim.keymap.set('n', '<Leader>w', function() vim.cmd.write() end, { desc = 'save buffer' })
 vim.keymap.set('n', '<Tab>', function() pcall(vim.cmd.buffer, '#') end, { desc = "switch to the 'alternate file'" }) -- we use pcall to avoid an ignore errors when there is no 'alternate file' buffer
-vim.keymap.set('n', '<Leader>x', function() vim.cmd.quit() end, { desc = 'close window or tab' })
-vim.keymap.set('n', '<Leader>xx', function() vim.cmd.quitall({ bang = true }) end, { desc = 'close every buffer' })
+vim.keymap.set('n', '<Leader>q', function() vim.cmd.quit() end, { desc = 'close window or tab' })
+vim.keymap.set('n', '<Leader>qq', function() vim.cmd.quitall({ bang = true }) end, { desc = 'close every buffer' })
 vim.keymap.set('n', "'", '`', { desc = 'mark position (exact character cursor mark)' })
 vim.keymap.set('n', 'Q', 'gqip', { desc = 'format paragraph' })
 vim.keymap.set('v', 'Q', 'gq', { desc = 'format visual selection' })
@@ -113,7 +113,6 @@ vim.keymap.set('t', '<C-S-PageUp>', function() vim.cmd('tabmove -1') end, { desc
 vim.keymap.set('t', '<C-S-PageDown>', function() vim.cmd('tabmove +1') end, { desc = 'Move tab right from terminal' })
 
 -- quickfix list
-
 function wrapping_cnext()
     local success, _ = pcall(vim.cmd.cnext)
     if not success then
@@ -121,6 +120,7 @@ function wrapping_cnext()
     end
 end
 vim.keymap.set('n', ']q', wrapping_cnext, { desc = 'next quickfix item (wraps around)' })
+
 function wrapping_cprev()
     local success, _ = pcall(vim.cmd.cprev)
     if not success then
@@ -128,36 +128,36 @@ function wrapping_cprev()
     end
 end
 vim.keymap.set('n', '[q', wrapping_cprev, { desc = 'previous quickfix item (wraps around)' })
-function toggle_quickfix_list()
-    local qf_open = false
-    for _, win in ipairs(vim.fn.getwininfo()) do
-        if win.quickfix == 1 then
-            qf_open = true
-            break
-        end
-    end
-    if qf_open then
-        -- count how many windows are open in the current tab
-        local current_tab_wins = vim.api.nvim_tabpage_list_wins(0)
 
-        if #current_tab_wins <= 1 then
-            -- if the quickfix list is the last window, open a standard buffer first to safely close the quickfix
-            vim.cmd('enew')
-        else
-            vim.cmd('cclose')
-        end
-    else
-        -- open quickfix list, but safely catch errors if the list is empty
-        local success, _ = pcall(vim.cmd, 'copen')
-        if not success then
-            vim.notify("quickfix list is empty!", vim.log.levels.INFO)
-        end
-    end
-end
-vim.keymap.set('n', '<leader>q', toggle_quickfix_list, { desc = 'toggle quickfix list' })
+-- function toggle_quickfix_list()
+--     local qf_open = false
+--     for _, win in ipairs(vim.fn.getwininfo()) do
+--         if win.quickfix == 1 then
+--             qf_open = true
+--             break
+--         end
+--     end
+--     if qf_open then
+--         -- count how many windows are open in the current tab
+--         local current_tab_wins = vim.api.nvim_tabpage_list_wins(0)
+--
+--         if #current_tab_wins <= 1 then
+--             -- if the quickfix list is the last window, open a standard buffer first to safely close the quickfix
+--             vim.cmd('enew')
+--         else
+--             vim.cmd('cclose')
+--         end
+--     else
+--         -- open quickfix list, but safely catch errors if the list is empty
+--         local success, _ = pcall(vim.cmd, 'copen')
+--         if not success then
+--             vim.notify("quickfix list is empty!", vim.log.levels.INFO)
+--         end
+--     end
+-- end
+-- vim.keymap.set('n', '<leader>q', toggle_quickfix_list, { desc = 'toggle quickfix list' })
 
 -- spellchecking
-
 local function toggle_spellcheck()
     vim.opt.spell = not vim.opt.spell:get()
     if vim.opt.spell:get() then
