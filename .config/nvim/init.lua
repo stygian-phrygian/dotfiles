@@ -290,6 +290,14 @@ vim.pack.add({ 'https://github.com/tpope/vim-repeat' })
 -- wrap git
 vim.pack.add({ 'https://github.com/lewis6991/gitsigns.nvim' })
 require('gitsigns').setup({
+    -- display git actions with these characters
+    signs = {
+        add = { text = '+' }, ---@diagnostic disable-line: missing-fields
+        change = { text = '~' }, ---@diagnostic disable-line: missing-fields
+        delete = { text = '_' }, ---@diagnostic disable-line: missing-fields
+        topdelete = { text = '‾' }, ---@diagnostic disable-line: missing-fields
+        changedelete = { text = '~' }, ---@diagnostic disable-line: missing-fields
+    },
     -- create (non-global) mappings for applicable buffers
     on_attach = function(bufnr)
         -- next git diff hunk
