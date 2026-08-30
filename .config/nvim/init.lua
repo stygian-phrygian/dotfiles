@@ -115,51 +115,6 @@ vim.keymap.set('i', '<C-S-PageDown>', function() vim.cmd('stopinsert | tabmove +
 vim.keymap.set('t', '<C-S-PageUp>', function() vim.cmd('tabmove -1') end, { desc = 'Move tab left from terminal' })
 vim.keymap.set('t', '<C-S-PageDown>', function() vim.cmd('tabmove +1') end, { desc = 'Move tab right from terminal' })
 
--- quickfix list
-function wrapping_cnext()
-    local success, _ = pcall(vim.cmd.cnext)
-    if not success then
-        pcall(vim.cmd.cfirst)
-    end
-end
-vim.keymap.set('n', ']q', wrapping_cnext, { desc = 'next quickfix item (wraps around)' })
-
-function wrapping_cprev()
-    local success, _ = pcall(vim.cmd.cprev)
-    if not success then
-        pcall(vim.cmd.clast)
-    end
-end
-vim.keymap.set('n', '[q', wrapping_cprev, { desc = 'previous quickfix item (wraps around)' })
-
--- function toggle_quickfix_list()
---     local qf_open = false
---     for _, win in ipairs(vim.fn.getwininfo()) do
---         if win.quickfix == 1 then
---             qf_open = true
---             break
---         end
---     end
---     if qf_open then
---         -- count how many windows are open in the current tab
---         local current_tab_wins = vim.api.nvim_tabpage_list_wins(0)
---
---         if #current_tab_wins <= 1 then
---             -- if the quickfix list is the last window, open a standard buffer first to safely close the quickfix
---             vim.cmd('enew')
---         else
---             vim.cmd('cclose')
---         end
---     else
---         -- open quickfix list, but safely catch errors if the list is empty
---         local success, _ = pcall(vim.cmd, 'copen')
---         if not success then
---             vim.notify("quickfix list is empty!", vim.log.levels.INFO)
---         end
---     end
--- end
--- vim.keymap.set('n', '<leader>q', toggle_quickfix_list, { desc = 'toggle quickfix list' })
-
 -- spellchecking
 local function toggle_spellcheck()
     vim.opt.spell = not vim.opt.spell:get()
