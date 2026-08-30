@@ -369,5 +369,9 @@ require('mini.completion').setup({
 ----------------------------------------
 
 -- vim.cmd.colorscheme("peachpuff")
+-- vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("default")
+-- vim.cmd.colorscheme("quiet")
+-- vim.cmd.colorscheme("habamax")
 vim.cmd.colorscheme("retrobox")
 
