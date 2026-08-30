@@ -86,8 +86,17 @@ vim.opt.clipboard = "unnamedplus"
 ---------------- CONFIGURE CORE MAPPINGS
 ----------------------------------------
 
--- clear highlights on search when pressing <Esc> in normal mode
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+-- when pressing <Esc>, clear search highlights and close floating (diagnostic) windows
+vim.keymap.set('n', '<Esc>', function()
+    -- clear lingering search highlights
+    vim.cmd('nohlsearch')
+    -- find and close any open floating windows
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_config(win).relative ~= "" then
+            vim.api.nvim_win_close(win, true)
+        end
+    end
+end, { desc = 'clear highlights and close floating windows' })
 
 vim.keymap.set('n', '<Leader>v', function() vim.cmd.tabnew('$MYVIMRC') end, { desc = 'open init.lua in new tab' })
 vim.keymap.set('n', '<Leader>t', function() vim.cmd.tabnew() end, { desc = 'open empty new tab' })
@@ -114,6 +123,7 @@ vim.keymap.set('i', '<C-S-PageUp>', function() vim.cmd('stopinsert | tabmove -1'
 vim.keymap.set('i', '<C-S-PageDown>', function() vim.cmd('stopinsert | tabmove +1') end, { desc = 'Move tab right' })
 vim.keymap.set('t', '<C-S-PageUp>', function() vim.cmd('tabmove -1') end, { desc = 'Move tab left from terminal' })
 vim.keymap.set('t', '<C-S-PageDown>', function() vim.cmd('tabmove +1') end, { desc = 'Move tab right from terminal' })
+vim.keymap.set('n', '<leader>d', function() vim.diagnostic.open_float({ border = 'rounded' }) end, { desc = 'show line diagnostics' })
 
 -- spellchecking
 local function toggle_spellcheck()
