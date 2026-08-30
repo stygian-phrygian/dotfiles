@@ -101,6 +101,7 @@ end, { desc = 'clear highlights and close floating windows' })
 vim.keymap.set('n', '<Leader>v', function() vim.cmd.tabnew('$MYVIMRC') end, { desc = 'open init.lua in new tab' })
 vim.keymap.set('n', '<Leader>t', function() vim.cmd.tabnew() end, { desc = 'open empty new tab' })
 vim.keymap.set('n', '<Leader>w', function() vim.cmd.write() end, { desc = 'save buffer' })
+vim.keymap.set('n', '<Leader>x', function() vim.cmd.bd() end, { desc = 'close buffer' })
 vim.keymap.set('n', '<Tab>', function() pcall(vim.cmd.buffer, '#') end, { desc = "switch to the 'alternate file'" }) -- we use pcall to avoid an ignore errors when there is no 'alternate file' buffer
 vim.keymap.set('n', '<Leader>q', function() vim.cmd.quit() end, { desc = 'close window or tab' })
 vim.keymap.set('n', '<Leader>qq', function() vim.cmd.quitall({ bang = true }) end, { desc = 'close every buffer' })
