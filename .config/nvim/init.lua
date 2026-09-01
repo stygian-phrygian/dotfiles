@@ -86,7 +86,7 @@ vim.opt.clipboard = "unnamedplus"
 ---------------- CONFIGURE CORE MAPPINGS
 ----------------------------------------
 
--- when pressing <Esc>, clear search highlights and close floating (diagnostic) windows
+-- when pressing <Esc>, in normal mode, clear the search highlights and close open floating windows
 vim.keymap.set('n', '<Esc>', function()
     -- clear lingering search highlights
     vim.cmd('nohlsearch')
@@ -97,6 +97,15 @@ vim.keymap.set('n', '<Esc>', function()
         end
     end
 end, { desc = 'clear highlights and close floating windows' })
+
+-- when pressing <Esc>, in insert mode, also cancel open popup menu completion
+vim.keymap.set("i", "<Esc>", function()
+    if vim.fn.pumvisible() == 1 then
+        -- cancel completion then exit insert mode
+        return "<C-e><Esc>"
+    end
+    return "<Esc>"
+end, { expr = true, silent = true, desc = 'Cancel completion and exit insert mode' })
 
 vim.keymap.set('n', '<Leader>v', function() vim.cmd.tabnew('$MYVIMRC') end, { desc = 'open init.lua in new tab' })
 vim.keymap.set('n', '<Leader>t', function() vim.cmd.tabnew() end, { desc = 'open empty new tab' })
@@ -139,59 +148,49 @@ local function toggle_spellcheck()
 end
 vim.keymap.set('n', '<leader>s', toggle_spellcheck, { desc = 'toggle spellcheck' })
 
---- super tab completion mechanics
+--- tab completion mechanics
 
---- determine if a valid keyword is before the cursor
-local has_words_before = function()
-    unpack = unpack or table.unpack
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+-- check if cursor is at the line start or in whitespace
+-- employed in determining whether to emit a tab or trigger completion
+local should_emit_tab = function()
+    local col = vim.fn.col('.') - 1
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
---- map <Tab> to cycle to the next pop up menu item or natively trigger LSP completion
+--- map <Tab> contextually
 vim.keymap.set("i", "<Tab>", function()
-    -- if the pop up menu is visible
+    -- if the popup menu is already open
     if vim.fn.pumvisible() == 1 then
-        -- move to next menu item
+        -- cycle the next popup menu item
         return "<C-n>"
-    -- if it's not visible but there are words before
-    elseif has_words_before() then
-        -- trigger the completion engine
-        vim.lsp.completion.trigger()
-        -- return empty string (so no extra text leaks into the buffer)
-        return ""
-    -- else it's not visible and there are not words before
-    else
-        -- return normal <Tab>
+    -- else if the cursor's at the line start or in whitespace
+    elseif should_emit_tab() then
+        -- emit normal tab
         return "<Tab>"
-    end
-end, { expr = true, replace_keycodes = true, desc = "Super-Tab Navigation" })
-
---- map <S-Tab> to cycle to the previous pop up menu item or natively trigger the LSP completion
-vim.keymap.set("i", "<S-Tab>", function()
-    -- if the pop up menu is visible
-    if vim.fn.pumvisible() == 1 then
-        -- move to previous menu item
-        return "<C-p>"
-    -- else it's not visible
+    -- else trigger completion
     else
-        -- return normal <S-Tab>
+        -- if omnifunc is defined (when a language server attaches, it's defined)
+        if vim.bo.omnifunc ~= "" then
+            -- trigger language server completion
+            return "<C-x><C-o>"
+        else
+            -- trigger buffer keyword completion
+            return "<C-x><C-n>"
+        end
+    end
+end, { expr = true, silent = true })
+
+-- map <S-Tab> contextually
+vim.keymap.set("i", "<S-Tab>", function()
+    -- if the popup menu is already open
+    if vim.fn.pumvisible() == 1 then
+        -- cycle the previous popup menu item
+        return "<C-p>"
+    else
+        -- emit normal shift tab
         return "<S-Tab>"
     end
-end, { expr = true, replace_keycodes = true })
-
---- map <CR> to choose a pop up menu item
-vim.keymap.set("i", "<CR>", function()
-    -- if the pop up menu is visible
-    if vim.fn.pumvisible() == 1 then
-        -- choose pop up menu item
-        return "<C-y>"
-    -- else it's not visible
-    else
-        -- return a normal <CR>
-        return "<CR>"
-    end
-end, { expr = true, replace_keycodes = true })
+end, { expr = true, silent = true })
 
 ---------------------------------------
 ---------------- CONFIGURE AUTOCOMMANDS
@@ -359,9 +358,22 @@ vim.pack.add({ 'https://github.com/nvim-mini/mini.completion' })
 require('mini.completion').setup({
     -- delay before popup window appears automatically (in ms)
     delay = {
-        completion = 100,
-        info = 200,
+        completion = 1000,
+        info = 100,
         signature = 50
+    },
+    -- window customization
+    window = {
+        info = {
+            border = "rounded",
+            max_width = 60,
+            max_height = 15,
+        },
+        signature = {
+            border = "single",
+            max_width = 50,
+            max_height = 8,
+        },
     },
 })
 
