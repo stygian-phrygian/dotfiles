@@ -295,8 +295,39 @@ require('zen-mode').setup({
 vim.keymap.set('n', '<leader>y', function() require("zen-mode").toggle() end, { desc = 'toggle zen mode' })
 
 -- enhance statusline
-vim.pack.add({ 'https://github.com/nvim-mini/mini.statusline' })
-require('mini.statusline').setup({ use_icons = false, })
+vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
+require('lualine').setup({
+    options = {
+        -- turn off icons
+        icons_enabled = false,
+        -- divider between items in a section
+        component_separators = { left = '|', right = '|' },
+        -- divider between sections
+        section_separators = '',
+    },
+    -- when active/focused, sections left (ABC) and right (XYZ) should look like this
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = {},
+        -- (relative) file path
+        lualine_c = { { 'filename', path = 1 } },
+        lualine_x = { 'filetype' },
+        lualine_y = {},
+        -- line number and column number
+        lualine_z = { 'location' },
+    },
+    -- when inactive/unfocused, sections left (ABC) and right (XYZ) should look like this
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        -- show only the filename
+        lualine_c = { 'filename' },
+        -- show only the line number
+        lualine_x = { 'location' },
+        lualine_y = {},
+        lualine_z = {},
+    },
+})
 
 -- enhance file management
 vim.pack.add({ 'https://github.com/stevearc/oil.nvim' })
