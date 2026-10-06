@@ -290,7 +290,21 @@ require('zen-mode').setup({
     window = {
         width = 0.85,
         height = 0.75
-    }
+    },
+
+    -- hack:
+    -- because my global <esc> mapping closes floating windows, and
+    -- because this plugin employs floating windows,
+    -- triggering my global <esc> mapping unintentionally closes this plugin.
+    -- therefore, when this plugin opens,
+    -- override my global <esc> mapping with a safer buffer-local <esc> mapping
+    on_open = function(win)
+        vim.keymap.set('n', '<Esc>', function() vim.cmd('nohlsearch') end, {
+            buffer = true, -- buffer-local
+            silent = true,
+            desc = "zen-mode buffer-local escape mapping (overrides global escape mapping)"
+        })
+    end,
 })
 vim.keymap.set('n', '<leader>y', function() require("zen-mode").toggle() end, { desc = 'toggle zen mode' })
 
