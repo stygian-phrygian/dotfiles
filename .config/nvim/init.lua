@@ -289,9 +289,16 @@ vim.pack.add({ 'https://github.com/folke/zen-mode.nvim' })
 require('zen-mode').setup({
     window = {
         width = 0.85,
-        height = 0.75
+        height = 0.75,
+        -- shade backdrop of the zen-mode window (1.0 is no shading)
+        backdrop = 1.0,
+        options = {
+            -- turn off line numbers
+            number = false,
+            -- turn off relative line numbers
+            relativenumber = false
+        }
     },
-
     -- hack:
     -- because my global <esc> mapping closes floating windows, and
     -- because this plugin employs floating windows,
