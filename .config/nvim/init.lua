@@ -90,9 +90,11 @@ vim.opt.clipboard = "unnamedplus"
 vim.keymap.set('n', '<Esc>', function()
     -- clear lingering search highlights
     vim.cmd('nohlsearch')
-    -- find and close any open floating windows
+    -- for all windows
     for _, win in ipairs(vim.api.nvim_list_wins()) do
-        if vim.api.nvim_win_get_config(win).relative ~= "" then
+        -- if it still exists and is floating
+        if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_config(win).relative ~= "" then
+            -- close it
             vim.api.nvim_win_close(win, true)
         end
     end
